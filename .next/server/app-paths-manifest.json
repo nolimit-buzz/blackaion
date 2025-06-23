@@ -1,0 +1,17 @@
+{
+  "/_not-found": "app/_not-found.js",
+  "/careers/page": "app/careers/page.js",
+  "/contact/page": "app/contact/page.js",
+  "/about/page": "app/about/page.js",
+  "/page": "app/page.js",
+  "/blog/page": "app/blog/page.js",
+  "/media/page": "app/media/page.js",
+  "/portfolio/page": "app/portfolio/page.js",
+  "/services/page": "app/services/page.js",
+  "/team/page": "app/team/page.js",
+  "/blog/[slug]/page": "app/blog/[slug]/page.js",
+  "/events/[slug]/page": "app/events/[slug]/page.js",
+  "/portfolio/[slug]/page": "app/portfolio/[slug]/page.js",
+  "/team/[slug]/page": "app/team/[slug]/page.js",
+  "/upcoming-events/[slug]/page": "app/upcoming-events/[slug]/page.js"
+}
