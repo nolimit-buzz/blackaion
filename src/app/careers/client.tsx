@@ -1,8 +1,7 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { FaClock, FaHome, FaMoneyBillWave, FaShieldAlt } from 'react-icons/fa';
-import { IoChevronDown } from 'react-icons/io5';
+import { FaClock, FaHome, FaMoneyBillWave, FaShieldAlt, FaChevronDown } from 'react-icons/fa';
 import { IconType } from 'react-icons';
 
 interface Job {
@@ -97,7 +96,7 @@ const CareersPageClient = ({ data }: CareersPageClientProps) => {
                 >
                     {departments.map(dep => <option key={dep} value={dep}>{dep}</option>)}
                 </select>
-                <IoChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500" />
+                <FaChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500" />
             </div>
         </div>
 

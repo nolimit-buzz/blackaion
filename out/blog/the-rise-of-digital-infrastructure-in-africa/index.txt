@@ -1,6 +1,6 @@
 1:HL["/_next/static/media/c7f848bed9dd25a3-s.p.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 2:HL["/_next/static/css/3854fa350a73b61c.css","style",{"crossOrigin":""}]
-0:["sfdOkYwxG1JXGv3_vXKKp",[[["",{"children":["blog",{"children":[["slug","the-rise-of-digital-infrastructure-in-africa","d"],{"children":["__PAGE__?{\"slug\":\"the-rise-of-digital-infrastructure-in-africa\"}",{}]}]}]},"$undefined","$undefined",true],"$L3",[[["$","link","0",{"rel":"stylesheet","href":"/_next/static/css/3854fa350a73b61c.css","precedence":"next","crossOrigin":""}]],"$L4"]]]]
+0:["0CuAKsN2rU0UYDQQ2YdSr",[[["",{"children":["blog",{"children":[["slug","the-rise-of-digital-infrastructure-in-africa","d"],{"children":["__PAGE__?{\"slug\":\"the-rise-of-digital-infrastructure-in-africa\"}",{}]}]}]},"$undefined","$undefined",true],"$L3",[[["$","link","0",{"rel":"stylesheet","href":"/_next/static/css/3854fa350a73b61c.css","precedence":"next","crossOrigin":""}]],"$L4"]]]]
 5:I[6954,[],""]
 6:I[7264,[],""]
 8:I[6610,["960","static/chunks/960-5dc2bb8d1366db3f.js","396","static/chunks/396-b283639e156543b2.js","258","static/chunks/258-e0e1b4fc6d0658db.js","308","static/chunks/app/blog/%5Bslug%5D/page-828776bd609371ea.js"],""]

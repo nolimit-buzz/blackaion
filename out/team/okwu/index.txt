@@ -1,6 +1,6 @@
 1:HL["/_next/static/media/c7f848bed9dd25a3-s.p.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 2:HL["/_next/static/css/3854fa350a73b61c.css","style",{"crossOrigin":""}]
-0:["sfdOkYwxG1JXGv3_vXKKp",[[["",{"children":["team",{"children":[["slug","okwu","d"],{"children":["__PAGE__?{\"slug\":\"okwu\"}",{}]}]}]},"$undefined","$undefined",true],"$L3",[[["$","link","0",{"rel":"stylesheet","href":"/_next/static/css/3854fa350a73b61c.css","precedence":"next","crossOrigin":""}]],"$L4"]]]]
+0:["0CuAKsN2rU0UYDQQ2YdSr",[[["",{"children":["team",{"children":[["slug","okwu","d"],{"children":["__PAGE__?{\"slug\":\"okwu\"}",{}]}]}]},"$undefined","$undefined",true],"$L3",[[["$","link","0",{"rel":"stylesheet","href":"/_next/static/css/3854fa350a73b61c.css","precedence":"next","crossOrigin":""}]],"$L4"]]]]
 5:I[6954,[],""]
 6:I[7264,[],""]
 8:I[8425,["960","static/chunks/960-5dc2bb8d1366db3f.js","382","static/chunks/382-f9478f352e122853.js","396","static/chunks/396-b283639e156543b2.js","258","static/chunks/258-e0e1b4fc6d0658db.js","994","static/chunks/app/team/%5Bslug%5D/page-43938c7006114af9.js"],""]
