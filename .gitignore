@@ -31,3 +31,11 @@ next
 .env.development.local
 .env.test.local
 .env.production.local
+.next/app-build-manifest.json
+.next/cache/
+.next/cache/webpack/
+.next/cache/webpack/client-development/*
+.next/cache/webpack/server-development/
+.next/cache/webpack/server-development/
+.next/cache/webpack/server-development/
+.next/cache/webpack/server-development/
