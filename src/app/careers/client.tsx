@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { FaClock, FaHome, FaMoneyBillWave, FaShieldAlt, FaChevronDown } from 'react-icons/fa';
+import { FaClock, FaHome, FaMoneyBillWave, FaShieldAlt } from 'react-icons/fa';
 import { IconType } from 'react-icons';
 
 interface Job {
@@ -96,7 +96,9 @@ const CareersPageClient = ({ data }: CareersPageClientProps) => {
                 >
                     {departments.map(dep => <option key={dep} value={dep}>{dep}</option>)}
                 </select>
-                <FaChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500" />
+                <svg className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
             </div>
         </div>
 
