@@ -11,7 +11,6 @@ const MediaPage = () => {
             <MediaPageContent 
                 press={mediaData.press}
                 blog={mediaData.blog}
-                events={mediaData.events}
                 upcomingEvents={mediaData.upcomingEvents}
             />
             <FooterSubsection />
