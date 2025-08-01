@@ -1,4 +1,4 @@
-import { FaBroadcastTower, FaMapMarkerAlt } from 'react-icons/fa';
+import { Radio, MapPin } from 'lucide-react';
 
 export const projectsData = [
   {

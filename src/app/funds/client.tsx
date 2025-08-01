@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { FaBroadcastTower, FaMapMarkerAlt } from 'react-icons/fa';
+import { Radio, MapPin } from 'lucide-react';
 import { getProjects } from '@/lib/projectsData';
 
 const fadeInUp = {
@@ -150,11 +150,11 @@ const PortfolioPageContent = () => {
                         <div className="pb-5">
                             {/* <div className="flex justify-between items-center text-xs text-gray-500 mb-4 px-5">
                                 <div className="flex items-center gap-2">
-                                    <FaBroadcastTower />
+                                    <Radio className="w-4 h-4" />
                                     <span>{project.sector.toUpperCase()}</span>
                                 </div>
                                 <div className="flex items-center gap-2">
-                                    <FaMapMarkerAlt />
+                                    <MapPin className="w-4 h-4" />
                                     <span>{project.state.toUpperCase()}</span>
                                 </div>
                             </div> */}

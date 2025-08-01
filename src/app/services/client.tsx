@@ -2,8 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaStar, FaQuoteLeft, FaArrowLeft, FaArrowRight, FaPiggyBank, FaCity, FaLightbulb, FaHandshake } from 'react-icons/fa';
-import { IconType } from 'react-icons';
+import { Star, Quote, ArrowLeft, ArrowRight, PiggyBank, Building2, Lightbulb, Handshake } from 'lucide-react';
 import { servicesData } from '@/lib/servicesData';
 
 type Service = typeof servicesData.services[0];
@@ -13,11 +12,11 @@ interface ServicesPageContentProps {
   data: typeof servicesData;
 }
 
-const iconMap: { [key: string]: IconType } = {
-  'piggy-bank': FaPiggyBank,
-  'city': FaCity,
-  'lightbulb': FaLightbulb,
-  'handshake': FaHandshake,
+const iconMap: { [key: string]: any } = {
+  'piggy-bank': PiggyBank,
+  'city': Building2,
+  'lightbulb': Lightbulb,
+  'handshake': Handshake,
 };
 
 const ProcessSection = () => {
@@ -197,7 +196,7 @@ const ServicesPageContent = ({ data }: ServicesPageContentProps) => {
                     transition={{ duration: 0.5 }}
                     className={`p-8 rounded-2xl ${data.testimonials[activeTestimonial].color} w-full max-w-3xl mx-auto`}
                 >
-                    <FaQuoteLeft className="text-3xl opacity-20 mb-4" />
+                    <Quote className="text-3xl opacity-20 mb-4" />
                     <p className="text-xl italic mb-6 text-gray-700">{data.testimonials[activeTestimonial].quote}</p>
                     <div className="flex items-center justify-between">
                         <div>
@@ -205,16 +204,16 @@ const ServicesPageContent = ({ data }: ServicesPageContentProps) => {
                             <p className="text-sm text-gray-500">{data.testimonials[activeTestimonial].project}</p>
                         </div>
                         <div className="flex gap-1 text-goldcolor-i">
-                            {[...Array(5)].map((_, i) => <FaStar key={i} />)}
+                            {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4" />)}
                         </div>
                     </div>
                 </motion.div>
             </AnimatePresence>
             <button onClick={handlePrevTestimonial} className="absolute left-0 top-1/2 -translate-y-1/2 bg-white p-3 rounded-full shadow-md hover:bg-gray-100 transition-colors">
-                <FaArrowLeft />
+                                        <ArrowLeft className="w-4 h-4" />
             </button>
             <button onClick={handleNextTestimonial} className="absolute right-0 top-1/2 -translate-y-1/2 bg-white p-3 rounded-full shadow-md hover:bg-gray-100 transition-colors">
-                <FaArrowRight />
+                                        <ArrowRight className="w-4 h-4" />
             </button>
          </div>
       </section> */}

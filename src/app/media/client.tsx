@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FaArrowRight, FaTag } from 'react-icons/fa';
+import { ArrowRight, Tag } from 'lucide-react';
 import { Calendar } from 'lucide-react';
 import Link from 'next/link';
 import PageHeader from '@/components/Element/PageHeader';
@@ -190,7 +190,7 @@ const MediaPageContent = ({ press, blog, upcomingEvents }: { press: Press[], blo
                                                         ))}
                                                     </div>
                                                     <div className="text-bluecolor-9 font-medium">
-                                                        View Details <FaArrowRight className="inline ml-1" />
+                                                        View Details <ArrowRight className="inline ml-1 w-4 h-4" />
                                                     </div>
                                                 </div>
                                             </div>

@@ -3,7 +3,7 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Link from 'next/link';
-import { FaBroadcastTower, FaMapMarkerAlt } from 'react-icons/fa';
+import { Radio, MapPin } from 'lucide-react';
 
 const fadeInUp = {
     hidden: { opacity: 0, y: 30 },
