@@ -2,7 +2,8 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FaArrowRight, FaCalendarAlt, FaTag } from 'react-icons/fa';
+import { FaArrowRight, FaTag } from 'react-icons/fa';
+import { Calendar } from 'lucide-react';
 import Link from 'next/link';
 import PageHeader from '@/components/Element/PageHeader';
 
@@ -175,7 +176,7 @@ const MediaPageContent = ({ press, blog, upcomingEvents }: { press: Press[], blo
                                         <a className="block bg-white rounded-2xl border border-gray-200 transition-shadow duration-300 overflow-hidden group">
                                             <div className="p-6">
                                                 <div className="flex items-center text-sm text-gray-500 mb-2">
-                                                    <FaCalendarAlt className="mr-2" />
+                                                    <Calendar className="mr-2 w-4 h-4" />
                                                     <span>{event.date}</span>
                                                 </div>
                                                 <h3 className="text-lg font-medium text-bluecolor-9 mb-3 group-hover:underline">{event.title}</h3>
