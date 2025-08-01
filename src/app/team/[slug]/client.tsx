@@ -2,8 +2,8 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FrameSubsection } from '@/components/Element/sections/FrameSubsection/FrameSubsection';
-import { FooterSubsection } from '@/components/Element/sections/FooterSubsection/FooterSubsection';
+import { Navbar } from '@/components/Navbar';
+import { FooterSubsection } from '@/components/Element/sections/Footer/Footer';
 import Link from 'next/link';
 
 const fadeInUp = {
@@ -44,7 +44,64 @@ const TeamMemberPageContent = ({ teamMember, otherMembers }: { teamMember: TeamM
 
   return (
     <div className="bg-white text-bluecolor-9">
-      <FrameSubsection theme="light" />
+      <Navbar 
+        theme="light" 
+        data={{ 
+          nav_links: [
+            { link: "/about", title: "about us" },
+            { link: "/#services", title: "services" },
+            { link: "/#portfolio", title: "portfolio" },
+            { link: "/#esg-impact", title: "our impact" },
+            { link: "/contact-us", title: "contact us" }
+          ], 
+          logo: {
+            id: 1,
+            documentId: "",
+            name: "LogoFinal2.png",
+            alternativeText: "Blackaion Logo",
+            caption: null,
+            width: 670,
+            height: 189,
+            formats: {
+              small: {
+                ext: ".png",
+                url: "/logo-black.png",
+                hash: "",
+                mime: "image/png",
+                name: "LogoFinal2.png",
+                path: null,
+                size: 31.33,
+                width: 500,
+                height: 141,
+                sizeInBytes: 31327
+              },
+              thumbnail: {
+                ext: ".png",
+                url: "/logo-black.png",
+                hash: "",
+                mime: "image/png",
+                name: "LogoFinal2.png",
+                path: null,
+                size: 11.21,
+                width: 245,
+                height: 69,
+                sizeInBytes: 11213
+              }
+            },
+            hash: "",
+            ext: ".png",
+            mime: "image/png",
+            size: 12.63,
+            url: "/logo-black.png",
+            previewUrl: null,
+            provider: "strapi-provider-upload-strapi-cloud",
+            provider_metadata: null,
+            createdAt: "2025-07-31T09:06:45.076Z",
+            updatedAt: "2025-07-31T09:06:45.076Z",
+            publishedAt: "2025-07-31T09:06:45.079Z"
+          }
+        }} 
+      />
 
       <header className="max-w-[1440px] mx-auto px-5 sm:px-10 lg:px-16 xl:px-20 pt-20 pb-12">
         <motion.div initial="hidden" animate="visible" variants={fadeInUp} className="text-left">
@@ -112,7 +169,7 @@ const TeamMemberPageContent = ({ teamMember, otherMembers }: { teamMember: TeamM
         </div>
       </section>
 
-      <FooterSubsection />
+      <FooterSubsection data={{ description: "", social_links: [], quick_links: [], legal: [], offices: [] }} />
     </div>
   );
 };

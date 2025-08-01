@@ -1,6 +1,6 @@
 import React from 'react';
-import { FrameSubsection } from '@/components/Element/sections/FrameSubsection/FrameSubsection';
-import { FooterSubsection } from '@/components/Element/sections/FooterSubsection/FooterSubsection';
+import { FrameSubsection } from '@/components/Element/sections/Hero/Hero';
+import { FooterSubsection } from '@/components/Element/sections/Footer/Footer';
 import MediaPageContent from './client';
 import { mediaData } from '@/lib/mediaData';
 

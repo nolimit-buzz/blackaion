@@ -2,7 +2,7 @@ import React from 'react';
 import { mediaData } from '@/lib/mediaData';
 import { notFound } from 'next/navigation';
 import BlogHeader from '@/app/blog/BlogHeader';
-import { FooterSubsection } from '@/components/Element/sections/FooterSubsection/FooterSubsection';
+import { FooterSubsection } from '@/components/Element/sections/Footer/Footer';
 import { MapPin } from 'lucide-react';
 
 export async function generateStaticParams() {

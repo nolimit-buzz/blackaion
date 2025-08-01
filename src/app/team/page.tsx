@@ -1,7 +1,7 @@
 'use client'
 import React from "react";
-import { FooterSubsection } from "@/components/Element/sections/FooterSubsection/FooterSubsection";
-import { FrameSubsection } from "@/components/Element/sections/FrameSubsection/FrameSubsection";
+import { FooterSubsection } from "@/components/Element/sections/Footer/Footer";
+import { Hero } from "@/components/Element/sections/Hero/Hero";
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 
@@ -125,7 +125,7 @@ const CoFounderCard = ({ name, role, image }: TeamMemberProps) => (
 const TeamPage = () => {
   return (
     <div className="bg-white">
-      <FrameSubsection theme="light" />
+      {/* <Hero theme="light" /> */}
       
       <motion.main
         initial="hidden"
@@ -163,37 +163,9 @@ const TeamPage = () => {
                 </motion.div>
             </div>
         </section>
-
-        {/* Advisory Board Section */}
-        <section className="bg-gray-50 py-24">
-            <div className="max-w-[1440px] mx-auto px-5 sm:px-10 lg:px-16 xl:px-20">
-                <motion.div variants={fadeInUp}>
-                    <p className="text-sm uppercase text-gray-500 tracking-widest">Our Advisory Board</p>
-                    <div className="w-full h-px bg-gray-300 my-4"></div>
-                </motion.div>
-                <motion.div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start mb-12" variants={staggerContainer}>
-                    <motion.div className="md:col-span-6" variants={fadeInUp}>
-                        <h2 className="text-3xl sm:text-4xl font-medium text-bluecolor-9 leading-tight">
-                            Driving Innovation: <span className="text-goldcolor-i">The Minds Behind</span> Blackaion's Success
-                        </h2>
-                    </motion.div>
-                    <motion.div className="md:col-span-6 self-end" variants={fadeInUp}>
-                        <p className="text-[#8195AA] max-w-[530px]">
-                           They craft strategic initiatives to ensure Blackaion's sustainability and growth. Guided by innovation, integrity, and excellence, the Board drives long-term success and delivers stakeholder value.
-                        </p>
-                    </motion.div>
-                </motion.div>
-                <motion.div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8" variants={staggerContainer}>
-                    {advisoryBoard.map((member) => (
-                        <TeamMemberCard key={member.name} {...member} />
-                    ))}
-                </motion.div>
-            </div>
-        </section>
-        
       </motion.main>
 
-      <FooterSubsection />
+      {/* <Footer /> */}
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import { mediaData } from '@/lib/mediaData';
 import BlogClientPage from './client';
-import { FooterSubsection } from '@/components/Element/sections/FooterSubsection/FooterSubsection';
+import { FooterSubsection } from '@/components/Element/sections/Footer/Footer';
 import BlogHeader from './BlogHeader';
 
 const BlogPage = () => {

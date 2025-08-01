@@ -14,15 +14,15 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { fetchAboutPageData, AboutPageData } from "@/lib/api";
 import { Navbar } from "@/components/Navbar";
 
-// Animation Variants
+// Optimized Animation Variants
 const fadeInUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeInOut" } },
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeInOut" } },
 };
 
 const scaleIn = {
-  hidden: { opacity: 0, scale: 0.95 },
-  visible: { opacity: 1, scale: 1, transition: { duration: 0.6, ease: "easeInOut" } },
+  hidden: { opacity: 0, scale: 0.98 },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: "easeInOut" } },
 };
 
 const staggerContainer = {
@@ -30,7 +30,7 @@ const staggerContainer = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.2,
+      staggerChildren: 0.1,
     },
   },
 };
@@ -96,7 +96,7 @@ const ExperienceSection = ({ data }: { data: AboutPageData }) => {
         <motion.div 
           className="relative rounded-2xl overflow-hidden h-[500px]"
           variants={scaleIn}
-          whileHover={{ scale: 1.02 }}
+          whileHover={{ scale: 1.01 }}
           transition={{ duration: 0.3 }}
         >
           <motion.img 
@@ -104,7 +104,7 @@ const ExperienceSection = ({ data }: { data: AboutPageData }) => {
             alt="Our Experience" 
             className="absolute inset-0 w-full h-full object-cover"
             style={{
-              y: useTransform(scrollYProgress, [0, 1], [0, -100])
+              y: useTransform(scrollYProgress, [0, 1], [0, -50])
             }}
           />
           <div className="absolute inset-0 bg-black bg-opacity-50" />
@@ -117,8 +117,8 @@ const ExperienceSection = ({ data }: { data: AboutPageData }) => {
             </div>
             <motion.button 
               className="flex items-center gap-4 bg-goldcolor-9 text-white rounded-full pl-6 pr-2 py-2 text-sm w-fit font-medium transition-colors hover:bg-goldcolor-8 shrink-0"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
               <span>View Trackrecord</span>
               <div className="bg-white text-black rounded-full w-8 h-8 flex items-center justify-center">
@@ -347,7 +347,7 @@ const KeyMilestonesSection = ({ data }: { data: AboutPageData }) => {
                             <motion.button 
                               onClick={() => setActiveIndex(index)} 
                               className="flex flex-col items-center px-1 py-2 -mx-1 -my-2"
-                              whileHover={{ scale: 1.2 }}
+                              whileHover={{ scale: 1.1 }}
                               whileTap={{ scale: 0.9 }}
                             >
                                 {TickMark}
@@ -366,8 +366,8 @@ const KeyMilestonesSection = ({ data }: { data: AboutPageData }) => {
               onClick={handlePrev} 
               disabled={realMilestoneIndices.indexOf(activeIndex) === 0} 
               className="bg-transparent hover:bg-white text-white hover:text-black border border-white/50 rounded-full w-12 h-12 flex items-center justify-center shrink-0 disabled:opacity-50 transition-colors duration-300"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               <ArrowLeft className="w-6 h-6" />
             </motion.button>
@@ -375,8 +375,8 @@ const KeyMilestonesSection = ({ data }: { data: AboutPageData }) => {
               onClick={handleNext} 
               disabled={realMilestoneIndices.indexOf(activeIndex) === realMilestoneIndices.length - 1} 
               className="bg-transparent hover:bg-white text-white hover:text-black border border-white/50 rounded-full w-12 h-12 flex items-center justify-center shrink-0 disabled:opacity-50 transition-colors duration-300"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               <ArrowRight className="w-6 h-6" />
             </motion.button>
@@ -410,7 +410,7 @@ const TeamSection = () => {
             <p className="text-[#8195AA]">The Board of Directors oversees strategic direction to drive long-term growth & market sustainability.</p>
             <motion.button 
               className="mt-8 flex items-center gap-2 text-bluecolor-9 group"
-              whileHover={{ x: 5 }}
+              whileHover={{ x: 3 }}
               transition={{ type: "spring", stiffness: 400, damping: 10 }}
             >
               <span className="group-hover:underline">View Board</span>
@@ -424,7 +424,7 @@ const TeamSection = () => {
           <motion.div 
             className="relative rounded-2xl overflow-hidden w-full max-w-[280px] mx-auto" 
             variants={scaleIn}
-            whileHover={{ scale: 1.05, y: -5 }}
+            whileHover={{ scale: 1.02, y: -3 }}
           >
             <img src="/obiora.png" alt="Obiora Okoye" className="w-full h-auto object-cover brightness-90" />
             <div className="flex flex-col items-end absolute bottom-0 left-0 right-0 p-6 text-left text-white bg-gradient-to-t from-black via-black/80 via-20% to-transparent">
@@ -440,7 +440,7 @@ const TeamSection = () => {
           <motion.div 
             className="relative rounded-2xl overflow-hidden w-full max-w-[280px] mx-auto" 
             variants={scaleIn}
-            whileHover={{ scale: 1.05, y: -5 }}
+            whileHover={{ scale: 1.02, y: -3 }}
           >
             <img src="/okwu.png" alt="Okwu Njoku" className="w-full h-auto object-cover brightness-90" />
             <div className="absolute bottom-0 left-0 right-0 p-6 text-left text-white bg-gradient-to-t from-black via-black/80 via-20% to-transparent">
@@ -459,7 +459,7 @@ const TeamSection = () => {
             <p className="text-[#8195AA]">Our Management Team drives business strategy and ensures the achievement of key objectives.</p>
             <motion.button 
               className="mt-8 flex items-center gap-2 text-bluecolor-9 group"
-              whileHover={{ x: 5 }}
+              whileHover={{ x: 3 }}
               transition={{ type: "spring", stiffness: 400, damping: 10 }}
             >
               <span className="group-hover:underline">View Team</span>
@@ -494,7 +494,7 @@ const InfraTechSection = ({ data }: { data: AboutPageData }) => {
              {data.infratech.description}
             </p>
           </div>
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+          <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
             <Button className="bg-white hover:bg-white/90 text-black rounded-full text-xs sm:text-sm px-[30px] py-[20px] flex items-center font-normal gap-2 transition-all duration-300">
               <span>Learn More</span>
               <ArrowUpRight className="w-5 h-5" />
@@ -540,12 +540,23 @@ const InfraTechSection = ({ data }: { data: AboutPageData }) => {
   );
 };
 
-const AboutPage = () => {
-  const [data, setData] = useState<AboutPageData | null>(null);
-  const [loading, setLoading] = useState(true);
+interface AboutPageClientProps {
+  initialData?: AboutPageData;
+}
+
+const AboutPageClient = ({ initialData }: AboutPageClientProps) => {
+  const [data, setData] = useState<AboutPageData | null>(initialData || null);
+  const [loading, setLoading] = useState(!initialData);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    // Only fetch data if no initial data was provided
+    if (initialData) {
+      setData(initialData);
+      setLoading(false);
+      return;
+    }
+
     const fetchData = async () => {
       try {
         setLoading(true);
@@ -560,7 +571,7 @@ const AboutPage = () => {
     };
 
     fetchData();
-  }, []);
+  }, [initialData]);
 
   if (loading) {
     return (
@@ -602,4 +613,4 @@ const AboutPage = () => {
   );
 };
 
-export default AboutPage; 
+export default AboutPageClient; 

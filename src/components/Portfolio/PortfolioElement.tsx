@@ -4,7 +4,7 @@ import { PortfolioMainSection } from "./sections/PortfolioMainSection";
 import { PortfolioMetricsSection } from "./sections/PortfolioMetricsSection";
 import { PortfolioPartnersSection } from "./sections/PortfolioPartnersSection";
 import { PortfolioNewsletterSection } from "./sections/PortfolioNewsletterSection";
-import { FooterSubsection } from "../Element/sections/FooterSubsection/FooterSubsection";
+import { FooterSubsection } from "../Element/sections/Footer/Footer";
 
 export const PortfolioElement = (): JSX.Element => {
   return (

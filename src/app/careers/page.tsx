@@ -1,6 +1,6 @@
 import React from 'react';
-import { FrameSubsection } from '@/components/Element/sections/FrameSubsection';
-import { FooterSubsection } from '@/components/Element/sections/FooterSubsection/FooterSubsection';
+import { FrameSubsection } from '@/components/Element/sections/Hero';
+import { FooterSubsection } from '@/components/Element/sections/Footer/Footer';
 import CareersPageClient from './client';
 import { careersData } from '@/lib/careersData';
 
