@@ -28,19 +28,19 @@ export const PerformanceMonitor = () => {
 
           console.log('🚀 Performance Metrics:', metrics);
           
-          // Log to analytics if available
-          if (typeof window.gtag !== 'undefined') {
-            window.gtag('event', 'performance_metrics', {
-              event_category: 'performance',
-              event_label: 'page_load',
-              value: Math.round(metrics.totalLoadTime),
-              custom_map: {
-                ttfb: metrics.ttfb,
-                dom_content_loaded: metrics.domContentLoaded,
-                load_complete: metrics.loadComplete,
-              }
-            });
-          }
+          // // Log to analytics if available
+          // if (typeof window?.gtag !== 'undefined') {
+          //   window?.gtag('event', 'performance_metrics', {
+          //     event_category: 'performance',
+          //     event_label: 'page_load',
+          //     value: Math.round(metrics.totalLoadTime),
+          //     custom_map: {
+          //       ttfb: metrics.ttfb,
+          //       dom_content_loaded: metrics.domContentLoaded,
+          //       load_complete: metrics.loadComplete,
+          //     }
+          //   });
+          // }
         }
       }
     };

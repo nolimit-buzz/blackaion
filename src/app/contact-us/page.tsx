@@ -1,5 +1,5 @@
 import React from 'react';
-import { FrameSubsection } from '@/components/Element/sections/Hero';
+// import { FrameSubsection } from '@/components/Element/sections/Hero';
 // import { FooterSubsection } from '@/components/Element/sections/FooterSubsection/FooterSubsection';
 import ContactPageClient from './client';
 

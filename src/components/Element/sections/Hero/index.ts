@@ -1,1 +1,1 @@
-export { FrameSubsection } from "./Hero";
+export { Hero } from "./Hero";

@@ -1,6 +1,6 @@
 'use client'
 import React from "react";
-import { FooterSubsection } from "@/components/Element/sections/Footer/Footer";
+// import { FooterSubsection } from "@/components/Element/sections/Footer/Footer";
 import { Hero } from "@/components/Element/sections/Hero/Hero";
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";

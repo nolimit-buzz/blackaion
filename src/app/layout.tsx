@@ -12,6 +12,7 @@ const outfit = Outfit({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://blackaion.com'),
   title: 'Blackaion - Infrastructure Investment & Development',
   description: 'Investment and advisory company with a focus on developing and growing infrastructure, energy and technology ventures across West Africa.',
   viewport: 'width=device-width, initial-scale=1',
@@ -20,6 +21,13 @@ export const metadata: Metadata = {
     title: 'Blackaion - Infrastructure Investment & Development',
     description: 'Investment and advisory company with a focus on developing and growing infrastructure, energy and technology ventures across West Africa.',
     type: 'website',
+    url: 'https://blackaion.com',
+    siteName: 'Blackaion',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Blackaion - Infrastructure Investment & Development',
+    description: 'Investment and advisory company with a focus on developing and growing infrastructure, energy and technology ventures across West Africa.',
   },
 }
 

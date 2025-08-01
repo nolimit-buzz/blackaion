@@ -1,7 +1,7 @@
 import React from 'react';
 import { mediaData } from '@/lib/mediaData';
 import BlogClientPage from './client';
-import { FooterSubsection } from '@/components/Element/sections/Footer/Footer';
+// import { FooterSubsection } from '@/components/Element/sections/Footer/Footer';
 import BlogHeader from './BlogHeader';
 
 const BlogPage = () => {
@@ -12,7 +12,7 @@ const BlogPage = () => {
         <div className="bg-black">
             <BlogHeader />
             <BlogClientPage posts={blogPosts} events={events} />
-            <FooterSubsection />
+            {/* <FooterSubsection /> */}
         </div>
     );
 };

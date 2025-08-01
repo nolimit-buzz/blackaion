@@ -2,7 +2,7 @@ import React from 'react';
 import { mediaData } from '@/lib/mediaData';
 import { notFound } from 'next/navigation';
 import BlogHeader from '../BlogHeader';
-import { FooterSubsection } from '@/components/Element/sections/Footer/Footer';
+// import { FooterSubsection } from '@/components/Element/sections/Footer/Footer';
 import Link from 'next/link';
 
 export async function generateStaticParams() {
@@ -67,7 +67,7 @@ const SingleBlogPage = ({ params }: { params: { slug: string } }) => {
                     </div>
                 </div>
             </article>
-            <FooterSubsection />
+            {/* <FooterSubsection /> */}
         </div>
     );
 };
