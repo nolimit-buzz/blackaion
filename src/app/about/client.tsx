@@ -404,7 +404,7 @@ const TeamSection = () => {
 
         <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 items-center" variants={staggerContainer}>
           {/* Board of Directors Text */}
-          <motion.div className="text-left" variants={fadeInUp}>
+          {/* <motion.div className="text-left" variants={fadeInUp}>
             <h3 className="text-2xl sm:text-[28px] font-medium text-bluecolor-9 leading-[1.35]">Board Of<br /> Directors</h3>
             <div className="w-full h-px bg-[#8298AB]/[0.3] my-6"></div>
             <p className="text-[#8195AA]">The Board of Directors oversees strategic direction to drive long-term growth & market sustainability.</p>
@@ -418,7 +418,7 @@ const TeamSection = () => {
                 <ArrowUpRight className="w-4 h-4" />
               </div>
             </motion.button>
-          </motion.div>
+          </motion.div> */}
 
           {/* Obiora Okoye Card */}
           <motion.div 
@@ -454,10 +454,10 @@ const TeamSection = () => {
 
           {/* Management Team Text */}
           <motion.div className="text-left" variants={fadeInUp}>
-            <h3 className="text-2xl sm:text-[28px] font-medium text-bluecolor-9 leading-[1.35]">Management<br /> Team</h3>
+            <h3 className="text-2xl sm:text-[28px] font-medium text-bluecolor-9 leading-[1.35]">Board of Directors</h3>
             <div className="w-full h-px bg-[#8298AB]/[0.3] my-6"></div>
-            <p className="text-[#8195AA]">Our Management Team drives business strategy and ensures the achievement of key objectives.</p>
-            <motion.button 
+            <p className="text-[#8195AA]">Our Board of Directors oversees strategic direction to drive long-term growth & market sustainability.</p>
+            <a href="/team"><motion.button 
               className="mt-8 flex items-center gap-2 text-bluecolor-9 group"
               whileHover={{ x: 3 }}
               transition={{ type: "spring", stiffness: 400, damping: 10 }}
@@ -466,7 +466,7 @@ const TeamSection = () => {
               <div className="bg-bluecolor-9 text-white rounded-full w-8 h-8 flex items-center justify-center transition-transform group-hover:scale-110">
                 <ArrowUpRight className="w-4 h-4" />
               </div>
-            </motion.button>
+            </motion.button></a>
           </motion.div>
         </motion.div>
       </motion.div>

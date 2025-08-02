@@ -55,10 +55,10 @@ export const ESGImpact = ({ data }: ESGImpactProps): JSX.Element => {
               {data.subtitle}
             </p>
           </div>
-          <Button className="bg-white hover:bg-white/90 text-black rounded-full text-xs sm:text-sm px-[30px] py-[20px] flex items-center font-normal gap-2 transition-all duration-300">
+          {/* <Button className="bg-white hover:bg-white/90 text-black rounded-full text-xs sm:text-sm px-[30px] py-[20px] flex items-center font-normal gap-2 transition-all duration-300">
             <span>Learn More</span>
             <SeeMoreArrowIcon className="w-5 h-5" />
-          </Button>
+          </Button> */}
         </div>
 
         {/* Accordion section */}

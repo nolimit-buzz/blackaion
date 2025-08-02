@@ -491,4 +491,496 @@ export async function fetchAboutPageData(): Promise<AboutPageData> {
     console.error('Error fetching about page data:', error);
     throw error;
   }
+}
+
+export interface TeamPageData {
+  id: number;
+  documentId: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  title: string;
+  description: string;
+  navbar: {
+    id: number;
+    nav_links: Array<{
+      link: string;
+      title: string;
+    }>;
+    logo: {
+      id: number;
+      documentId: string;
+      name: string;
+      alternativeText: string | null;
+      caption: string | null;
+      width: number;
+      height: number;
+      formats: {
+        large: {
+          ext: string;
+          url: string;
+          hash: string;
+          mime: string;
+          name: string;
+          path: string | null;
+          size: number;
+          width: number;
+          height: number;
+          sizeInBytes: number;
+        };
+        small: {
+          ext: string;
+          url: string;
+          hash: string;
+          mime: string;
+          name: string;
+          path: string | null;
+          size: number;
+          width: number;
+          height: number;
+          sizeInBytes: number;
+        };
+        medium: {
+          ext: string;
+          url: string;
+          hash: string;
+          mime: string;
+          name: string;
+          path: string | null;
+          size: number;
+          width: number;
+          height: number;
+          sizeInBytes: number;
+        };
+        thumbnail: {
+          ext: string;
+          url: string;
+          hash: string;
+          mime: string;
+          name: string;
+          path: string | null;
+          size: number;
+          width: number;
+          height: number;
+          sizeInBytes: number;
+        };
+      };
+      hash: string;
+      ext: string;
+      mime: string;
+      size: number;
+      url: string;
+      previewUrl: string | null;
+      provider: string;
+      provider_metadata: any;
+      createdAt: string;
+      updatedAt: string;
+      publishedAt: string;
+    };
+  };
+  team_members: Array<{
+    id: number;
+    documentId: string;
+    position: string;
+    name: string;
+    createdAt: string;
+    updatedAt: string;
+    publishedAt: string;
+    bio: string;
+    img: {
+      id: number;
+      documentId: string;
+      name: string;
+      alternativeText: string | null;
+      caption: string | null;
+      width: number;
+      height: number;
+      formats: {
+        thumbnail: {
+          ext: string;
+          url: string;
+          hash: string;
+          mime: string;
+          name: string;
+          path: string | null;
+          size: number;
+          width: number;
+          height: number;
+          sizeInBytes: number;
+        };
+      } | null;
+      hash: string;
+      ext: string;
+      mime: string;
+      size: number;
+      url: string;
+      previewUrl: string | null;
+      provider: string;
+      provider_metadata: any;
+      createdAt: string;
+      updatedAt: string;
+      publishedAt: string;
+    };
+  }>;
+}
+
+export interface TeamPageApiResponse {
+  data: TeamPageData;
+  meta: any;
+}
+
+export async function fetchTeamPageData(): Promise<TeamPageData> {
+  const cacheKey = 'teampage-data';
+  const cachedData = getCachedData(cacheKey);
+  
+  if (cachedData) {
+    console.log('Using cached team page data');
+    return cachedData;
+  }
+
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const apiToken = process.env.NEXT_PUBLIC_API_TOKEN;
+
+  if (!apiUrl || !apiToken) {
+    throw new Error('API URL or token not configured');
+  }
+
+  const endpoint = `${apiUrl}/api/team-page?populate=navbar&populate=navbar.logo&populate=team_members&populate=team_members.img`;
+  
+  console.log('Fetching team page data from:', endpoint);
+
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
+    const response = await fetch(endpoint, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${apiToken}`,
+        'Content-Type': 'application/json',
+      },
+      signal: controller.signal,
+      next: { revalidate: 3600 }, // Cache for 1 hour
+    });
+
+    clearTimeout(timeoutId);
+    console.log('Team page API response status:', response.status);
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('Team page API error response:', errorText);
+      throw new Error(`API request failed: ${response.status} ${response.statusText} - ${errorText}`);
+    }
+
+    const data: TeamPageApiResponse = await response.json();
+    console.log('Team page data received:', data ? 'Yes' : 'No');
+    
+    const result = data.data;
+    
+    // Cache the result
+    setCachedData(cacheKey, result);
+    
+    return result;
+  } catch (error) {
+    console.error('Error fetching team page data:', error);
+    if (error instanceof Error && error.name === 'AbortError') {
+      throw new Error('Request timed out. Please check your internet connection and try again.');
+    }
+    throw error;
+  }
+}
+
+export interface TeamMemberDetailData {
+  id: number;
+  documentId: string;
+  position: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  bio: string;
+  img: {
+    id: number;
+    documentId: string;
+    name: string;
+    alternativeText: string | null;
+    caption: string | null;
+    width: number;
+    height: number;
+    formats: {
+      thumbnail: {
+        ext: string;
+        url: string;
+        hash: string;
+        mime: string;
+        name: string;
+        path: string | null;
+        size: number;
+        width: number;
+        height: number;
+        sizeInBytes: number;
+      };
+    } | null;
+    hash: string;
+    ext: string;
+    mime: string;
+    size: number;
+    url: string;
+    previewUrl: string | null;
+    provider: string;
+    provider_metadata: any;
+    createdAt: string;
+    updatedAt: string;
+    publishedAt: string;
+  };
+}
+
+export interface TeamMemberDetailApiResponse {
+  data: TeamMemberDetailData;
+  meta: any;
+}
+
+export async function fetchTeamMemberDetail(documentId: string): Promise<TeamMemberDetailData> {
+  const cacheKey = `team-member-${documentId}`;
+  const cachedData = getCachedData(cacheKey);
+  
+  if (cachedData) {
+    return cachedData;
+  }
+
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const apiToken = process.env.NEXT_PUBLIC_API_TOKEN;
+
+  if (!apiUrl || !apiToken) {
+    throw new Error('API URL or token not configured');
+  }
+
+  const endpoint = `${apiUrl}/api/teams/${documentId}?populate=img`;
+
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
+    const response = await fetch(endpoint, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${apiToken}`,
+        'Content-Type': 'application/json',
+      },
+      signal: controller.signal,
+      next: { revalidate: 3600 }, // Cache for 1 hour
+    });
+
+    clearTimeout(timeoutId);
+
+    if (!response.ok) {
+      throw new Error(`API request failed: ${response.status} ${response.statusText}`);
+    }
+
+    const data: TeamMemberDetailApiResponse = await response.json();
+    const result = data.data;
+    
+    // Cache the result
+    setCachedData(cacheKey, result);
+    
+    return result;
+  } catch (error) {
+    console.error('Error fetching team member detail:', error);
+    if (error instanceof Error && error.name === 'AbortError') {
+      throw new Error('Request timed out. Please check your internet connection and try again.');
+    }
+    throw error;
+  }
+}
+
+export interface FooterData {
+  description: string;
+  social_links: Array<{ link: string; title: string }>;
+  quick_links: Array<{ link: string; title: string }>;
+  legal: Array<{ link: string; title: string }>;
+  offices: Array<{
+    id: number;
+    name: string;
+    address: string;
+    telephone: string | null;
+  }>;
+}
+
+export interface FooterApiResponse {
+  data: FooterData;
+  meta: any;
+}
+
+export async function fetchFooterData(): Promise<FooterData> {
+  const cacheKey = 'footer-data';
+  const cachedData = getCachedData(cacheKey);
+  
+  if (cachedData) {
+    return cachedData;
+  }
+
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const apiToken = process.env.NEXT_PUBLIC_API_TOKEN;
+
+  if (!apiUrl || !apiToken) {
+    throw new Error('API URL or token not configured');
+  }
+
+  // Fetch footer data from home page API
+  const endpoint = `${apiUrl}/api/home-page?populate=footer&populate=footer.offices`;
+
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
+    const response = await fetch(endpoint, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${apiToken}`,
+        'Content-Type': 'application/json',
+      },
+      signal: controller.signal,
+      next: { revalidate: 3600 }, // Cache for 1 hour
+    });
+
+    clearTimeout(timeoutId);
+
+    if (!response.ok) {
+      throw new Error(`API request failed: ${response.status} ${response.statusText}`);
+    }
+
+    const data: any = await response.json();
+    const result = data.data.footer;
+    
+    // Cache the result
+    setCachedData(cacheKey, result);
+    
+    return result;
+  } catch (error) {
+    console.error('Error fetching footer data:', error);
+    if (error instanceof Error && error.name === 'AbortError') {
+      throw new Error('Request timed out. Please check your internet connection and try again.');
+    }
+    throw error;
+  }
+}
+
+export interface NavbarData {
+  id: number;
+  nav_links: Array<{ link: string; title: string }>;
+  logo: {
+    id: number;
+    documentId: string;
+    name: string;
+    alternativeText: string | null;
+    caption: string | null;
+    width: number;
+    height: number;
+    formats: {
+      large: {
+        ext: string;
+        url: string;
+        hash: string;
+        mime: string;
+        name: string;
+        path: string | null;
+        size: number;
+        width: number;
+        height: number;
+        sizeInBytes: number;
+      };
+      small: {
+        ext: string;
+        url: string;
+        hash: string;
+        mime: string;
+        name: string;
+        path: string | null;
+        size: number;
+        width: number;
+        height: number;
+        sizeInBytes: number;
+      };
+      medium: {
+        ext: string;
+        url: string;
+        hash: string;
+        mime: string;
+        name: string;
+        path: string | null;
+        size: number;
+        width: number;
+        height: number;
+        sizeInBytes: number;
+      };
+      thumbnail: {
+        ext: string;
+        url: string;
+        hash: string;
+        mime: string;
+        name: string;
+        path: string | null;
+        size: number;
+        width: number;
+        height: number;
+        sizeInBytes: number;
+      };
+    };
+    hash: string;
+    ext: string;
+    mime: string;
+    size: number;
+    url: string;
+    previewUrl: string | null;
+    provider: string;
+    provider_metadata: any;
+    createdAt: string;
+    updatedAt: string;
+    publishedAt: string;
+  };
+}
+
+export async function fetchNavbarData(): Promise<NavbarData> {
+  const cacheKey = 'navbar-data';
+  const cachedData = getCachedData(cacheKey);
+  
+  if (cachedData) {
+    return cachedData;
+  }
+
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const apiToken = process.env.NEXT_PUBLIC_API_TOKEN;
+
+  if (!apiUrl || !apiToken) {
+    throw new Error('API URL or token not configured');
+  }
+
+  // Fetch navbar data from home page API
+  const endpoint = `${apiUrl}/api/home-page?populate=navbar&populate=navbar.logo`;
+
+  try {
+    const response = await fetch(endpoint, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${apiToken}`,
+        'Content-Type': 'application/json',
+      },
+      next: { revalidate: 3600 }, // Cache for 1 hour
+    });
+
+    if (!response.ok) {
+      throw new Error(`API request failed: ${response.status} ${response.statusText}`);
+    }
+
+    const data: any = await response.json();
+    const result = data.data.navbar;
+    
+    // Cache the result
+    setCachedData(cacheKey, result);
+    
+    return result;
+  } catch (error) {
+    console.error('Error fetching navbar data:', error);
+    throw error;
+  }
 } 

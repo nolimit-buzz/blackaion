@@ -1,55 +1,61 @@
 import React from 'react';
 import TeamMemberPageContent from './client';
 import { notFound } from 'next/navigation';
+import { fetchTeamMemberDetail, fetchFooterData, fetchTeamPageData } from '@/lib/api';
 
-// --- Data for all team members ---
-const teamMembers = [
-    {
-        name: 'Obiora Okoye',
-        role: 'Co-Founder & Partner',
-        image: '/obiora.png',
-        bio: [
-            'Obiora is a seasoned infrastructure investment professional with over 15 years of experience in project development, structured finance, and portfolio management across West Africa. His expertise spans the energy, technology, and financial services sectors, where he has been instrumental in creating and executing innovative investment strategies.',
-            'Prior to co-founding Blackaion, Obiora held senior roles at leading global firms, where he managed multi-billion dollar infrastructure portfolios and led landmark transactions. He was responsible for originating, developing, and financing large-scale projects that have had a transformative impact on the region\\\'s development.',
-            'Obiora is a passionate advocate for sustainable infrastructure and believes in the power of technology to unlock Africa\\\'s potential. He is committed to building a world-class investment firm that not only generates outstanding returns but also drives long-term value for all stakeholders.',
-        ],
-    },
-    // Add other team members here with their details
-    { name: "Okwu Njoku", role: "Co-Founder & Partner", image: "/okwu.png", bio: [ 'Bio for Okwu Njoku...'] },
-    { name: "Dr Uche Isiugo", role: "Executive Director", image: "/uche.png", bio: [ 'Bio for Dr Uche Isiugo...'] },
-    { name: "Wolemi Esan", role: "Board Member", image: "/wolemi.png", bio: [ 'Bio for Wolemi Esan...'] },
-].map(member => {
-    const titles = ['dr', 'mr', 'mrs', 'ms'];
-    const nameParts = member.name.toLowerCase().split(' ');
-    let potentialSlug = nameParts[0];
+// Enable static generation for better performance
+export const revalidate = 3600; // Revalidate every hour
 
-    // If the first part of the name is a title, use the next part as the slug.
-    if (titles.includes(potentialSlug.replace('.', ''))) {
-        potentialSlug = nameParts[1];
-    }
-
-    return {
-        ...member,
-        slug: potentialSlug.replace(/[^a-z0-9]+/g, '-'), // Sanitize final slug
-    };
-});
-
-export async function generateStaticParams() {
-  return teamMembers.map((member) => ({
-    slug: member.slug,
-  }));
-}
-
-const SingleTeamMemberPage = ({ params }: { params: { slug: string } }) => {
-    const teamMember = teamMembers.find(member => member.slug === params.slug);
+const SingleTeamMemberPage = async ({ params }: { params: { slug: string } }) => {
+  try {
+    // The slug is actually the documentId from the CMS
+    const documentId = params.slug;
+    
+    console.log('Fetching team member detail for:', documentId);
+    
+    const [teamMember, footerData, teamPageData] = await Promise.all([
+      fetchTeamMemberDetail(documentId),
+      fetchFooterData(),
+      fetchTeamPageData()
+    ]);
 
     if (!teamMember) {
-        notFound();
+      console.log('Team member not found for documentId:', documentId);
+      notFound();
     }
 
-    const otherMembers = teamMembers.filter((member) => member.slug !== params.slug);
+    console.log('Team member data fetched successfully:', teamMember.name);
 
-    return <TeamMemberPageContent teamMember={teamMember} otherMembers={otherMembers} />;
+    return <TeamMemberPageContent 
+      teamMember={teamMember} 
+      footerData={footerData} 
+      navbarData={teamPageData.navbar}
+    />;
+  } catch (error) {
+    console.error('Error fetching team member:', error);
+    
+    // Check if it's a timeout error
+    if (error instanceof Error && error.message.includes('timed out')) {
+      return (
+        <div className="min-h-screen flex items-center justify-center bg-white">
+          <div className="text-center max-w-md mx-auto px-4">
+            <h1 className="text-2xl font-bold text-gray-900 mb-4">Connection Timeout</h1>
+            <p className="text-gray-600 mb-4">
+              The request timed out. Please check your internet connection and try again.
+            </p>
+            <button 
+              onClick={() => window.location.reload()} 
+              className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+            >
+              Retry
+            </button>
+          </div>
+        </div>
+      );
+    }
+    
+    notFound();
+  }
 };
 
 export default SingleTeamMemberPage; 

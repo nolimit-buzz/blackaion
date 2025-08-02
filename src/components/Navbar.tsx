@@ -23,7 +23,31 @@ interface NavbarProps {
       width: number;
       height: number;
       formats: {
+        large?: {
+          ext: string;
+          url: string;
+          hash: string;
+          mime: string;
+          name: string;
+          path: string | null;
+          size: number;
+          width: number;
+          height: number;
+          sizeInBytes: number;
+        };
         small: {
+          ext: string;
+          url: string;
+          hash: string;
+          mime: string;
+          name: string;
+          path: string | null;
+          size: number;
+          width: number;
+          height: number;
+          sizeInBytes: number;
+        };
+        medium?: {
           ext: string;
           url: string;
           hash: string;

@@ -218,7 +218,7 @@ export const Services = ({ data }: ServicesProps): JSX.Element => {
             </motion.p>
           </div>
 
-          <motion.div
+          {/* <motion.div
             variants={buttonVariants}
             initial="hidden"
             animate={headerInView ? "visible" : "hidden"}
@@ -235,7 +235,7 @@ export const Services = ({ data }: ServicesProps): JSX.Element => {
                 transition={{ duration: 0.2 }}
               />
             </Button>
-          </motion.div>
+          </motion.div> */}
         </motion.div>
 
         {/* Services Card - Professional corporate animation */}
@@ -278,7 +278,7 @@ export const Services = ({ data }: ServicesProps): JSX.Element => {
                       </motion.p>
 
                       {/* Read More Link - Mobile positioned under text */}
-                      <div className="flex xl:hidden items-center justify-start mt-2">
+                      {index === 2 && <div className="flex xl:hidden items-center justify-start mt-2">
                         <motion.button
                           className="inline-flex items-center gap-2 py-2 px-3 rounded-lg hover:bg-goldcolor-8/5 transition-all duration-300 group/btn"
                           variants={readMoreVariants}
@@ -290,7 +290,7 @@ export const Services = ({ data }: ServicesProps): JSX.Element => {
                           </span>
                           <ArrowRightIcon className="w-3 h-3 sm:w-4 sm:h-4 text-goldcolor-8 group-hover/btn:text-goldcolor-9 group-hover/btn:translate-x-1 transition-all duration-300" />
                         </motion.button>
-                      </div>
+                      </div>}
                     </div>
 
                     {/* Service Image - Professional presentation */}
@@ -330,19 +330,19 @@ export const Services = ({ data }: ServicesProps): JSX.Element => {
                     </motion.div>
 
                     {/* Center - Read More Link (Desktop only) - Professional styling */}
-                    <div className="hidden xl:flex items-center justify-center px-[40px] order-2">
-                      <motion.button
-                        className="inline-flex items-center gap-2 py-2.5 px-4 rounded-lg hover:bg-goldcolor-8/5 transition-all duration-300 group/btn"
-                        variants={readMoreVariants}
-                        whileHover={{ scale: 1.02, x: 3 }}
-                        whileTap={{ scale: 0.98 }}
-                      >
-                        <span className="font-medium text-goldcolor-8 text-[14px] leading-[20px] whitespace-nowrap tracking-[0] group-hover/btn:text-goldcolor-9 transition-colors duration-300">
-                          Read More
-                        </span>
-                        <ArrowRightIcon className="w-4 h-4 text-goldcolor-8 group-hover/btn:text-goldcolor-9 group-hover/btn:translate-x-1 transition-all duration-300" />
-                      </motion.button>
-                    </div>
+                     {index === 2 && <div className="hidden xl:flex items-center justify-center px-[40px] order-2">
+                          <motion.button
+                            className="inline-flex items-center gap-2 py-2.5 px-4 rounded-lg hover:bg-goldcolor-8/5 transition-all duration-300 group/btn"
+                            variants={readMoreVariants}
+                            whileHover={{ scale: 1.02, x: 3 }}
+                            whileTap={{ scale: 0.98 }}
+                          >
+                            <span className="font-medium text-goldcolor-8 text-[14px] leading-[20px] whitespace-nowrap tracking-[0] group-hover/btn:text-goldcolor-9 transition-colors duration-300">
+                              Read More
+                            </span>
+                            <ArrowRightIcon className="w-4 h-4 text-goldcolor-8 group-hover/btn:text-goldcolor-9 group-hover/btn:translate-x-1 transition-all duration-300" />
+                          </motion.button>
+                      </div>}
                   </motion.div>
 
                   {/* Professional separator - Only between items */}

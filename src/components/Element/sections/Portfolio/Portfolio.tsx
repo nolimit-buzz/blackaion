@@ -230,10 +230,10 @@ export const Portfolio = ({ data }: PortfolioProps): JSX.Element => {
                 <h2 className="text-[36px] sm:text-[42px] lg:text-[48px] font-bold tracking-[-0.02em]">
                   {data.title}
                 </h2>
-                <Button className="lg:hidden bg-white/10 hover:bg-[#EFEFEF]/20 text-white rounded-full text-xs sm:text-sm px-4 py-2 flex items-center gap-2 transition-all duration-300">
+                {/* <Button className="lg:hidden bg-white/10 hover:bg-[#EFEFEF]/20 text-white rounded-full text-xs sm:text-sm px-4 py-2 flex items-center gap-2 transition-all duration-300">
                   <span>See All Projects</span>
                   <SeeMoreArrowIcon className="w-5 h-5" />
-                </Button>
+                </Button> */}
             </div>
               <p className="text-white/70 text-base sm:text-lg max-w-[450px]">
                 {data.subtitle}
@@ -274,12 +274,12 @@ export const Portfolio = ({ data }: PortfolioProps): JSX.Element => {
             initial="hidden"
             animate={contentInView ? "visible" : "hidden"}
           >
-            <div className="hidden lg:flex justify-end mb-6">
+            {/* <div className="hidden lg:flex justify-end mb-6">
               <Button className="bg-white hover:bg-white/90 text-black rounded-full text-sm px-5 py-3 flex items-center gap-2 transition-all duration-300">
                 <span>See All Projects</span>
                 <SeeMoreArrowIcon className="w-5 h-5" />
               </Button>
-            </div>
+            </div> */}
 
             <Card className="bg-[#1C1C1C]/60 border border-white/10 rounded-2xl py-6 sm:py-8 backdrop-blur-md shadow-2xl shadow-black/30">
                   <AnimatePresence mode="wait">
