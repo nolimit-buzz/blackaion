@@ -179,7 +179,7 @@ console.log(theme)
                 <motion.a
                   key={index}
                   href={link.link}
-                  className="text-white text-lg font-medium hover:text-goldcolor-i transition-colors duration-200"
+                  className="text-white capitalize  text-lg font-medium hover:text-goldcolor-i transition-colors duration-200"
                   onClick={() => setIsMobileMenuOpen(false)}
                   whileHover={{ x: 10 }}
                   transition={{ duration: 0.2 }}

@@ -137,9 +137,9 @@ const ContactPageClient = () => {
       </div>
       
       {/* Map Section - Placeholder */}
-      <div className="h-96 bg-gray-200 flex items-center justify-center text-gray-500">
+      {/* <div className="h-96 bg-gray-200 flex items-center justify-center text-gray-500">
         Map Placeholder
-      </div>
+      </div> */}
     </>
   );
 };

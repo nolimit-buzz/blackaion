@@ -172,17 +172,17 @@ export const Hero = ({ theme = 'dark', data, navbar }: HeroProps): JSX.Element =
 
             <motion.div
               ref={heroRef}
-              className="h-full w-full flex items-end relative z-10 p-12"
+              className="h-full w-full flex items-end relative z-10 px-6 md:px-12"
               variants={heroContentVariants}
               initial="hidden"
               animate={heroInView ? "visible" : "hidden"}
             >
               <div className="w-full flex justify-between items-end">
                 <motion.div
-                  className="flex flex-col items-start mb-24 gap-5 max-w-2xl"
+                  className="flex flex-col items-start mb-12 md:mb-24 gap-5 max-w-2xl"
                   variants={fadeInUp}
                 >
-                  <h1 className="font-semibold text-white text-5xl leading-tight tracking-normal">
+                  <h1 className="font-semibold text-white text-[28px] md:text-3xl text-5xl leading-tight tracking-normal">
                     {data.heading}
                   </h1>
                   <p className="text-white text-base font-light max-w-lg">
@@ -211,7 +211,7 @@ export const Hero = ({ theme = 'dark', data, navbar }: HeroProps): JSX.Element =
                   </a>
                 </motion.div>
 
-                <motion.div className="flex flex-col gap-3" variants={fadeInUp}>
+                <motion.div className="hidden md:flex flex-col gap-3" variants={fadeInUp}>
                   <button
                     onClick={goToPrevious}
                     className="w-11 h-11 rounded-full border border-white/50 flex items-center justify-center backdrop-blur-sm bg-white/10 hover:bg-white/20 transition-colors"

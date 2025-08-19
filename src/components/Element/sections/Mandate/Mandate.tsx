@@ -262,7 +262,7 @@ export const Mandate = ({ data }: MandateProps): JSX.Element => {
       >
         <div className="flex flex-col lg:flex-row w-full items-start justify-between gap-20">
           {/* Left Column - Heading and Stats */}
-          <div className="flex flex-col items-start gap-10 flex-1 max-w-[610px]">
+          <div className="flex flex-col items-start gap-10 flex-1 w-full max-w-[610px]">
             {/* Main Heading with entrance animation */}
             <motion.div
               ref={headingRef}
@@ -271,7 +271,7 @@ export const Mandate = ({ data }: MandateProps): JSX.Element => {
               animate={headingInView ? "visible" : "hidden"}
             >
               <motion.h2
-                className="font-medium text-white text-[36px] leading-[120%] tracking-[0px] relative"
+                className="font-medium text-justify text-white text-[24px] md:text-[36px] leading-[120%] tracking-[0px] relative"
                 whileHover={{ scale: 1.02 }}
                 transition={{ duration: 0.3 }}
               >
@@ -282,7 +282,7 @@ export const Mandate = ({ data }: MandateProps): JSX.Element => {
             {/* Stats Grid - Fixed to display in a single row */}
             <motion.div
               ref={statsRef}
-              className="flex items-start justify-start gap-8 w-full"
+              className="flex items-start justify-start flex-wrap gap-8 w-full"
               variants={statsContainerVariants}
               initial="hidden"
               animate={statsInView ? "visible" : "hidden"}

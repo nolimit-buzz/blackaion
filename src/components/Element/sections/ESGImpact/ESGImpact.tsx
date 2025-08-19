@@ -74,11 +74,11 @@ export const ESGImpact = ({ data }: ESGImpactProps): JSX.Element => {
           {esgCategories.map((category) => (
             <AccordionItem key={category.id} value={category.id} className="border-b border-white/10">
                 <AccordionTrigger className="w-full text-left hover:no-underline py-6 group [&>svg]:hidden">
-                    <div className="flex justify-between items-center w-full gap-4">
-                        <h3 className="text-2xl sm:text-3xl font-light w-1/4">
+                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center w-full gap-4">
+                        <h3 className="text-2xl sm:text-3xl font-light w-full md:w-1/4">
                             {category.title}
                         </h3>
-                        <p className="text-base font-normal text-white/70 w-1/2 max-w-xl text-left">
+                        <p className="text-base font-normal text-white/70 w-full md:w-1/2 max-w-xl text-left">
                             {category.description}
                         </p>
                         <div className="w-[50px] h-[50px] rounded-full flex items-center justify-center flex-shrink-0 transition-colors duration-300 border group-data-[state=open]:bg-white group-data-[state=closed]:bg-transparent group-data-[state=open]:border-transparent group-data-[state=closed]:border-white/40">
