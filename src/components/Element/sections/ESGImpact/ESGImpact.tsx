@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image"
 import {
   Accordion,
   AccordionContent,
@@ -30,17 +31,19 @@ type ESGImpactProps = {
 };
 
 export const ESGImpact = ({ data }: ESGImpactProps): JSX.Element => {
-  // Use CMS data for ESG categories
-  const esgCategories = data.esg_goals.map(goal => ({
+  
+  const esgCategories = data.esg_goals.map(goal => {
+    console.log(goal.sdg_images)
+    return({
     id: `esg-${goal.id}`,
     title: goal.title,
     description: goal.description,
     sdgImages: goal.sdg_images.map(image => ({
       id: image.id,
       name: image.name,
-      url: image.formats.thumbnail.url,
+      url: image.url,
     })),
-  }));
+  })});
 
   return (
     <section id="esg-impact" className="w-full max-w-[1440px] mx-auto px-5 sm:px-10 lg:px-16 xl:px-20 bg-black text-white py-[70px] sm:py-[100px]">
@@ -87,11 +90,13 @@ export const ESGImpact = ({ data }: ESGImpactProps): JSX.Element => {
               <AccordionContent className="pt-4 pb-8">
                 <div className="flex w-full justify-end gap-1 mr-auto">
                   {category.sdgImages.map((image, index) => (
-                    <img
+                    <Image
                       key={index}
                       src={image.url}
                       alt={image.name}
-                      className="w-[90px] h-[90px] object-cover rounded-lg"
+                      width={90}
+                      height={90}
+                      className="w-[90px] h-[90px] object-cover !rounded-lg"
                     />
                   ))}
                 </div>
