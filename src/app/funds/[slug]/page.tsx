@@ -1,33 +1,27 @@
 import React from 'react';
 import { notFound } from 'next/navigation';
-import { getProjects, projectsData } from '@/lib/projectsData';
-import SingleProjectPageContent from './client';
-// import { FrameSubsection } from '@/components/Element/sections/Hero/Hero';
-import { FooterSubsection } from '@/components/Element/sections/Footer/Footer';
+import { fetchFundDetail } from '@/lib/api';
+import FundPageContent from './client';
 
-export async function generateStaticParams() {
-  return projectsData.map((project) => ({
-    slug: project.slug,
-  }));
-}
+export const revalidate = 3600;
 
-const SingleProjectPage = ({ params }: { params: { slug: string } }) => {
-    const allProjects = getProjects();
-    const project = allProjects.find(p => p.slug === params.slug);
+const SingleFundPage = async ({ params }: { params: { slug: string } }) => {
+  const documentId = params.slug;
 
-    if (!project) {
-        notFound();
+  try {
+    const fund = await fetchFundDetail(documentId);
+    if (!fund) {
+      notFound();
     }
-    
-    const otherProjects = allProjects.filter(p => p.slug !== params.slug).slice(0, 2);
 
     return (
-        <div className="bg-white">
-            {/* <FrameSubsection theme="light" /> */}
-            <SingleProjectPageContent project={project} otherProjects={otherProjects} />
-            {/* <FooterSubsection /> */}
-        </div>
+      <div className="bg-white">
+        <FundPageContent fund={fund} />
+      </div>
     );
+  } catch (e) {
+    notFound();
+  }
 };
 
-export default SingleProjectPage;
+export default SingleFundPage;

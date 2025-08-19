@@ -1,6 +1,4 @@
 'use client'
-import { FooterSubsection } from "@/components/Element/sections/Footer/Footer";
-import { Hero } from "@/components/Element/sections/Hero/Hero";
 import { ChevronDown, ArrowLeft, ArrowRight, ArrowUpRight, ArrowDown } from "lucide-react";
 import React, { useState, useMemo, useEffect } from "react";
 import {
@@ -12,7 +10,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { fetchAboutPageData, AboutPageData } from "@/lib/api";
-import { Navbar } from "@/components/Navbar";
 
 // Optimized Animation Variants
 const fadeInUp = {
@@ -39,7 +36,7 @@ const staggerContainer = {
 const AboutHeroSection = ({ data }: { data: AboutPageData }) => {
   return (
     <motion.section 
-      className="bg-white text-black py-20"
+      className="bg-white text-black py-20 pt-[140px]"
       initial="hidden"
       animate="visible"
       variants={staggerContainer}
@@ -115,6 +112,7 @@ const ExperienceSection = ({ data }: { data: AboutPageData }) => {
                 {data.mandate.experience}
               </p>
             </div>
+            <a href="#milestones">
             <motion.button 
               className="flex items-center gap-4 bg-goldcolor-9 text-white rounded-full pl-6 pr-2 py-2 text-sm w-fit font-medium transition-colors hover:bg-goldcolor-8 shrink-0"
               whileHover={{ scale: 1.02 }}
@@ -125,6 +123,7 @@ const ExperienceSection = ({ data }: { data: AboutPageData }) => {
                 <ChevronDown className="w-5 h-5" />
               </div>
             </motion.button>
+            </a>
           </div>
         </motion.div>
       </motion.div>
@@ -144,25 +143,25 @@ const MissionVisionSection = ({ data }: { data: AboutPageData }) => {
       >
         <div className="bg-white shadow-xl rounded-2xl p-12 mt-12 md:-mt-32 relative z-10">
           <motion.div 
-            className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center"
+            className="flex items-center"
             variants={staggerContainer}
           >
-            <motion.div variants={fadeInUp}>
-              <div>
-                <h3 className="text-[22px] font-medium text-bluecolor-9 leading-[1.4]">Mission</h3>
-                <p className="mt-4 text-bluecolor-4 leading-relaxed max-w-[300px]">
+            <motion.div variants={fadeInUp} className="flex gap-2 md:gap-12 lg:gap-20">
+              <div className="flex-1">
+                <h3 className="text-[22px] font-medium text-goldcolor-9 leading-[1.4]">Mission</h3>
+                <p className="mt-4 text-bluecolor-4 leading-relaxed ">
                   {data.mandate.mission}
                 </p>
               </div>
-              <div className="max-w-[300px] h-px bg-gray-200 my-12"></div>
-              <div>
-                <h3 className="text-[22px] font-medium text-bluecolor-9 leading-[1.4]">Vision</h3>
-                <p className="mt-4 text-bluecolor-4 leading-relaxed max-w-[300px]">
+              {/* <div className="max-w-[300px] h-px bg-gray-200 my-12"></div> */}
+              <div className="flex-1">
+                <h3 className="text-[22px] font-medium text-goldcolor-9 leading-[1.4]">Vision</h3>
+                <p className="mt-4 text-bluecolor-4 leading-relaxed">
                   {data.mandate.vision}
                 </p>
               </div>
             </motion.div>
-            <motion.div variants={fadeInUp}>
+            {/* <motion.div variants={fadeInUp}>
               <div className="flex justify-center items-center bg-gray-100 h-80 rounded-lg">
                 <p className="text-gray-400">World Map Placeholder</p>
               </div>
@@ -180,7 +179,7 @@ const MissionVisionSection = ({ data }: { data: AboutPageData }) => {
                       <span className="text-sm text-gray-600">Office</span>
                   </div>
               </div>
-            </motion.div>
+            </motion.div> */}
           </motion.div>
         </div>
       </motion.div>
@@ -283,8 +282,21 @@ const KeyMilestonesSection = ({ data }: { data: AboutPageData }) => {
 
   const activeMilestone = milestonesData[activeIndex];
   
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      console.log(activeMilestone);
+      const currentIndexInReal = realMilestoneIndices.indexOf(activeIndex);
+      
+      if (currentIndexInReal < realMilestoneIndices.length - 1) {
+        setActiveIndex(realMilestoneIndices[currentIndexInReal + 1]);
+      } else {
+        setActiveIndex(realMilestoneIndices[0]);
+      }
+    }, 2000);
+    return () => clearTimeout(timeout);
+  }, [activeMilestone, activeIndex, realMilestoneIndices]);
   return (
-    <section className="bg-black text-white py-20 px-5 sm:px-10 lg:px-16 xl:px-20">
+    <section id="milestones" className="bg-black text-white py-20 px-5 sm:px-10 lg:px-16 xl:px-20">
       <motion.div 
         className="max-w-7xl mx-auto"
         initial="hidden"
@@ -293,7 +305,7 @@ const KeyMilestonesSection = ({ data }: { data: AboutPageData }) => {
         variants={staggerContainer}
       >
         <motion.div className="text-left" variants={fadeInUp}>
-          <p className="text-sm uppercase text-gray-400 tracking-widest">COMPANY HISTORY</p>
+          <p className="text-sm uppercase text-gray-400 tracking-widest">KEY MILESTONES</p>
           <div className="w-full h-px bg-white/20 mt-2 mb-8"></div>
           <h2 className="text-4xl sm:text-5xl font-bold">{data.milestones.title}</h2>
           <p className="mt-4 text-gray-400 max-w-[460px] leading-relaxed">
@@ -313,14 +325,17 @@ const KeyMilestonesSection = ({ data }: { data: AboutPageData }) => {
                   variants={scaleIn}
                 />
               </div>
-              <p className="text-sm text-goldcolor-i">{activeMilestone.date || ''}</p>
-              <h3 className="text-3xl sm:text-4xl font-bold mt-4 max-w-[470px]">{activeMilestone.title || ''}</h3>
-              <p className="mt-4 text-gray-400 max-w-[470px] font-normal">{activeMilestone.description || ''}</p>
+              <motion.p variants={fadeInUp} className="text-sm text-goldcolor-i">{activeMilestone.date || ''}</motion.p>
+              <motion.h3 variants={fadeInUp} className="text-3xl sm:text-4xl font-bold mt-4 max-w-[470px]">{activeMilestone.title || ''}</motion.h3>
+              <motion.p variants={fadeInUp} className="mt-4 text-gray-400 max-w-[470px] font-normal">{activeMilestone.description || ''}</motion.p>
             </div>
           </div>
           {/* Desktop Image - hidden on small screens */}
           <div className="hidden md:block md:absolute md:top-1/2 md:-translate-y-1/2 md:right-0 md:w-1/2 md:h-[85%] mt-4 md:mt-0">
             <motion.img 
+              initial={{ opacity: 0}}
+              animate={{ opacity: 1}}
+              transition={{ duration: 0.5 }}
               src={activeMilestone.image || ''} 
               alt={activeMilestone.title || ''} 
               className="w-full h-full object-cover rounded-2xl"
@@ -361,7 +376,7 @@ const KeyMilestonesSection = ({ data }: { data: AboutPageData }) => {
             })}
           </div>
 
-          <div className="mt-8 flex justify-between">
+          {/* <div className="mt-8 flex justify-between">
             <motion.button 
               onClick={handlePrev} 
               disabled={realMilestoneIndices.indexOf(activeIndex) === 0} 
@@ -380,99 +395,99 @@ const KeyMilestonesSection = ({ data }: { data: AboutPageData }) => {
             >
               <ArrowRight className="w-6 h-6" />
             </motion.button>
-          </div>
+          </div> */}
         </motion.div>
       </motion.div>
     </section>
   );
 };
 
-const TeamSection = () => {
-  return (
-    <section className="bg-white py-20 max-w-[1440px] mx-auto">
-      <motion.div 
-        className="w-full mx-auto px-5 sm:px-10 lg:px-16 xl:px-20"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.1 }}
-        variants={staggerContainer}
-      >
-        <motion.div className="text-left mb-12" variants={fadeInUp}>
-          <p className="text-sm uppercase text-gray-500 tracking-widest">Our Team</p>
-          <div className="w-full h-px bg-[#8298AB]/[0.3] mt-2"></div>
-        </motion.div>
+// const TeamSection = () => {
+//   return (
+//     <section className="bg-white py-20 max-w-[1440px] mx-auto">
+//       <motion.div 
+//         className="w-full mx-auto px-5 sm:px-10 lg:px-16 xl:px-20"
+//         initial="hidden"
+//         whileInView="visible"
+//         viewport={{ once: true, amount: 0.1 }}
+//         variants={staggerContainer}
+//       >
+//         <motion.div className="text-left mb-12" variants={fadeInUp}>
+//           <p className="text-sm uppercase text-gray-500 tracking-widest">Our Team</p>
+//           <div className="w-full h-px bg-[#8298AB]/[0.3] mt-2"></div>
+//         </motion.div>
 
-        <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 items-center" variants={staggerContainer}>
-          {/* Board of Directors Text */}
-          {/* <motion.div className="text-left" variants={fadeInUp}>
-            <h3 className="text-2xl sm:text-[28px] font-medium text-bluecolor-9 leading-[1.35]">Board Of<br /> Directors</h3>
-            <div className="w-full h-px bg-[#8298AB]/[0.3] my-6"></div>
-            <p className="text-[#8195AA]">The Board of Directors oversees strategic direction to drive long-term growth & market sustainability.</p>
-            <motion.button 
-              className="mt-8 flex items-center gap-2 text-bluecolor-9 group"
-              whileHover={{ x: 3 }}
-              transition={{ type: "spring", stiffness: 400, damping: 10 }}
-            >
-              <span className="group-hover:underline">View Board</span>
-              <div className="bg-bluecolor-9 text-white rounded-full w-8 h-8 flex items-center justify-center transition-transform group-hover:scale-110">
-                <ArrowUpRight className="w-4 h-4" />
-              </div>
-            </motion.button>
-          </motion.div> */}
+//         <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 items-center" variants={staggerContainer}>
+//           {/* Board of Directors Text */}
+//           {/* <motion.div className="text-left" variants={fadeInUp}>
+//             <h3 className="text-2xl sm:text-[28px] font-medium text-bluecolor-9 leading-[1.35]">Board Of<br /> Directors</h3>
+//             <div className="w-full h-px bg-[#8298AB]/[0.3] my-6"></div>
+//             <p className="text-[#8195AA]">The Board of Directors oversees strategic direction to drive long-term growth & market sustainability.</p>
+//             <motion.button 
+//               className="mt-8 flex items-center gap-2 text-bluecolor-9 group"
+//               whileHover={{ x: 3 }}
+//               transition={{ type: "spring", stiffness: 400, damping: 10 }}
+//             >
+//               <span className="group-hover:underline">View Board</span>
+//               <div className="bg-bluecolor-9 text-white rounded-full w-8 h-8 flex items-center justify-center transition-transform group-hover:scale-110">
+//                 <ArrowUpRight className="w-4 h-4" />
+//               </div>
+//             </motion.button>
+//           </motion.div> */}
 
-          {/* Obiora Okoye Card */}
-          <motion.div 
-            className="relative rounded-2xl overflow-hidden w-full max-w-[280px] mx-auto" 
-            variants={scaleIn}
-            whileHover={{ scale: 1.02, y: -3 }}
-          >
-            <img src="/obiora.png" alt="Obiora Okoye" className="w-full h-auto object-cover brightness-90" />
-            <div className="flex flex-col items-end absolute bottom-0 left-0 right-0 p-6 text-left text-white bg-gradient-to-t from-black via-black/80 via-20% to-transparent">
-              <div className="inline-block">
-                <h4 className="text-lg sm:text-xl font-medium">Obiora Okoye</h4>
-                <div className="h-px bg-goldcolor-i mt-2 mb-3"></div>
-              </div>
-              <p className="text-gray-200">Co-Founder & Partner</p>
-            </div>
-          </motion.div>
+//           {/* Obiora Okoye Card */}
+//           <motion.div 
+//             className="relative rounded-2xl overflow-hidden w-full max-w-[280px] mx-auto" 
+//             variants={scaleIn}
+//             whileHover={{ scale: 1.02, y: -3 }}
+//           >
+//             <img src="/obiora.png" alt="Obiora Okoye" className="w-full h-auto object-cover brightness-90" />
+//             <div className="flex flex-col items-end absolute bottom-0 left-0 right-0 p-6 text-left text-white bg-gradient-to-t from-black via-black/80 via-20% to-transparent">
+//               <div className="inline-block">
+//                 <h4 className="text-lg sm:text-xl font-medium">Obiora Okoye</h4>
+//                 <div className="h-px bg-goldcolor-i mt-2 mb-3"></div>
+//               </div>
+//               <p className="text-gray-200">Co-Founder & Partner</p>
+//             </div>
+//           </motion.div>
           
-          {/* Okwu Njoku Card */}
-          <motion.div 
-            className="relative rounded-2xl overflow-hidden w-full max-w-[280px] mx-auto" 
-            variants={scaleIn}
-            whileHover={{ scale: 1.02, y: -3 }}
-          >
-            <img src="/okwu.png" alt="Okwu Njoku" className="w-full h-auto object-cover brightness-90" />
-            <div className="absolute bottom-0 left-0 right-0 p-6 text-left text-white bg-gradient-to-t from-black via-black/80 via-20% to-transparent">
-              <div className="inline-block">
-                <h4 className="text-lg sm:text-xl font-medium">Okwu Njoku</h4>
-                <div className="h-px bg-goldcolor-i mt-2 mb-3"></div>
-              </div>
-              <p className="text-gray-200">Co-Founder & Partner</p>
-            </div>
-          </motion.div>
+//           {/* Okwu Njoku Card */}
+//           <motion.div 
+//             className="relative rounded-2xl overflow-hidden w-full max-w-[280px] mx-auto" 
+//             variants={scaleIn}
+//             whileHover={{ scale: 1.02, y: -3 }}
+//           >
+//             <img src="/okwu.png" alt="Okwu Njoku" className="w-full h-auto object-cover brightness-90" />
+//             <div className="absolute bottom-0 left-0 right-0 p-6 text-left text-white bg-gradient-to-t from-black via-black/80 via-20% to-transparent">
+//               <div className="inline-block">
+//                 <h4 className="text-lg sm:text-xl font-medium">Okwu Njoku</h4>
+//                 <div className="h-px bg-goldcolor-i mt-2 mb-3"></div>
+//               </div>
+//               <p className="text-gray-200">Co-Founder & Partner</p>
+//             </div>
+//           </motion.div>
 
-          {/* Management Team Text */}
-          <motion.div className="text-left" variants={fadeInUp}>
-            <h3 className="text-2xl sm:text-[28px] font-medium text-bluecolor-9 leading-[1.35]">Board of Directors</h3>
-            <div className="w-full h-px bg-[#8298AB]/[0.3] my-6"></div>
-            <p className="text-[#8195AA]">Our Board of Directors oversees strategic direction to drive long-term growth & market sustainability.</p>
-            <a href="/team"><motion.button 
-              className="mt-8 flex items-center gap-2 text-bluecolor-9 group"
-              whileHover={{ x: 3 }}
-              transition={{ type: "spring", stiffness: 400, damping: 10 }}
-            >
-              <span className="group-hover:underline">View Team</span>
-              <div className="bg-bluecolor-9 text-white rounded-full w-8 h-8 flex items-center justify-center transition-transform group-hover:scale-110">
-                <ArrowUpRight className="w-4 h-4" />
-              </div>
-            </motion.button></a>
-          </motion.div>
-        </motion.div>
-      </motion.div>
-    </section>
-  );
-};
+//           {/* Management Team Text */}
+//           <motion.div className="text-left" variants={fadeInUp}>
+//             <h3 className="text-2xl sm:text-[28px] font-medium text-bluecolor-9 leading-[1.35]">Board of Directors</h3>
+//             <div className="w-full h-px bg-[#8298AB]/[0.3] my-6"></div>
+//             <p className="text-[#8195AA]">Our Board of Directors oversees strategic direction to drive long-term growth & market sustainability.</p>
+//             <a href="/team"><motion.button 
+//               className="mt-8 flex items-center gap-2 text-bluecolor-9 group"
+//               whileHover={{ x: 3 }}
+//               transition={{ type: "spring", stiffness: 400, damping: 10 }}
+//             >
+//               <span className="group-hover:underline">View Team</span>
+//               <div className="bg-bluecolor-9 text-white rounded-full w-8 h-8 flex items-center justify-center transition-transform group-hover:scale-110">
+//                 <ArrowUpRight className="w-4 h-4" />
+//               </div>
+//             </motion.button></a>
+//           </motion.div>
+//         </motion.div>
+//       </motion.div>
+//     </section>
+//   );
+// };
 
 const InfraTechSection = ({ data }: { data: AboutPageData }) => {
   return (
@@ -494,12 +509,12 @@ const InfraTechSection = ({ data }: { data: AboutPageData }) => {
              {data.infratech.description}
             </p>
           </div>
-          <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+          {/* <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
             <Button className="bg-white hover:bg-white/90 text-black rounded-full text-xs sm:text-sm px-[30px] py-[20px] flex items-center font-normal gap-2 transition-all duration-300">
               <span>Learn More</span>
               <ArrowUpRight className="w-5 h-5" />
             </Button>
-          </motion.div>
+          </motion.div> */}
         </motion.div>
 
         {/* Accordion section */}
@@ -597,18 +612,11 @@ const AboutPageClient = ({ initialData }: AboutPageClientProps) => {
 
   return (
     <div className="bg-white">
-      <Navbar
-        theme="light"
-        data={data.navbar}
-      />
       <AboutHeroSection data={data} />
       <ExperienceSection data={data} />
       <MissionVisionSection data={data} />
-      <WhyBlackaionSection data={data} />
-      <KeyMilestonesSection data={data} />
-      <TeamSection />
       <InfraTechSection data={data} />
-      <FooterSubsection data={data.footer} />
+      <KeyMilestonesSection data={data} />      
     </div>
   );
 };

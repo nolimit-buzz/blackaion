@@ -1,9 +1,7 @@
 'use client'
 import React from "react";
 import { motion } from "framer-motion";
-import { TeamPageData, FooterData } from "@/lib/api";
-import { Navbar } from "@/components/Navbar";
-import { FooterSubsection } from "@/components/Element/sections/Footer/Footer";
+import { TeamPageData } from "@/lib/api";
 import Link from "next/link";
 
 // Animation Variants
@@ -139,10 +137,9 @@ const TeamMemberCard = ({ name, position, bio, isCoFounder = false, documentId, 
 
 interface TeamPageClientProps {
   teamData: TeamPageData | null;
-  footerData: FooterData | null;
 }
 
-export const TeamPageClient = ({ teamData, footerData }: TeamPageClientProps) => {
+export const TeamPageClient = ({ teamData }: TeamPageClientProps) => {
   if (!teamData) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -162,15 +159,11 @@ export const TeamPageClient = ({ teamData, footerData }: TeamPageClientProps) =>
 
   return (
     <div className="bg-white">
-      <Navbar
-        theme="light"
-        data={teamData.navbar}
-      />
       <motion.main
         initial="hidden"
         animate="visible"
         variants={staggerContainer}
-        className="py-20"
+        className="py-20 pt-[140px]"
       >
         {/* Management Team Section */}
         <section className="mb-24">
@@ -208,8 +201,6 @@ export const TeamPageClient = ({ teamData, footerData }: TeamPageClientProps) =>
           </div>
         </section>
       </motion.main>
-      
-      {footerData && <FooterSubsection data={footerData} />}
     </div>
   );
 }; 

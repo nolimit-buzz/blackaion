@@ -65,13 +65,13 @@ export const Element = ({ initialData }: ElementProps): JSX.Element => {
   }
 
   return (
-    <main className="flex flex-col w-full p-4">
+    <main className="bg-black flex flex-col w-full">
       <Hero data={data.hero} navbar={data.navbar} />
       <Mandate data={data.mandate} />
       <Services data={data.what_we_do} />
-      <Portfolio data={data.portfolio} />
+      {/* <Portfolio data={data.portfolio} /> */}
       <ESGImpact data={data.esg_impact} />
-      <FooterSubsection data={data.footer} />
+      {/* <FooterSubsection data={data.footer} /> */}
     </main>
   );
 };

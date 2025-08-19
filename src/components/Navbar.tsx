@@ -1,14 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-} from "@/components/ui/navigation-menu";
-import { Search, Menu, X } from "lucide-react";
+import { motion } from "framer-motion";
 
 interface NavbarProps {
   theme?: 'light' | 'dark';
@@ -88,27 +81,9 @@ interface NavbarProps {
 }
 
 export const Navbar = ({ theme = 'dark', data }: NavbarProps): JSX.Element => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const isLight = theme === 'light';
-
-  // Use CMS data for navigation items
-  const navItems = data.nav_links;
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Animation variants
-  const headerVariants = {
-    hidden: { y: -100, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: { duration: 0.8, ease: "easeOut", staggerChildren: 0.1 },
-    },
-  };
-
-  const navItemVariants = {
-    hidden: { y: -20, opacity: 0 },
-    visible: { y: 0, opacity: 1, transition: { duration: 0.5, ease: "easeOut" } },
-  };
-
   const slideInFromLeft = {
     hidden: { x: -100, opacity: 0 },
     visible: {
@@ -126,85 +101,96 @@ export const Navbar = ({ theme = 'dark', data }: NavbarProps): JSX.Element => {
       transition: { duration: 0.8, ease: "easeOut", delay: 0.5 },
     },
   };
-
+console.log(theme)
   return (
     <>
       <motion.header
-        className={`w-full h-[100px] flex justify-between items-center relative z-20 px-4 sm:px-8 lg:px-24 ${isLight ? 'bg-white' : 'bg-black'}`}
-        variants={headerVariants}
-        initial="hidden"
-        animate="visible"
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className={`fixed ${theme === 'light' ? 'bg-white' : 'bg-black'} backdrop-blur-md top-0 left-0 right-0 z-50 w-full transition-all duration-300`}
       >
-        <motion.div variants={slideInFromLeft}>
-          <motion.img
-            className="w-auto h-[48px] object-contain cursor-pointer"
-            src={data.logo.url}
-            alt={data.logo.alternativeText || "Blackaion Logo"}
-            whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.2 }}
-          />
-        </motion.div>
-        <motion.div
-          className="flex items-center gap-10"
-          variants={slideInFromRight}
-        >
-          <div className="hidden lg:flex items-center">
-            <NavigationMenu>
-              <NavigationMenuList className="flex items-center gap-8">
-                {navItems.map((item) => (
-                  <NavigationMenuItem key={item.title}>
-                    <motion.div variants={navItemVariants} whileHover={{ y: -2 }} transition={{ duration: 0.2 }}>
-                      <NavigationMenuLink href={item.link} className={`${isLight ? 'text-black/80 hover:text-black' : 'text-white/90 hover:text-white'} capitalize text-sm transition-colors duration-300 cursor-pointer`}>
-                        {item.title}
-                      </NavigationMenuLink>
-                    </motion.div>
-                  </NavigationMenuItem>
-                ))}
-              </NavigationMenuList>
-            </NavigationMenu>
-            <motion.div variants={navItemVariants} className="ml-10">
-              <Search className={`w-5 h-5 ${isLight ? 'text-black/80 hover:text-black' : 'text-white/90 hover:text-white'} transition-colors duration-300 cursor-pointer`} />
+        <div className="max-w-[1440px] mx-auto px-5 sm:px-10 lg:px-16 xl:px-20">
+          <div className="flex items-center justify-between h-[100px]">
+            {/* Logo */}
+            <a href="/">  
+            <motion.div variants={slideInFromLeft}>
+              <motion.img
+                className="w-auto h-[48px] object-contain cursor-pointer"
+                src={data.logo.formats?.small?.url || data.logo.url}
+                alt={data.logo.alternativeText || "Blackaion Logo"}
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.2 }}
+              />
             </motion.div>
+</a>
+            {/* Desktop Navigation */}
+            <motion.nav
+              variants={slideInFromRight}
+              className="hidden lg:flex items-center space-x-8"
+            >
+              {data.nav_links.map((link, index) => (
+                <motion.a
+                  key={index}
+                  href={link.link}
+                  className={`capitalize text-sm font-medium transition-colors duration-200 ${
+                    theme === 'light' 
+                      ? 'text-bluecolor-9 hover:text-goldcolor-i'
+                      : 'text-white hover:text-goldcolor-i'
+                  }`}
+                  whileHover={{ y: -2 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  {link.title}
+                </motion.a>
+              ))}
+            </motion.nav>
+
+            {/* Mobile Menu Button */}
+            <motion.button
+              variants={slideInFromRight}
+              className="lg:hidden p-2"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label="Toggle mobile menu"
+            >
+              <div className="w-6 h-6 flex flex-col justify-center items-center">
+                <span className={`block w-5 h-0.5 bg-current transition-all duration-300 text-white ${isMobileMenuOpen ? 'rotate-45 translate-y-1' : ''}`}></span>
+                <span className={`block w-5 h-0.5 bg-current transition-all duration-300 mt-1 text-white ${isMobileMenuOpen ? 'opacity-0' : ''}`}></span>
+                <span className={`block w-5 h-0.5 bg-current transition-all duration-300 mt-1 text-white ${isMobileMenuOpen ? '-rotate-45 -translate-y-1' : ''}`}></span>
+              </div>
+            </motion.button>
           </div>
-          <div className="lg:hidden">
-            <button onClick={() => setIsMenuOpen(!isMenuOpen)}>
-              <Menu className={`w-6 h-6 ${isLight ? 'text-black' : 'text-white'}`} />
-            </button>
+        </div>
+
+        {/* Mobile Menu */}
+        <motion.div
+          initial={false}
+          animate={isMobileMenuOpen ? "open" : "closed"}
+          variants={{
+            open: { height: "auto", opacity: 1 },
+            closed: { height: 0, opacity: 0 }
+          }}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
+          className="lg:hidden overflow-hidden bg-black/80 backdrop-blur-md"
+        >
+          <div className="px-5 sm:px-10 lg:px-16 xl:px-20 py-6">
+            <div className="flex flex-col space-y-4">
+              {data.nav_links.map((link, index) => (
+                <motion.a
+                  key={index}
+                  href={link.link}
+                  className="text-white text-lg font-medium hover:text-goldcolor-i transition-colors duration-200"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  whileHover={{ x: 10 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  {link.title}
+                </motion.a>
+              ))}
+            </div>
           </div>
         </motion.div>
       </motion.header>
-
-      <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div
-            className="fixed inset-0 bg-black bg-opacity-90 z-50 lg:hidden"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setIsMenuOpen(false)}
-          >
-            <motion.div
-              className="fixed top-0 right-0 h-full w-4/5 max-w-sm bg-black p-8"
-              initial={{ x: "100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "100%" }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button onClick={() => setIsMenuOpen(false)} className="absolute top-8 right-8">
-                <X className="w-6 h-6 text-white" />
-              </button>
-              <nav className="mt-16 flex flex-col gap-8">
-                {navItems.map((item) => (
-                  <a key={item.title} href={item.link} className="text-white text-2xl font-light">
-                    {item.title}
-                  </a>
-                ))}
-              </nav>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </>
   );
 }; 

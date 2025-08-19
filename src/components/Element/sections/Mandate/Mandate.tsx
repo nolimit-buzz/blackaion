@@ -244,7 +244,7 @@ export const Mandate = ({ data }: MandateProps): JSX.Element => {
   };
 
   return (
-    <section className="flex flex-col w-full items-center justify-center py-[70px] bg-black relative overflow-hidden">
+    <section className="flex flex-col w-full max-w-[1440px] mx-auto px-5 sm:px-10 lg:px-16 xl:px-20 items-center justify-center py-[70px] bg-black relative overflow-hidden">
       {/* Background animation layer */}
       <motion.div
         className="absolute inset-0 opacity-5"

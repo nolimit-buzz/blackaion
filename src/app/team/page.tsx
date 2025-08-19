@@ -1,5 +1,5 @@
 import React from "react";
-import { fetchTeamPageData, fetchFooterData } from "@/lib/api";
+import { fetchTeamPageData } from "@/lib/api";
 import { TeamPageClient } from "./client";
 
 // Enable static generation for better performance
@@ -19,15 +19,11 @@ export default async function TeamPage() {
     }
     
     console.log('Fetching team page data...');
-    const [teamData, footerData] = await Promise.all([
-      fetchTeamPageData(),
-      fetchFooterData()
-    ]);
+    const teamData = await fetchTeamPageData();
     
     console.log('Team data fetched successfully:', teamData ? 'Yes' : 'No');
-    console.log('Footer data fetched successfully:', footerData ? 'Yes' : 'No');
     
-    return <TeamPageClient teamData={teamData} footerData={footerData} />;
+    return <TeamPageClient teamData={teamData} />;
   } catch (error) {
     console.error('Error fetching team page data:', error);
     

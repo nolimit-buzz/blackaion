@@ -145,8 +145,8 @@ export const Hero = ({ theme = 'dark', data, navbar }: HeroProps): JSX.Element =
   };
 
   return (
-    <div className={`flex flex-col w-full max-w-[1440px] mx-auto ${isLight ? 'bg-white' : ''}`}>
-      <Navbar theme={theme} data={navbar} />
+    <div className={`flex flex-col w-full max-w-[1440px] mx-auto px-5 sm:px-10 lg:px-16 xl:px-20 pt-[140px] mx-auto ${isLight ? 'bg-white' : ''}`}>
+      {/* <Navbar theme={theme} data={navbar} /> */}
 
       {!isLight && (
         <div className="p-4 pt-0">
@@ -188,6 +188,7 @@ export const Hero = ({ theme = 'dark', data, navbar }: HeroProps): JSX.Element =
                   <p className="text-white text-base font-light max-w-lg">
                     {data.subheading}
                   </p>
+                  <a href="/#esg-impact"> 
                   <Button
                     size="lg"
                     className="bg-[#645845]/50 text-white hover:bg-[#645845]/80 transition-all duration-300 transform hover:scale-105 rounded-full px-6 py-3 backdrop-blur-sm border border-white/20 text-sm font-light"
@@ -207,6 +208,7 @@ export const Hero = ({ theme = 'dark', data, navbar }: HeroProps): JSX.Element =
                       />
                     </span>
                   </Button>
+                  </a>
                 </motion.div>
 
                 <motion.div className="flex flex-col gap-3" variants={fadeInUp}>

@@ -826,8 +826,8 @@ export async function fetchFooterData(): Promise<FooterData> {
     throw new Error('API URL or token not configured');
   }
 
-  // Fetch footer data from home page API
-  const endpoint = `${apiUrl}/api/home-page?populate=footer&populate=footer.offices`;
+  // Fetch footer data from dedicated footer endpoint
+  const endpoint = `${apiUrl}/api/footer?populate=logo`;
 
   try {
     const controller = new AbortController();
@@ -850,12 +850,26 @@ export async function fetchFooterData(): Promise<FooterData> {
     }
 
     const data: any = await response.json();
-    const result = data.data.footer;
+    const result = data.data;
+    
+    // Transform the data to match the FooterData interface
+    const transformedResult = {
+      description: result.description,
+      social_links: result.links.social_links,
+      quick_links: result.links.quick_links,
+      legal: result.links.legal,
+      offices: result.links.offices.map((office: any) => ({
+        id: office.id || 0,
+        name: office.name,
+        address: office.address,
+        telephone: office.telephone || null
+      }))
+    };
     
     // Cache the result
-    setCachedData(cacheKey, result);
+    setCachedData(cacheKey, transformedResult);
     
-    return result;
+    return transformedResult;
   } catch (error) {
     console.error('Error fetching footer data:', error);
     if (error instanceof Error && error.name === 'AbortError') {
@@ -955,32 +969,217 @@ export async function fetchNavbarData(): Promise<NavbarData> {
     throw new Error('API URL or token not configured');
   }
 
-  // Fetch navbar data from home page API
-  const endpoint = `${apiUrl}/api/home-page?populate=navbar&populate=navbar.logo`;
+  // Fetch navbar data from dedicated navbar endpoint
+  const endpoint = `${apiUrl}/api/navbar?populate=logo`;
 
   try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
     const response = await fetch(endpoint, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${apiToken}`,
         'Content-Type': 'application/json',
       },
+      signal: controller.signal,
       next: { revalidate: 3600 }, // Cache for 1 hour
     });
+
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
       throw new Error(`API request failed: ${response.status} ${response.statusText}`);
     }
 
     const data: any = await response.json();
-    const result = data.data.navbar;
+    const result = data.data;
+    
+    // Transform the data to match the Navbar component interface
+    const transformedResult = {
+      id: result.id,
+      nav_links: result.links, // Note: API returns 'links' but component expects 'nav_links'
+      logo: result.logo
+    };
     
     // Cache the result
-    setCachedData(cacheKey, result);
+    setCachedData(cacheKey, transformedResult);
     
-    return result;
+    return transformedResult;
   } catch (error) {
     console.error('Error fetching navbar data:', error);
+    if (error instanceof Error && error.name === 'AbortError') {
+      throw new Error('Request timed out. Please check your internet connection and try again.');
+    }
+    throw error;
+  }
+} 
+
+export interface FundsPageData {
+  id: number;
+  documentId: string;
+  title: string;
+  subtitle: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  funds: Array<{
+    id: number;
+    documentId: string;
+    title: string;
+    content: string;
+    createdAt: string;
+    updatedAt: string;
+    publishedAt: string;
+    // Optional image fields from CMS
+    bg_img?: {
+      id: number;
+      documentId: string;
+      name: string;
+      alternativeText: string | null;
+      caption: string | null;
+      width: number;
+      height: number;
+      formats?: {
+        large?: { ext: string; url: string; hash: string; mime: string; name: string; path: string | null; size: number; width: number; height: number; sizeInBytes: number; };
+        medium?: { ext: string; url: string; hash: string; mime: string; name: string; path: string | null; size: number; width: number; height: number; sizeInBytes: number; };
+        small?: { ext: string; url: string; hash: string; mime: string; name: string; path: string | null; size: number; width: number; height: number; sizeInBytes: number; };
+        thumbnail?: { ext: string; url: string; hash: string; mime: string; name: string; path: string | null; size: number; width: number; height: number; sizeInBytes: number; };
+      } | null;
+      hash: string; ext: string; mime: string; size: number; url: string; previewUrl: string | null; provider: string; provider_metadata: any; createdAt: string; updatedAt: string; publishedAt: string;
+    };
+  }>;
+}
+
+export interface FundsPageApiResponse { data: FundsPageData; meta: any; }
+
+export async function fetchFundsPageData(): Promise<FundsPageData> {
+  const cacheKey = 'funds-page-data';
+  const cachedData = getCachedData(cacheKey);
+  if (cachedData) {
+    return cachedData;
+  }
+
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const apiToken = process.env.NEXT_PUBLIC_API_TOKEN;
+
+  if (!apiUrl || !apiToken) {
+    throw new Error('API URL or token not configured');
+  }
+
+  // Populate funds and their potential image fields
+  const endpoint = `${apiUrl}/api/funds-page?populate=funds&populate=funds.bg_img`;
+
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
+
+    const response = await fetch(endpoint, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${apiToken}`,
+        'Content-Type': 'application/json',
+      },
+      signal: controller.signal,
+      next: { revalidate: 3600 },
+    });
+
+    clearTimeout(timeoutId);
+
+    console.log(response)
+    if (!response.ok) {
+      const text = await response.text();
+      throw new Error(`API request failed: ${response.status} ${response.statusText} - ${text}`);
+    }
+
+    const data: FundsPageApiResponse = await response.json();
+    const result = data.data;
+    console.log(result)
+    setCachedData(cacheKey, result);
+    return result;
+  } catch (error) {
+    console.error('Error fetching funds page data:', error);
+    if (error instanceof Error && error.name === 'AbortError') {
+      throw new Error('Request timed out. Please check your internet connection and try again.');
+    }
+    throw error;
+  }
+} 
+
+export interface FundDetailData {
+  id: number;
+  documentId: string;
+  title: string;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  bg_img?: {
+    id: number;
+    documentId: string;
+    name: string;
+    alternativeText: string | null;
+    caption: string | null;
+    width: number;
+    height: number;
+    formats?: {
+      large?: { ext: string; url: string; hash: string; mime: string; name: string; path: string | null; size: number; width: number; height: number; sizeInBytes: number; };
+      medium?: { ext: string; url: string; hash: string; mime: string; name: string; path: string | null; size: number; width: number; height: number; sizeInBytes: number; };
+      small?: { ext: string; url: string; hash: string; mime: string; name: string; path: string | null; size: number; width: number; height: number; sizeInBytes: number; };
+      thumbnail?: { ext: string; url: string; hash: string; mime: string; name: string; path: string | null; size: number; width: number; height: number; sizeInBytes: number; };
+    } | null;
+    hash: string; ext: string; mime: string; size: number; url: string; previewUrl: string | null; provider: string; provider_metadata: any; createdAt: string; updatedAt: string; publishedAt: string;
+  };
+}
+
+export interface FundDetailApiResponse { data: FundDetailData; meta: any; }
+
+export async function fetchFundDetail(documentId: string): Promise<FundDetailData> {
+  const cacheKey = `fund-detail-${documentId}`;
+  const cachedData = getCachedData(cacheKey);
+  if (cachedData) {
+    return cachedData;
+  }
+
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const apiToken = process.env.NEXT_PUBLIC_API_TOKEN;
+
+  if (!apiUrl || !apiToken) {
+    throw new Error('API URL or token not configured');
+  }
+
+  const endpoint = `${apiUrl}/api/funds/${documentId}?populate=bg_img`;
+
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
+
+    const response = await fetch(endpoint, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${apiToken}`,
+        'Content-Type': 'application/json',
+      },
+      signal: controller.signal,
+      next: { revalidate: 3600 },
+    });
+
+    clearTimeout(timeoutId);
+
+    if (!response.ok) {
+      const text = await response.text();
+      throw new Error(`API request failed: ${response.status} ${response.statusText} - ${text}`);
+    }
+
+    const data: FundDetailApiResponse = await response.json();
+    const result = data.data;
+    setCachedData(cacheKey, result);
+    return result;
+  } catch (error) {
+    console.error('Error fetching fund detail:', error);
+    if (error instanceof Error && error.name === 'AbortError') {
+      throw new Error('Request timed out. Please check your internet connection and try again.');
+    }
     throw error;
   }
 } 

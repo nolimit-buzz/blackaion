@@ -2,10 +2,8 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Navbar } from '@/components/Navbar';
-import { FooterSubsection } from '@/components/Element/sections/Footer/Footer';
 import Link from 'next/link';
-import { TeamMemberDetailData, FooterData, TeamPageData } from '@/lib/api';
+import { TeamMemberDetailData } from '@/lib/api';
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
@@ -30,15 +28,14 @@ const staggerContainer = {
   },
 };
 
-const TeamMemberPageContent = ({ teamMember, footerData, navbarData }: { 
-  teamMember: TeamMemberDetailData, 
-  footerData: FooterData | null,
-  navbarData: TeamPageData['navbar'] | null
+const TeamMemberPageContent = ({ teamMember }: { 
+  teamMember: TeamMemberDetailData
 }) => {
   if (!teamMember) {
     return <div>Team member not found.</div>;
   }
 
+  console.log(teamMember);
   // Use the actual image from CMS if available, otherwise fallback to hardcoded images
   const getMemberImage = (memberName: string, memberImg?: any) => {
     if (memberImg && memberImg.url) {
@@ -49,9 +46,6 @@ const TeamMemberPageContent = ({ teamMember, footerData, navbarData }: {
     const nameLower = memberName.toLowerCase();
     if (nameLower.includes('obiora')) return '/obiora.png';
     if (nameLower.includes('okwu')) return '/okwu.png';
-    if (nameLower.includes('uche')) return '/uche.png';
-    if (nameLower.includes('tobi') || nameLower.includes('sholanke')) return '/tobi.png';
-    if (nameLower.includes('idee') || nameLower.includes('paulinus')) return '/idee.png';
     return '/obiora.png'; // fallback
   };
 
@@ -60,13 +54,6 @@ const TeamMemberPageContent = ({ teamMember, footerData, navbarData }: {
 
   return (
     <div className="bg-white text-bluecolor-9">
-      {navbarData && (
-        <Navbar 
-          theme="light" 
-          data={navbarData}
-        />
-      )}
-
       <header className="max-w-[1440px] mx-auto px-5 sm:px-10 lg:px-16 xl:px-20 pt-20 pb-12">
         <motion.div initial="hidden" animate="visible" variants={fadeInUp} className="text-left">
           <p className="text-sm sm:text-md text-gray-500 uppercase">
@@ -121,8 +108,6 @@ const TeamMemberPageContent = ({ teamMember, footerData, navbarData }: {
           </button>
         </Link>
       </motion.div>
-
-      {footerData && <FooterSubsection data={footerData} />}
     </div>
   );
 };

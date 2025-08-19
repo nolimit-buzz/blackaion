@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import { Outfit } from 'next/font/google'
 import './globals.css'
 import { PerformanceMonitor } from '@/components/PerformanceMonitor'
+import { GlobalNavbar } from '@/components/GlobalNavbar'
+import { GlobalFooter } from '@/components/GlobalFooter'
 
 const outfit = Outfit({
   subsets: ['latin'],
@@ -43,15 +45,13 @@ export default function RootLayout({
         <link rel="preload" href="/arrow---arrow-right-md.svg" as="image" type="image/svg+xml" />
         <link rel="preload" href="/chevron-up.svg" as="image" type="image/svg+xml" />
         <link rel="preload" href="/chevron-down.svg" as="image" type="image/svg+xml" />
-        
-        {/* DNS prefetch for external domains */}
-        <link rel="dns-prefetch" href="//images.pexels.com" />
-        
-        {/* Preconnect to external domains */}
-        <link rel="preconnect" href="https://images.pexels.com" crossOrigin="anonymous" />
       </head>
       <body className={`${outfit.className} antialiased`}>
-        {children}
+        <GlobalNavbar />
+        <main className="">
+          {children}
+        </main>
+        <GlobalFooter />
         <PerformanceMonitor />
       </body>
     </html>

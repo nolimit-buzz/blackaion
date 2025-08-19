@@ -43,7 +43,7 @@ export const ESGImpact = ({ data }: ESGImpactProps): JSX.Element => {
   }));
 
   return (
-    <section id="esg-impact" className="w-full bg-black text-white py-[70px] sm:py-[100px]">
+    <section id="esg-impact" className="w-full max-w-[1440px] mx-auto px-5 sm:px-10 lg:px-16 xl:px-20 bg-black text-white py-[70px] sm:py-[100px]">
       <div className="flex flex-col w-full max-w-[1440px] mx-auto items-start gap-[60px]">
         {/* Header section */}
         <div className="flex w-full items-center justify-between">

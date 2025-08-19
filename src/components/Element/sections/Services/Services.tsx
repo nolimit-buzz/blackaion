@@ -166,7 +166,8 @@ export const Services = ({ data }: ServicesProps): JSX.Element => {
   };
 
   return (
-    <section id="services" className="flex flex-col items-center justify-center pt-0 pb-[70px] px-4 sm:px-6 lg:px-0 relative bg-white overflow-hidden">
+    <section id="services" className="w-full flex flex-col items-center justify-center pt-0 pb-[70px] px-4 sm:px-6 lg:px-0 relative bg-white overflow-hidden">
+     <div className="w-full max-w-[1440px] mx-auto max-w-[1440px] mx-auto px-5 sm:px-10 lg:px-16 xl:px-20">
       {/* Subtle background decoration */}
       <motion.div
         className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-goldcolor-8/3 to-transparent rounded-full blur-3xl"
@@ -278,7 +279,7 @@ export const Services = ({ data }: ServicesProps): JSX.Element => {
                       </motion.p>
 
                       {/* Read More Link - Mobile positioned under text */}
-                      {index === 2 && <div className="flex xl:hidden items-center justify-start mt-2">
+                      {index === 2 && <a href="/funds" className="flex xl:hidden items-center justify-start mt-2"><div>
                         <motion.button
                           className="inline-flex items-center gap-2 py-2 px-3 rounded-lg hover:bg-goldcolor-8/5 transition-all duration-300 group/btn"
                           variants={readMoreVariants}
@@ -290,7 +291,7 @@ export const Services = ({ data }: ServicesProps): JSX.Element => {
                           </span>
                           <ArrowRightIcon className="w-3 h-3 sm:w-4 sm:h-4 text-goldcolor-8 group-hover/btn:text-goldcolor-9 group-hover/btn:translate-x-1 transition-all duration-300" />
                         </motion.button>
-                      </div>}
+                      </div></a>}
                     </div>
 
                     {/* Service Image - Professional presentation */}
@@ -330,7 +331,7 @@ export const Services = ({ data }: ServicesProps): JSX.Element => {
                     </motion.div>
 
                     {/* Center - Read More Link (Desktop only) - Professional styling */}
-                     {index === 2 && <div className="hidden xl:flex items-center justify-center px-[40px] order-2">
+                     {index === 2 && <a href="/funds" className="hidden xl:flex items-center justify-center px-[40px] order-2"><div>
                           <motion.button
                             className="inline-flex items-center gap-2 py-2.5 px-4 rounded-lg hover:bg-goldcolor-8/5 transition-all duration-300 group/btn"
                             variants={readMoreVariants}
@@ -342,7 +343,7 @@ export const Services = ({ data }: ServicesProps): JSX.Element => {
                             </span>
                             <ArrowRightIcon className="w-4 h-4 text-goldcolor-8 group-hover/btn:text-goldcolor-9 group-hover/btn:translate-x-1 transition-all duration-300" />
                           </motion.button>
-                      </div>}
+                      </div></a>}
                   </motion.div>
 
                   {/* Professional separator - Only between items */}
@@ -363,6 +364,7 @@ export const Services = ({ data }: ServicesProps): JSX.Element => {
           </Card>
         </motion.div>
       </motion.div>
+      </div>
     </section>
   );
 };
