@@ -182,7 +182,7 @@ export const Hero = ({ theme = 'dark', data, navbar }: HeroProps): JSX.Element =
                   className="flex flex-col items-start mb-12 md:mb-24 gap-5 max-w-2xl"
                   variants={fadeInUp}
                 >
-                  <h1 className="font-semibold text-white text-[28px] md:text-3xl text-5xl leading-tight tracking-normal">
+                  <h1 className="font-semibold text-white text-[28px] md:text-3xl lg:text-5xl leading-tight tracking-normal">
                     {data.heading}
                   </h1>
                   <p className="text-white text-base font-light max-w-lg">
