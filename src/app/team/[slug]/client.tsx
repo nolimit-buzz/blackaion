@@ -54,7 +54,7 @@ const TeamMemberPageContent = ({ teamMember }: {
 
   return (
     <div className="bg-white text-bluecolor-9">
-      <header className="max-w-[1440px] mx-auto px-5 sm:px-10 lg:px-16 xl:px-20 pt-20 pb-12">
+      <header className="max-w-[1440px] mx-auto px-5 sm:px-10 lg:px-16 xl:px-20 pt-20 pt-[140px] pb-12">
         <motion.div initial="hidden" animate="visible" variants={fadeInUp} className="text-left">
           <p className="text-sm sm:text-md text-gray-500 uppercase">
             {teamMember.position}
@@ -87,9 +87,12 @@ const TeamMemberPageContent = ({ teamMember }: {
           {/* Bio Section */}
           <motion.div variants={fadeInUp} className="lg:col-span-2">
             <div className="prose prose-lg max-w-none">
-              <div className="text-[#8195AA] leading-relaxed whitespace-pre-line">
-                {teamMember.bio}
+              <div className="text-goldcolor-9 font-medium leading-relaxed whitespace-pre-line">
+                {teamMember.bio.split('\n')[0]}
               </div>
+              <div className="text-[#8195AA] leading-relaxed whitespace-pre-line">
+                  {teamMember.bio.split('\n').slice(1).join('\n')}
+                </div>
             </div>
           </motion.div>
         </motion.div>

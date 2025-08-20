@@ -3,47 +3,33 @@
 import React, { useEffect, useState } from 'react';
 import { Navbar } from './Navbar';
 import { fetchNavbarData, NavbarData } from '@/lib/api';
+import { FALLBACK_NAVBAR_DATA } from '@/lib/fallbackData';
 import { usePathname } from 'next/navigation';
 
-export const GlobalNavbar = () => {
-  const [navbarData, setNavbarData] = useState<NavbarData | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+export function GlobalNavbar() {
+  const [navbarData, setNavbarData] = useState<NavbarData>(FALLBACK_NAVBAR_DATA);
+  const [isUpdating, setIsUpdating] = useState(false);
   const pathname = usePathname();
-  console.log(pathname, pathname === '/');
+
   useEffect(() => {
+    // Start with fallback data, then fetch fresh data
     const loadNavbarData = async () => {
       try {
-        setLoading(true);
+        setIsUpdating(true);
         const data = await fetchNavbarData();
         setNavbarData(data);
-      } catch (err) {
-        console.error('Error loading navbar data:', err);
-        setError(err instanceof Error ? err.message : 'Failed to load navigation');
+      } catch (error) {
+        console.error('Error loading navbar data:', error);
+        // Keep fallback data on error - never show "unavailable"
       } finally {
-        setLoading(false);
+        setIsUpdating(false);
       }
     };
 
-    loadNavbarData();
+    // Small delay to prioritize initial render
+    const timer = setTimeout(loadNavbarData, 100);
+    return () => clearTimeout(timer);
   }, []);
-
-  if (loading) {
-    return (
-      <div className="fixed top-0 left-0 right-0 z-50 w-full h-[100px] bg-transparent flex items-center justify-center">
-        <div className="animate-pulse bg-gray-200 h-8 w-32 rounded"></div>
-      </div>
-    );
-  }
-
-  if (error || !navbarData) {
-    // Fallback navbar with basic structure
-    return (
-      <div className="fixed top-0 left-0 right-0 z-50 w-full h-[100px] bg-transparent flex items-center justify-center">
-        <div className="text-gray-500">Navigation unavailable</div>
-      </div>
-    );
-  }
 
   return (
     <div className="fixed backdrop-blur-md top-0 left-0 right-0 z-50 w-full h-[100px] bg-transparent">
@@ -51,6 +37,10 @@ export const GlobalNavbar = () => {
         theme={pathname === '/' ? 'dark' : 'light'}
         data={navbarData}
       />
+      {/* Subtle indicator when updating */}
+      {isUpdating && (
+        <div className="absolute top-2 right-2 w-2 h-2 bg-blue-500 rounded-full animate-pulse opacity-60" />
+      )}
     </div>
   );
-}; 
+} 

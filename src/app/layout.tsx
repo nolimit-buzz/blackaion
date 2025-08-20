@@ -45,6 +45,13 @@ export default function RootLayout({
         <link rel="preload" href="/arrow---arrow-right-md.svg" as="image" type="image/svg+xml" />
         <link rel="preload" href="/chevron-up.svg" as="image" type="image/svg+xml" />
         <link rel="preload" href="/chevron-down.svg" as="image" type="image/svg+xml" />
+        <link rel="preload" href="/logo-white.png" as="image" type="image/png" />
+        
+        {/* DNS prefetch for external APIs */}
+        <link rel="dns-prefetch" href={process.env.NEXT_PUBLIC_API_URL} />
+        
+        {/* Preconnect to API domain */}
+        <link rel="preconnect" href={process.env.NEXT_PUBLIC_API_URL} crossOrigin="anonymous" />
       </head>
       <body className={`${outfit.className} antialiased`}>
         <GlobalNavbar />

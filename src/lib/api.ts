@@ -151,7 +151,7 @@ export interface ApiResponse {
 
 // Cache for API responses
 const cache = new Map<string, { data: any; timestamp: number }>();
-const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+const CACHE_DURATION = 30 * 60 * 1000; // 30 minutes (increased from 5)
 
 function getCachedData(key: string) {
   const cached = cache.get(key);
@@ -974,7 +974,7 @@ export async function fetchNavbarData(): Promise<NavbarData> {
 
   try {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+    const timeoutId = setTimeout(() => controller.abort(), 5000); // Reduced timeout to 5 seconds
 
     const response = await fetch(endpoint, {
       method: 'GET',
@@ -1072,7 +1072,7 @@ export async function fetchFundsPageData(): Promise<FundsPageData> {
 
   try {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 10000);
+    const timeoutId = setTimeout(() => controller.abort(), 5000); // Reduced from 10s to 5s
 
     const response = await fetch(endpoint, {
       method: 'GET',
@@ -1086,7 +1086,6 @@ export async function fetchFundsPageData(): Promise<FundsPageData> {
 
     clearTimeout(timeoutId);
 
-    console.log(response)
     if (!response.ok) {
       const text = await response.text();
       throw new Error(`API request failed: ${response.status} ${response.statusText} - ${text}`);
@@ -1094,7 +1093,7 @@ export async function fetchFundsPageData(): Promise<FundsPageData> {
 
     const data: FundsPageApiResponse = await response.json();
     const result = data.data;
-    console.log(result)
+    
     setCachedData(cacheKey, result);
     return result;
   } catch (error) {

@@ -1,0 +1,132 @@
+import { NavbarData, FundsPageData } from './api';
+
+// Static fallback data that's always available
+export const FALLBACK_NAVBAR_DATA: NavbarData = {
+  id: 1,
+  nav_links: [
+    // { link: '/', title: 'Home' },
+    { link: '/about', title: 'About Us' },
+    { link: '/#services', title: 'What We Do' },
+    // { link: '/ /portfolio', title: 'Portfolio' },
+    // { link: '/funds', title: 'Funds' },
+    { link: '/team', title: 'Our Team' },
+    // { link: '/blog', title: 'Blog' },
+    // { link: '/careers', title: 'Careers' },
+    { link: '/contact-us', title: 'Contact Us' },
+  ],
+  logo: {
+    id: 1,
+    documentId: 'fallback-logo',
+    name: 'Blackaion Logo',
+    alternativeText: 'Blackaion',
+    caption: null,
+    width: 200,
+    height: 60,
+    formats: {
+      large: {
+        ext: '.png',
+        url: '/logo-white.png',
+        hash: 'fallback',
+        mime: 'image/png',
+        name: 'logo-large',
+        path: null,
+        size: 8000,
+        width: 300,
+        height: 90,
+        sizeInBytes: 8000,
+      },
+      medium: {
+        ext: '.png',
+        url: '/logo-white.png',
+        hash: 'fallback',
+        mime: 'image/png',
+        name: 'logo-medium',
+        path: null,
+        size: 6000,
+        width: 250,
+        height: 75,
+        sizeInBytes: 6000,
+      },
+      small: {
+        ext: '.png',
+        url: '/logo-white.png',
+        hash: 'fallback',
+        mime: 'image/png',
+        name: 'logo-small',
+        path: null,
+        size: 5000,
+        width: 200,
+        height: 60,
+        sizeInBytes: 5000,
+      },
+      thumbnail: {
+        ext: '.png',
+        url: '/logo-white.png',
+        hash: 'fallback',
+        mime: 'image/png',
+        name: 'logo-thumbnail',
+        path: null,
+        size: 2000,
+        width: 100,
+        height: 30,
+        sizeInBytes: 2000,
+      },
+    },
+    hash: 'fallback',
+    ext: '.png',
+    mime: 'image/png',
+    size: 5000,
+    url: '/logo-white.png',
+    previewUrl: null,
+    provider: 'local',
+    provider_metadata: null,
+    createdAt: '2024-01-01T00:00:00.000Z',
+    updatedAt: '2024-01-01T00:00:00.000Z',
+    publishedAt: '2024-01-01T00:00:00.000Z',
+  },
+};
+
+// Fallback data for funds page
+export const FALLBACK_FUNDS_PAGE_DATA: FundsPageData = {
+  id: 1,
+  documentId: 'fallback-funds',
+  title: 'Our Investment Funds',
+  subtitle: 'Strategic investment opportunities across West Africa',
+  createdAt: '2024-01-01T00:00:00.000Z',
+  updatedAt: '2024-01-01T00:00:00.000Z',
+  publishedAt: '2024-01-01T00:00:00.000Z',
+  funds: [
+    {
+      id: 1,
+      documentId: 'fund-1',
+      title: 'Infrastructure Development Fund',
+      content: 'Focused on critical infrastructure projects including roads, bridges, and utilities across West Africa.',
+      createdAt: '2024-01-01T00:00:00.000Z',
+      updatedAt: '2024-01-01T00:00:00.000Z',
+      publishedAt: '2024-01-01T00:00:00.000Z',
+    },
+    {
+      id: 2,
+      documentId: 'fund-2',
+      title: 'Energy & Technology Fund',
+      content: 'Investing in renewable energy projects and technology innovations that drive sustainable development.',
+      createdAt: '2024-01-01T00:00:00.000Z',
+      updatedAt: '2024-01-01T00:00:00.000Z',
+      publishedAt: '2024-01-01T00:00:00.000Z',
+    },
+    {
+      id: 3,
+      documentId: 'fund-3',
+      title: 'Real Estate & Urban Development',
+      content: 'Supporting urban development projects and real estate investments in growing West African cities.',
+      createdAt: '2024-01-01T00:00:00.000Z',
+      updatedAt: '2024-01-01T00:00:00.000Z',
+      publishedAt: '2024-01-01T00:00:00.000Z',
+    },
+  ],
+};
+
+// Export other fallback data as needed
+export const FALLBACK_FOOTER_DATA = {
+  // Add footer fallback data structure here
+}; 
