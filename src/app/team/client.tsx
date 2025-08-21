@@ -3,7 +3,8 @@ import React from "react";
 import { motion } from "framer-motion";
 import { TeamPageData } from "@/lib/api";
 import Link from "next/link";
-
+import { Navbar } from "@/components/Navbar";
+  
 // Animation Variants
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
@@ -165,6 +166,7 @@ export const TeamPageClient = ({ teamData }: TeamPageClientProps) => {
         variants={staggerContainer}
         className="py-20 pt-[140px]"
       >
+        <Navbar theme="light" data={teamData.navbar} />
         {/* Management Team Section */}
         <section className="mb-24">
           <div className="max-w-[1440px] mx-auto px-5 sm:px-10 lg:px-16 xl:px-20">

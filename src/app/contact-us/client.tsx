@@ -1,5 +1,6 @@
 'use client';
 
+import { GlobalNavbar } from '@/components/GlobalNavbar';
 import React, { useState } from 'react';
 
 const ContactPageClient = () => {
@@ -46,6 +47,7 @@ const ContactPageClient = () => {
 
   return (
     <>
+      <GlobalNavbar />
       <div className="text-bluecolor-9">
         <div className="max-w-[1440px] mx-auto px-5 sm:px-10 lg:px-16 xl:px-20 py-24">
           <div className="pt-12">

@@ -4,6 +4,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { TeamMemberDetailData } from '@/lib/api';
+import { GlobalNavbar } from '@/components/GlobalNavbar';
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
@@ -54,6 +55,7 @@ const TeamMemberPageContent = ({ teamMember }: {
 
   return (
     <div className="bg-white text-bluecolor-9">
+      <GlobalNavbar />
       <header className="max-w-[1440px] mx-auto px-5 sm:px-10 lg:px-16 xl:px-20 pt-20 pt-[140px] pb-12">
         <motion.div initial="hidden" animate="visible" variants={fadeInUp} className="text-left">
           <p className="text-sm sm:text-md text-gray-500 uppercase">
