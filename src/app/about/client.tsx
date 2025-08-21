@@ -10,6 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { fetchAboutPageData, AboutPageData } from "@/lib/api";
+import { Navbar } from "@/components/Navbar";
 
 // Optimized Animation Variants
 const fadeInUp = {
@@ -612,6 +613,7 @@ const AboutPageClient = ({ initialData }: AboutPageClientProps) => {
 
   return (
     <div className="bg-white">
+      <Navbar theme="light" data={data.navbar} />
       <AboutHeroSection data={data} />
       <ExperienceSection data={data} />
       <MissionVisionSection data={data} />

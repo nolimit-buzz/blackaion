@@ -146,7 +146,7 @@ export const Hero = ({ theme = 'dark', data, navbar }: HeroProps): JSX.Element =
 
   return (
     <div className={`flex flex-col w-full max-w-[1440px] mx-auto px-5 sm:px-10 lg:px-16 xl:px-20 pt-[140px] mx-auto ${isLight ? 'bg-white' : ''}`}>
-      {/* <Navbar theme={theme} data={navbar} /> */}
+      <Navbar theme={theme} data={navbar} />
 
       {!isLight && (
         <div className="p-4 pt-0">
