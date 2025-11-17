@@ -51,6 +51,7 @@ export const GlobalFooter = () => {
       </div>
     );
   }
+  console.log("footerData",footerData);
 
   return <FooterSubsection data={footerData} />;
 }; 

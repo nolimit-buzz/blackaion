@@ -851,6 +851,7 @@ export async function fetchFooterData(): Promise<FooterData> {
 
     const data: any = await response.json();
     const result = data.data;
+    console.log("result",result);
     
     // Transform the data to match the FooterData interface
     const transformedResult = {

@@ -260,7 +260,7 @@ export const Mandate = ({ data }: MandateProps): JSX.Element => {
         initial="hidden"
         animate={sectionInView ? "visible" : "hidden"}
       >
-        <div className="flex flex-col lg:flex-row w-full items-start justify-between gap-20">
+        <div className="flex flex-col xl:flex-row w-full items-start justify-between gap-20">
           {/* Left Column - Heading and Stats */}
           <div className="flex flex-col items-start gap-10 flex-1 w-full max-w-[610px]">
             {/* Main Heading with entrance animation */}
@@ -308,14 +308,14 @@ export const Mandate = ({ data }: MandateProps): JSX.Element => {
 
                   {/* Animated number */}
                   <div 
-                    className="font-normal text-white text-[64px] leading-[70px] tracking-[-0.05em] whitespace-nowrap relative z-10"
+                    className="font-normal text-white text-[58px] leading-[150%] tracking-[-0.05em] whitespace-nowrap relative z-10"
                   >
                     <NumberCounter value={stat.value} inView={statsInView} />
                   </div>
 
                   {/* Description with slide-in animation */}
                   <motion.div 
-                    className="font-normal text-bluecolor-4 text-[16px] leading-[22px] whitespace-pre-line relative z-10 max-w-[140px]"
+                    className="font-normal text-bluecolor-4 text-[16px] leading-[22px] whitespace-pre-line relative z-10 max-w-[200px]"
                     initial={{ opacity: 0, y: 10 }}
                     animate={statsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
                     transition={{ delay: 0.5 + index * 0.1, duration: 0.5 }}
@@ -398,12 +398,26 @@ export const Mandate = ({ data }: MandateProps): JSX.Element => {
                           className="overflow-hidden"
                         >
                           <div className="pb-8 px-4">
-                            <motion.p
-                              className="font-normal text-bluecolor-4 text-[16px] leading-[24px]"
-                              variants={textVariants}
-                            >
-                              {section.content}
-                            </motion.p>
+                            {section.title === "Our Thesis" ? (
+                              <div className="space-y-4">
+                                {section.content.split(".").map((paragraph, index) => (
+                                  <motion.p
+                                    key={index}
+                                    className="font-normal text-bluecolor-4 text-[16px] leading-[24px]"
+                                    variants={textVariants}
+                                  >
+                                    {paragraph.length? `${paragraph.trim()}.` : ''}
+                                  </motion.p>
+                                ))}
+                              </div>
+                            ) : (
+                              <motion.p
+                                className="font-normal text-bluecolor-4 text-[16px] leading-[24px]"
+                                variants={textVariants}
+                              >
+                                {section.content}
+                              </motion.p>
+                            )}
                           </div>
                         </motion.div>
                       )}
