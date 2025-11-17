@@ -290,7 +290,7 @@ export const Mandate = ({ data }: MandateProps): JSX.Element => {
               {stats.map((stat, index) => (
                 <motion.div
                   key={index}
-                  className="flex flex-col items-start justify-center gap-3 relative group"
+                  className="flex flex-col items-start justify-center gap-2 relative group"
                   variants={statItemVariants}
                   whileHover={{ 
                     scale: 1.05,
@@ -308,7 +308,7 @@ export const Mandate = ({ data }: MandateProps): JSX.Element => {
 
                   {/* Animated number */}
                   <div 
-                    className="font-normal text-white text-[58px] leading-[150%] tracking-[-0.05em] whitespace-nowrap relative z-10"
+                    className="font-normal text-white text-[42px] leading-[150%] tracking-[-0.05em] whitespace-nowrap relative z-10"
                   >
                     <NumberCounter value={stat.value} inView={statsInView} />
                   </div>
