@@ -54,7 +54,6 @@ const TeamMemberCard = ({ name, position, bio, isCoFounder = false, documentId, 
   const image = getMemberImage(name, img);
 
   // For co-founders (first two members), show names inside the card
-  if (isCoFounder) {
     return (
       <Link href={`/team/${documentId}`}>
         <motion.div
@@ -86,56 +85,7 @@ const TeamMemberCard = ({ name, position, bio, isCoFounder = false, documentId, 
     );
   }
 
-  // For non-co-founders, show names outside the card
-  return (
-    <Link href={`/team/${documentId}`}>
-      <motion.div 
-        variants={fadeInUp}
-        initial="rest"
-        whileHover="hover"
-        animate="rest"
-        className="cursor-pointer"
-      >
-        <div className="relative w-full h-[400px] rounded-2xl overflow-hidden mb-4">
-          <motion.img 
-            src={image} 
-            alt={name} 
-            className="w-full h-full object-cover object-top"
-            variants={{
-              rest: { scale: 1 },
-              hover: { scale: 1.05 }
-            }}
-            transition={{ type: "spring", stiffness: 300, damping: 20 }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-        </div>
-        <div className="flex justify-between items-center">
-          <div className="text-left">
-            <motion.h3 
-              className="text-lg font-medium text-bluecolor-9 cursor-pointer"
-              variants={{
-                rest: { textDecoration: "none" },
-                hover: { textDecoration: "underline" }
-              }}
-              transition={{ duration: 0.2 }}
-            >
-              {name}
-            </motion.h3>
-            <p className="text-sm text-[#8195AA]">{position}</p>
-          </div>
-          <motion.button 
-            className="w-12 h-12 flex-shrink-0 border border-bluecolor-9 rounded-full"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-          >
-            <img src="/up-3.svg" alt="View details" className="w-full h-full" />
-          </motion.button>
-        </div>
-      </motion.div>
-    </Link>
-  );
-};
-
+ 
 interface TeamPageClientProps {
   teamData: TeamPageData | null;
 }
