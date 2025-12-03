@@ -54,8 +54,8 @@ export default function RootLayout({
         <link rel="preconnect" href={process.env.NEXT_PUBLIC_API_URL} crossOrigin="anonymous" />
       </head>
       <body className={`${outfit.className} antialiased`}>
-        {/* <GlobalNavbar /> */}
-        <main className="">
+        <GlobalNavbar />
+        <main className="mt-16">
           {children}
         </main>
         <GlobalFooter />

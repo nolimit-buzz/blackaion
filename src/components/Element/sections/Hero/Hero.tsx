@@ -188,7 +188,7 @@ export const Hero = ({ theme = 'dark', data, navbar }: HeroProps): JSX.Element =
                   <p className="text-white text-base font-light max-w-lg">
                     {data.subheading}
                   </p>
-                  <a href="/#esg-impact"> 
+                  <a href="/#esg-impact">
                   <Button
                     size="lg"
                     className="bg-[#645845]/50 text-white hover:bg-[#645845]/80 transition-all duration-300 transform hover:scale-105 rounded-full px-6 py-3 backdrop-blur-sm border border-white/20 text-sm font-light"

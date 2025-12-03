@@ -10,6 +10,11 @@ import { Separator } from "@/components/ui/separator";
 
 type FooterSubsectionProps = {
   data: {
+    logo: {
+      formats: {
+        thumbnail: { url: string };
+      };
+    };
     description: string;
     social_links: Array<{ link: string; title: string }>;
     quick_links: Array<{ link: string; title: string }>;
@@ -50,7 +55,6 @@ export const FooterSubsection = ({ data }: FooterSubsectionProps): JSX.Element =
   const legalLinks = data.legal;
 
   // Use CMS data for office locations
-  console.log(data.offices);
   const officeLocations = data.offices.map(office => ({
     title: office.name,
     address: office.address,
@@ -247,7 +251,7 @@ export const FooterSubsection = ({ data }: FooterSubsectionProps): JSX.Element =
                       whileHover={{ scale: 1.02 }}
                       transition={{ duration: 0.3 }}
                     >
-                      <img src="/logo-white.png" alt="Blackaion Logo" className="w-full h-full object-contain" />
+                      <img src={data?.logo?.formats?.thumbnail?.url} alt="Blackaion Logo" className="w-full h-full object-contain" />
                     </motion.div>
 
                     <motion.p

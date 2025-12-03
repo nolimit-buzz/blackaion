@@ -282,7 +282,7 @@ export const Mandate = ({ data }: MandateProps): JSX.Element => {
             {/* Stats Grid - Fixed to display in a single row */}
             <motion.div
               ref={statsRef}
-              className="flex items-start justify-start flex-wrap gap-8 w-full"
+              className="flex justify-between gap-2 w-full"
               variants={statsContainerVariants}
               initial="hidden"
               animate={statsInView ? "visible" : "hidden"}
@@ -290,7 +290,7 @@ export const Mandate = ({ data }: MandateProps): JSX.Element => {
               {stats.map((stat, index) => (
                 <motion.div
                   key={index}
-                  className="flex flex-col items-start justify-center gap-2 relative group"
+                  className="flex flex-col items-start justify-center gap-1 relative group"
                   variants={statItemVariants}
                   whileHover={{ 
                     scale: 1.05,
@@ -308,7 +308,7 @@ export const Mandate = ({ data }: MandateProps): JSX.Element => {
 
                   {/* Animated number */}
                   <div 
-                    className="font-normal text-white text-[42px] leading-[150%] tracking-[-0.05em] whitespace-nowrap relative z-10"
+                    className="font-normal text-white text-[30px] md:text-[50px] leading-[150%] tracking-[-0.05em] whitespace-nowrap relative z-10"
                   >
                     <NumberCounter value={stat.value} inView={statsInView} />
                   </div>
@@ -399,15 +399,17 @@ export const Mandate = ({ data }: MandateProps): JSX.Element => {
                         >
                           <div className="pb-8 px-4">
                             {section.title === "Our Thesis" ? (
-                              <div className="space-y-4">
-                                {section.content.split(".").map((paragraph, index) => (
-                                  <motion.p
+                              <div className="space-y-4 ml-4">
+                                {section.content.split("- ").map((paragraph, index) => (
+                                  paragraph.trim().length ? (
+                                    <motion.li
                                     key={index}
                                     className="font-normal text-bluecolor-4 text-[16px] leading-[24px]"
                                     variants={textVariants}
                                   >
-                                    {paragraph.length? `${paragraph.trim()}.` : ''}
-                                  </motion.p>
+                                    {paragraph.trim().length? `${paragraph.trim()}.` : ''}
+                                  </motion.li>
+                                  ) : null
                                 ))}
                               </div>
                             ) : (

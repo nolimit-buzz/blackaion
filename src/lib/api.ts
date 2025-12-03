@@ -794,6 +794,11 @@ export async function fetchTeamMemberDetail(documentId: string): Promise<TeamMem
 }
 
 export interface FooterData {
+  logo: {
+    formats: {
+      thumbnail: { url: string };
+    };
+  };
   description: string;
   social_links: Array<{ link: string; title: string }>;
   quick_links: Array<{ link: string; title: string }>;
@@ -855,6 +860,7 @@ export async function fetchFooterData(): Promise<FooterData> {
     
     // Transform the data to match the FooterData interface
     const transformedResult = {
+      logo: result.logo,
       description: result.description,
       social_links: result.links.social_links,
       quick_links: result.links.quick_links,
