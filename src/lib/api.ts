@@ -798,7 +798,7 @@ export interface FooterData {
     formats: {
       thumbnail: { url: string };
     };
-  };
+   };
   description: string;
   social_links: Array<{ link: string; title: string }>;
   quick_links: Array<{ link: string; title: string }>;

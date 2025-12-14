@@ -8,7 +8,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { fetchAboutPageData, AboutPageData } from "@/lib/api";
 import { Navbar } from "@/components/Navbar";
 
@@ -218,186 +218,191 @@ const WhyBlackaionSection = ({ data }: { data: AboutPageData }) => {
 };
 
 const KeyMilestonesSection = ({ data }: { data: AboutPageData }) => {
-  const years = useMemo(() => {
-    const milestoneYears = data.milestones.milestones_list.map(m => m.year);
-    const minYear = Math.min(...milestoneYears);
-    const maxYear = Math.max(...milestoneYears);
-    return Array.from({ length: maxYear - minYear + 1 }, (_, i) => minYear + i);
-  }, [data.milestones.milestones_list]);
-  
-  const TICKS_PER_YEAR = 4;
-
-  type MilestoneData = {
-    id: number;
-    isPlaceholder: boolean;
-    date?: string;
-    title?: string;
-    description?: string;
-    image?: string;
-    year?: number;
-    quarter?: number;
+  // Format date string to "MMM. DD, YYYY" format
+  const formatDate = (dateString: string) => {
+    if (!dateString) return '';
+    try {
+      const date = new Date(dateString);
+      const months = ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May', 'Jun.', 'Jul.', 'Aug.', 'Sep.', 'Oct.', 'Nov.', 'Dec.'];
+      const month = months[date.getMonth()];
+      const day = date.getDate();
+      const year = date.getFullYear();
+      return `${month} ${day}, ${year}`;
+    } catch {
+      return dateString;
+    }
   };
 
-  const milestonesData = useMemo(() => {
-    const milestonesArray: MilestoneData[] = [];
-    const minYear = Math.min(...years);
-    
-    for (let i = 0; i < years.length * TICKS_PER_YEAR; i++) {
-      milestonesArray.push({ id: i, isPlaceholder: true });
+  // Get only real milestones (no placeholders) and sort by date
+  const milestones = useMemo(() => {
+    return data.milestones.milestones_list
+      .map((milestone) => ({
+        ...milestone,
+        dateObj: new Date(milestone.date),
+        formattedDate: formatDate(milestone.date),
+      }))
+      .sort((a, b) => a.dateObj.getTime() - b.dateObj.getTime());
+  }, [data.milestones.milestones_list]);
+
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  // Ensure activeIndex stays within bounds
+  useEffect(() => {
+    if (activeIndex >= milestones.length) {
+      setActiveIndex(Math.max(0, milestones.length - 1));
     }
-    
-    data.milestones.milestones_list.forEach((milestone) => {
-      const index = (milestone.year - minYear) * 4 + milestone.quarter - 1;
-      if (index >= 0 && index < milestonesArray.length) {
-        milestonesArray[index] = {
-          ...milestone,
-          isPlaceholder: false,
-          image: milestone.img.url,
-        };
-      }
-    });
-    
-    return milestonesArray;
-  }, [years, data.milestones.milestones_list]);
-
-  const realMilestoneIndices = useMemo(
-    () => milestonesData.map((m, i) => (!m.isPlaceholder ? i : -1)).filter((i) => i !== -1),
-    [milestonesData]
-  );
-
-  const [activeIndex, setActiveIndex] = useState(realMilestoneIndices[0] || 0);
+  }, [activeIndex, milestones.length]);
 
   const handlePrev = () => {
-    const currentIndexInReal = realMilestoneIndices.indexOf(activeIndex);
-    if (currentIndexInReal > 0) {
-      setActiveIndex(realMilestoneIndices[currentIndexInReal - 1]);
+    if (activeIndex > 0) {
+      setActiveIndex(activeIndex - 1);
     }
   };
 
   const handleNext = () => {
-    const currentIndexInReal = realMilestoneIndices.indexOf(activeIndex);
-    if (currentIndexInReal < realMilestoneIndices.length - 1) {
-      setActiveIndex(realMilestoneIndices[currentIndexInReal + 1]);
+    if (activeIndex < milestones.length - 1) {
+      setActiveIndex(activeIndex + 1);
     }
   };
 
-  const activeMilestone = milestonesData[activeIndex];
+  const isFirst = activeIndex === 0;
+  const isLast = activeIndex === milestones.length - 1;
+
+  // Milestone width calculation - show more milestones at once
+  const visibleMilestones = 3.5; // Number of milestones visible at once (increased from 2.5)
+  const milestoneWidthPercent = 100 / visibleMilestones; // Width of each milestone (approx 28.6%)
+  const initialLeftOffset = milestoneWidthPercent; // Initial positive offset equal to one milestone width
   
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      console.log(activeMilestone);
-      const currentIndexInReal = realMilestoneIndices.indexOf(activeIndex);
-      
-      if (currentIndexInReal < realMilestoneIndices.length - 1) {
-        setActiveIndex(realMilestoneIndices[currentIndexInReal + 1]);
-      } else {
-        setActiveIndex(realMilestoneIndices[0]);
-      }
-    }, 2000);
-    return () => clearTimeout(timeout);
-  }, [activeMilestone, activeIndex, realMilestoneIndices]);
+  // Calculate scroll position - start with offset to the right, then scroll left to center milestones
+  const calculateScrollX = () => {
+    // For the first milestone, use the initial positive offset (shift right to show space on left)
+    if (milestones.length <= visibleMilestones || activeIndex === 0) {
+      return `${initialLeftOffset}%`;
+    }
+    
+    // Scroll left by one milestone width for each step from the initial offset
+    // This ensures forward scrolling (left) when clicking next
+    const scrollLeft = activeIndex * milestoneWidthPercent;
+    const translateX = initialLeftOffset - scrollLeft;
+    
+    return `${translateX}%`;
+  };
+
   return (
-    <section id="milestones" className="bg-black text-white py-20 px-5 sm:px-10 lg:px-16 xl:px-20">
+    <section id="milestones" className="bg-white text-black py-20 px-5 sm:px-10 lg:px-16 xl:px-20">
       <motion.div 
-        className="max-w-7xl mx-auto"
+        className="max-w-[1440px] mx-auto"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.1 }}
         variants={staggerContainer}
       >
-        <motion.div className="text-left" variants={fadeInUp}>
-          <p className="text-sm uppercase text-gray-400 tracking-widest">KEY MILESTONES</p>
-          <div className="w-full h-px bg-white/20 mt-2 mb-8"></div>
-          <h2 className="text-4xl sm:text-5xl font-bold">{data.milestones.title}</h2>
-          <p className="mt-4 text-gray-400 max-w-[460px] leading-relaxed">
+        <motion.div className="text-left mb-16" variants={fadeInUp}>
+          <p className="text-sm sm:text-base uppercase text-gray-500 tracking-widest font-semibold">KEY MILESTONES</p>
+          <div className="w-full h-px bg-gray-300 mt-4 mb-8"></div>
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-bluecolor-9 leading-[1.2]">{data.milestones.title}</h2>
+          <p className="mt-6 text-lg sm:text-xl text-[#8298AB] max-w-[680px] leading-relaxed font-medium">
             {data.milestones.description}
           </p>
         </motion.div>
 
-        <motion.div className="mt-20 relative" variants={fadeInUp}>
-          <div className="bg-dark p-6 sm:p-8 md:p-12 rounded-2xl md:w-7/12">
-            <div className="min-h-[320px] md:h-[320px] flex flex-col justify-center">
-              {/* Mobile Image - shown only on small screens */}
-              <div className="md:hidden mb-6">
-                <motion.img 
-                  src={activeMilestone.image || ''} 
-                  alt={activeMilestone.title || ''} 
-                  className="w-full h-48 object-cover rounded-2xl"
-                  variants={scaleIn}
-                />
-              </div>
-              <motion.p variants={fadeInUp} className="text-sm text-goldcolor-i">{activeMilestone.date || ''}</motion.p>
-              <motion.h3 variants={fadeInUp} className="text-3xl sm:text-4xl font-bold mt-4 max-w-[470px]">{activeMilestone.title || ''}</motion.h3>
-              <motion.p variants={fadeInUp} className="mt-4 text-gray-400 max-w-[470px] font-normal">{activeMilestone.description || ''}</motion.p>
-            </div>
-          </div>
-          {/* Desktop Image - hidden on small screens */}
-          <div className="hidden md:block md:absolute md:top-1/2 md:-translate-y-1/2 md:right-0 md:w-1/2 md:h-[85%] mt-4 md:mt-0">
-            <motion.img 
-              initial={{ opacity: 0}}
-              animate={{ opacity: 1}}
-              transition={{ duration: 0.5 }}
-              src={activeMilestone.image || ''} 
-              alt={activeMilestone.title || ''} 
-              className="w-full h-full object-cover rounded-2xl"
-              variants={scaleIn}
-            />
-          </div>
-        </motion.div>
-
-        <motion.div className="mt-16" variants={fadeInUp}>
-          <div className="relative h-20">
-             {milestonesData.map((milestone, index) => {
-                const isYearTick = index % TICKS_PER_YEAR === 0;
-                const hasMilestone = !milestone.isPlaceholder;
-                const isActive = index === activeIndex;
-
-                const tickHeight = isActive ? 'h-8' : isYearTick ? 'h-6' : 'h-3';
-                const tickColor = isActive ? 'bg-goldcolor-i' : hasMilestone ? 'bg-white/70 hover:h-10' : 'bg-gray-600';
-
-                const TickMark = <div className={`w-px ${tickHeight} ${tickColor} hover:scale-110 transition-all duration-300`} />;
-
-                return (
-                    <div key={index} className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2" style={{ left: `${(index / (milestonesData.length - 1)) * 100}%`}}>
-                        {hasMilestone ? (
-                            <motion.button 
-                              onClick={() => setActiveIndex(index)} 
-                              className="flex flex-col items-center px-1 py-2 -mx-1 -my-2"
-                              whileHover={{ scale: 1.1 }}
-                              whileTap={{ scale: 0.9 }}
-                            >
-                                {TickMark}
-                            </motion.button>
-                        ) : (
-                           TickMark
-                        )}
-                        {isYearTick && <span className="absolute top-full mt-2 text-xs sm:text-sm text-gray-500">{years[index / TICKS_PER_YEAR]}</span>}
-                    </div>
-                )
-            })}
-          </div>
-
-          {/* <div className="mt-8 flex justify-between">
-            <motion.button 
-              onClick={handlePrev} 
-              disabled={realMilestoneIndices.indexOf(activeIndex) === 0} 
-              className="bg-transparent hover:bg-white text-white hover:text-black border border-white/50 rounded-full w-12 h-12 flex items-center justify-center shrink-0 disabled:opacity-50 transition-colors duration-300"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+        {/* Timeline with Flex Container */}
+        <div className="relative mt-16">
+          {/* Navigation Buttons - Fixed position on the left, outside scrolling container */}
+          <div className="absolute left-0 top-[55%] -translate-y-1/2 z-20 flex flex-row gap-2">
+            <motion.button
+              onClick={handlePrev}
+              disabled={isFirst}
+              className="w-12 h-12 rounded-full bg-gray-900 text-white flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-800 transition-colors shadow-sm"
+              whileHover={{ scale: isFirst ? 1 : 1.05 }}
+              whileTap={{ scale: isFirst ? 1 : 0.95 }}
             >
               <ArrowLeft className="w-6 h-6" />
             </motion.button>
-            <motion.button 
-              onClick={handleNext} 
-              disabled={realMilestoneIndices.indexOf(activeIndex) === realMilestoneIndices.length - 1} 
-              className="bg-transparent hover:bg-white text-white hover:text-black border border-white/50 rounded-full w-12 h-12 flex items-center justify-center shrink-0 disabled:opacity-50 transition-colors duration-300"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+            <motion.button
+              onClick={handleNext}
+              disabled={isLast}
+              className="w-12 h-12 rounded-full bg-gray-900 text-white flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-800 transition-colors shadow-sm"
+              whileHover={{ scale: isLast ? 1 : 1.05 }}
+              whileTap={{ scale: isLast ? 1 : 0.95 }}
             >
               <ArrowRight className="w-6 h-6" />
             </motion.button>
-          </div> */}
-        </motion.div>
+          </div>
+
+          {/* Timeline Container - Overflow hidden wrapper */}
+          <motion.div className="relative overflow-hidden" variants={fadeInUp}>
+              {/* Flex Container - Scrollable timeline */}
+              <motion.div
+                className="flex items-start relative"
+                animate={{
+                  x: calculateScrollX()
+                }}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
+                style={{
+                  width: `${milestones.length * milestoneWidthPercent}%`
+                }}
+              >
+                {milestones.map((milestone, index) => {
+                  // Ensure we're using the correct index for comparison
+                  const isActive = index === activeIndex;
+                  return (
+                    <div
+                      key={`milestone-${milestone.id}`}
+                      className="flex flex-col shrink-0"
+                      style={{ width: `${milestoneWidthPercent}%` }}
+                    >
+                      {/* Milestone Container */}
+                      <button
+                        onClick={() => {
+                          setActiveIndex(index);
+                        }}
+                        type="button"
+                        className="flex flex-col items-start text-left w-full group pt-4"
+                      >
+                        {/* Date at the top - large, bold */}
+                        <div className={`text-2xl sm:text-3xl lg:text-4xl font-bold transition-colors mb-4 ${
+                          isActive ? 'text-gray-800' : 'text-gray-600'
+                        }`}>
+                          {milestone.formattedDate}
+                        </div>
+                        
+                        {/* Title in uppercase below date */}
+                        <div className={`text-xs sm:text-sm uppercase tracking-widest font-semibold mb-6 transition-colors ${
+                          isActive ? 'text-gray-700' : 'text-gray-500'
+                        }`}>
+                          {milestone.title}
+                        </div>
+                        
+                        {/* Horizontal separator line */}
+                        <div className={`w-full h-px mb-8 transition-colors ${
+                          isActive ? 'bg-goldcolor-9' : 'bg-gray-300'
+                        }`} />
+                        
+                        {/* Description container with fixed height to prevent layout shift */}
+                        <div className="h-32 sm:h-40 md:h-48 overflow-hidden">
+                          {/* Description text - animated visibility for active milestone */}
+                          <AnimatePresence>
+                            {isActive && (
+                              <motion.p
+                                initial={{ opacity: 0, y: -10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -10 }}
+                                transition={{ duration: 0.3, ease: "easeInOut" }}
+                                className="text-base sm:text-lg leading-relaxed text-gray-700"
+                              >
+                                {milestone.description}
+                              </motion.p>
+                            )}
+                          </AnimatePresence>
+                        </div>
+                      </button>
+                    </div>
+                  );
+                })}
+              </motion.div>
+            </motion.div>
+        </div>
       </motion.div>
     </section>
   );
