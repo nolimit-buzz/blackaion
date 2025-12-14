@@ -188,35 +188,6 @@ const MissionVisionSection = ({ data }: { data: AboutPageData }) => {
   );
 };
 
-const WhyBlackaionSection = ({ data }: { data: AboutPageData }) => {
-  return (
-    <section className="bg-white py-20 px-5 sm:px-10 lg:px-16 xl:px-20 max-w-[1440px] mx-auto">
-      <motion.div 
-        className="relative w-full mx-auto bg-cover bg-center rounded-2xl p-8 sm:p-12 lg:p-20"
-        style={{ backgroundImage: `url('${data.mandate.history_bg_img.url}')` }}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
-        variants={scaleIn}
-      >
-        <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-black/80 rounded-2xl"></div>
-        <motion.div className="relative flex flex-col text-white" variants={staggerContainer}>
-          <motion.div variants={fadeInUp}>
-            <p className="text-sm uppercase text-white/80 tracking-widest">COMPANY HISTORY</p>
-            <div className="w-full h-px bg-white/30 my-4"></div>
-          </motion.div>
-          <motion.div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start mt-8" variants={fadeInUp}>
-            <h2 className="text-4xl sm:text-5xl font-bold">Why Blackaion</h2>
-            <p className="leading-relaxed text-white/90">
-              {data.mandate.company_history}
-            </p>
-          </motion.div>
-        </motion.div>
-      </motion.div>
-    </section>
-  );
-};
-
 const KeyMilestonesSection = ({ data }: { data: AboutPageData }) => {
   // Format date string to "MMM. DD, YYYY" format
   const formatDate = (dateString: string) => {
@@ -289,19 +260,19 @@ const KeyMilestonesSection = ({ data }: { data: AboutPageData }) => {
   };
 
   return (
-    <section id="milestones" className="bg-white text-black py-20 px-5 sm:px-10 lg:px-16 xl:px-20">
+    <section id="milestones" className="bg-black text-white py-20 ">
       <motion.div 
-        className="max-w-[1440px] mx-auto"
+        className="mx-auto max-w-[1440px] mx-auto px-5 sm:px-10 lg:px-16 xl:px-20"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.1 }}
         variants={staggerContainer}
       >
         <motion.div className="text-left mb-16" variants={fadeInUp}>
-          <p className="text-sm sm:text-base uppercase text-gray-500 tracking-widest font-semibold">KEY MILESTONES</p>
-          <div className="w-full h-px bg-gray-300 mt-4 mb-8"></div>
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-bluecolor-9 leading-[1.2]">{data.milestones.title}</h2>
-          <p className="mt-6 text-lg sm:text-xl text-[#8298AB] max-w-[680px] leading-relaxed font-medium">
+          <p className="text-sm sm:text-base uppercase text-gray-400 tracking-widest font-semibold">KEY MILESTONES</p>
+          <div className="w-full h-px bg-gray-700 mt-4 mb-8"></div>
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-[1.2]">{data.milestones.title}</h2>
+          <p className="mt-6 text-lg sm:text-xl text-gray-400 max-w-[680px] leading-relaxed font-medium">
             {data.milestones.description}
           </p>
         </motion.div>
@@ -313,7 +284,7 @@ const KeyMilestonesSection = ({ data }: { data: AboutPageData }) => {
             <motion.button
               onClick={handlePrev}
               disabled={isFirst}
-              className="w-12 h-12 rounded-full bg-gray-900 text-white flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-800 transition-colors shadow-sm"
+              className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed hover:bg-white/20 transition-colors shadow-sm"
               whileHover={{ scale: isFirst ? 1 : 1.05 }}
               whileTap={{ scale: isFirst ? 1 : 0.95 }}
             >
@@ -322,7 +293,7 @@ const KeyMilestonesSection = ({ data }: { data: AboutPageData }) => {
             <motion.button
               onClick={handleNext}
               disabled={isLast}
-              className="w-12 h-12 rounded-full bg-gray-900 text-white flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-800 transition-colors shadow-sm"
+              className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed hover:bg-white/20 transition-colors shadow-sm"
               whileHover={{ scale: isLast ? 1 : 1.05 }}
               whileTap={{ scale: isLast ? 1 : 0.95 }}
             >
@@ -362,21 +333,21 @@ const KeyMilestonesSection = ({ data }: { data: AboutPageData }) => {
                       >
                         {/* Date at the top - large, bold */}
                         <div className={`text-2xl sm:text-3xl lg:text-4xl font-bold transition-colors mb-4 ${
-                          isActive ? 'text-gray-800' : 'text-gray-600'
+                          isActive ? 'text-white' : 'text-gray-500'
                         }`}>
                           {milestone.formattedDate}
                         </div>
                         
                         {/* Title in uppercase below date */}
                         <div className={`text-xs sm:text-sm uppercase tracking-widest font-semibold mb-6 transition-colors ${
-                          isActive ? 'text-gray-700' : 'text-gray-500'
+                          isActive ? 'text-gray-300' : 'text-gray-600'
                         }`}>
                           {milestone.title}
                         </div>
                         
                         {/* Horizontal separator line */}
                         <div className={`w-full h-px mb-8 transition-colors ${
-                          isActive ? 'bg-goldcolor-9' : 'bg-gray-300'
+                          isActive ? 'bg-goldcolor-9' : 'bg-gray-700'
                         }`} />
                         
                         {/* Description container with fixed height to prevent layout shift */}
@@ -389,7 +360,7 @@ const KeyMilestonesSection = ({ data }: { data: AboutPageData }) => {
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: -10 }}
                                 transition={{ duration: 0.3, ease: "easeInOut" }}
-                                className="text-base sm:text-lg leading-relaxed text-gray-700"
+                                className="text-base sm:text-lg leading-relaxed text-gray-300"
                               >
                                 {milestone.description}
                               </motion.p>
