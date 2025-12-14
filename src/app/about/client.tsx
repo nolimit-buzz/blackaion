@@ -134,7 +134,7 @@ const ExperienceSection = ({ data }: { data: AboutPageData }) => {
 
 const MissionVisionSection = ({ data }: { data: AboutPageData }) => {
   return (
-    <section className="bg-white pb-20">
+    <section className="bg-white pb-12 sm:pb-16 md:pb-20">
       <motion.div 
         className="max-w-[1280px] mx-auto px-5 sm:px-10 lg:px-16 xl:px-20 relative"
         initial="hidden"
@@ -142,22 +142,23 @@ const MissionVisionSection = ({ data }: { data: AboutPageData }) => {
         viewport={{ once: true, amount: 0.2 }}
         variants={fadeInUp}
       >
-        <div className="bg-white shadow-xl rounded-2xl p-12 mt-12 md:-mt-32 relative z-10">
+        <div className="bg-white shadow-xl rounded-2xl p-6 sm:p-8 md:p-10 lg:p-12 mt-12 md:-mt-32 relative z-10">
           <motion.div 
-            className="flex items-center"
+            className="flex items-start md:items-center"
             variants={staggerContainer}
           >
-            <motion.div variants={fadeInUp} className="flex gap-2 md:gap-12 lg:gap-20">
-              <div className="flex-1">
-                <h3 className="text-[22px] font-medium text-goldcolor-9 leading-[1.4]">Mission</h3>
-                <p className="mt-4 text-bluecolor-4 leading-relaxed ">
+            <motion.div variants={fadeInUp} className="flex flex-col md:flex-row gap-8 md:gap-12 lg:gap-20 w-full">
+              <div className="flex-1 w-full md:w-auto">
+                <h3 className="text-lg sm:text-xl md:text-[22px] font-medium text-goldcolor-9 leading-[1.4]">Mission</h3>
+                <p className="mt-3 sm:mt-4 text-sm sm:text-base md:text-lg text-bluecolor-4 leading-relaxed">
                   {data.mandate.mission}
                 </p>
               </div>
-              {/* <div className="max-w-[300px] h-px bg-gray-200 my-12"></div> */}
-              <div className="flex-1">
-                <h3 className="text-[22px] font-medium text-goldcolor-9 leading-[1.4]">Vision</h3>
-                <p className="mt-4 text-bluecolor-4 leading-relaxed">
+              {/* Separator line - horizontal on mobile, vertical on desktop */}
+              <div className="w-full h-px md:w-px md:h-16 lg:h-20 bg-gray-200 self-center md:self-auto"></div>
+              <div className="flex-1 w-full md:w-auto">
+                <h3 className="text-lg sm:text-xl md:text-[22px] font-medium text-goldcolor-9 leading-[1.4]">Vision</h3>
+                <p className="mt-3 sm:mt-4 text-sm sm:text-base md:text-lg text-bluecolor-4 leading-relaxed">
                   {data.mandate.vision}
                 </p>
               </div>
