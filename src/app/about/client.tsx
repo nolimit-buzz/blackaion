@@ -1,6 +1,6 @@
 'use client'
 import { ChevronDown, ArrowLeft, ArrowRight, ArrowUpRight, ArrowDown } from "lucide-react";
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, useRef } from "react";
 import {
   Accordion,
   AccordionContent,
@@ -188,6 +188,208 @@ const MissionVisionSection = ({ data }: { data: AboutPageData }) => {
   );
 };
 
+// Mobile Timeline Component
+const MobileMilestonesTimeline = ({ milestones, activeIndex, setActiveIndex, handlePrev, handleNext, isFirst, isLast }: {
+  milestones: Array<{ id: number | string; date: string; formattedDate: string; title: string; description: string; [key: string]: any }>;
+  activeIndex: number;
+  setActiveIndex: (index: number) => void;
+  handlePrev: () => void;
+  handleNext: () => void;
+  isFirst: boolean;
+  isLast: boolean;
+}) => {
+  return (
+    <div className="relative">
+      {/* Navigation Buttons */}
+      <div className="absolute top-0 right-0 z-20 flex flex-row gap-2 mb-4">
+        <motion.button
+          onClick={handlePrev}
+          disabled={isFirst}
+          className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed hover:bg-white/20 transition-colors shadow-sm"
+          whileHover={{ scale: isFirst ? 1 : 1.05 }}
+          whileTap={{ scale: isFirst ? 1 : 0.95 }}
+        >
+          <ArrowLeft className="w-5 h-5" />
+        </motion.button>
+        <motion.button
+          onClick={handleNext}
+          disabled={isLast}
+          className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed hover:bg-white/20 transition-colors shadow-sm"
+          whileHover={{ scale: isLast ? 1 : 1.05 }}
+          whileTap={{ scale: isLast ? 1 : 0.95 }}
+        >
+          <ArrowRight className="w-5 h-5" />
+        </motion.button>
+      </div>
+
+      {/* Current Milestone */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={activeIndex}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
+          className="pt-12"
+        >
+          {milestones[activeIndex] && (
+            <div className="w-full">
+              {/* Date */}
+              <div className="text-3xl font-bold text-white mb-3">
+                {milestones[activeIndex].formattedDate}
+              </div>
+              
+              {/* Title */}
+              <div className="text-xs uppercase tracking-widest font-semibold text-gray-300 mb-6">
+                {milestones[activeIndex].title}
+              </div>
+              
+              {/* Separator */}
+              <div className="w-full h-px bg-goldcolor-9 mb-6" />
+              
+              {/* Description */}
+              <p className="text-sm leading-relaxed text-gray-300 break-words">
+                {milestones[activeIndex].description}
+              </p>
+            </div>
+          )}
+        </motion.div>
+      </AnimatePresence>
+
+      {/* Milestone Indicators */}
+      <div className="flex justify-center gap-2 mt-8">
+        {milestones.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setActiveIndex(index)}
+            className={`h-2 rounded-full transition-all ${
+              index === activeIndex ? 'w-8 bg-goldcolor-9' : 'w-2 bg-gray-600'
+            }`}
+            aria-label={`Go to milestone ${index + 1}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+// Desktop Timeline Component
+const DesktopMilestonesTimeline = ({ milestones, activeIndex, setActiveIndex, handlePrev, handleNext, isFirst, isLast }: {
+  milestones: Array<{ id: number | string; date: string; formattedDate: string; title: string; description: string; [key: string]: any }>;
+  activeIndex: number;
+  setActiveIndex: (index: number) => void;
+  handlePrev: () => void;
+  handleNext: () => void;
+  isFirst: boolean;
+  isLast: boolean;
+}) => {
+  const visibleMilestones = 3.5;
+  const milestoneWidthPercent = 100 / visibleMilestones;
+  const initialLeftOffset = milestoneWidthPercent;
+  
+  const calculateScrollX = () => {
+    if (milestones.length <= visibleMilestones || activeIndex === 0) {
+      return `${initialLeftOffset}%`;
+    }
+    const scrollLeft = activeIndex * milestoneWidthPercent;
+    const translateX = initialLeftOffset - scrollLeft;
+    return `${translateX}%`;
+  };
+
+  return (
+    <div className="relative">
+      {/* Navigation Buttons */}
+      <div className="absolute left-0 top-[55%] -translate-y-1/2 z-20 flex flex-row gap-2">
+        <motion.button
+          onClick={handlePrev}
+          disabled={isFirst}
+          className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed hover:bg-white/20 transition-colors shadow-sm"
+          whileHover={{ scale: isFirst ? 1 : 1.05 }}
+          whileTap={{ scale: isFirst ? 1 : 0.95 }}
+        >
+          <ArrowLeft className="w-6 h-6" />
+        </motion.button>
+        <motion.button
+          onClick={handleNext}
+          disabled={isLast}
+          className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed hover:bg-white/20 transition-colors shadow-sm"
+          whileHover={{ scale: isLast ? 1 : 1.05 }}
+          whileTap={{ scale: isLast ? 1 : 0.95 }}
+        >
+          <ArrowRight className="w-6 h-6" />
+        </motion.button>
+      </div>
+
+      {/* Timeline Container */}
+      <motion.div className="relative overflow-hidden w-full" variants={fadeInUp}>
+        <motion.div
+          className="flex items-start relative"
+          animate={{
+            x: calculateScrollX()
+          }}
+          transition={{ duration: 0.5, ease: "easeInOut" }}
+          style={{
+            width: `${milestones.length * milestoneWidthPercent}%`
+          }}
+        >
+          {milestones.map((milestone, index) => {
+            const isActive = index === activeIndex;
+            return (
+              <div
+                key={`milestone-${milestone.id}`}
+                className="flex flex-col shrink-0"
+                style={{ width: `${milestoneWidthPercent}%` }}
+              >
+                <button
+                  onClick={() => setActiveIndex(index)}
+                  type="button"
+                  className="flex flex-col items-start text-left w-full group pt-4"
+                >
+                  {/* Date */}
+                  <div className={`text-2xl sm:text-3xl lg:text-3xl xl:text-4xl font-bold transition-colors mb-4 ${
+                    isActive ? 'text-white' : 'text-gray-500'
+                  }`}>
+                    {milestone.formattedDate}
+                  </div>
+                  
+                  {/* Title */}
+                  <div className={`text-xs sm:text-sm lg:text-xs xl:text-sm uppercase tracking-widest font-semibold mb-6 transition-colors ${
+                    isActive ? 'text-gray-300' : 'text-gray-600'
+                  }`}>
+                    {milestone.title}
+                  </div>
+                  
+                  {/* Separator */}
+                  <div className={`w-full h-px mb-8 transition-colors ${
+                    isActive ? 'bg-goldcolor-9' : 'bg-gray-700'
+                  }`} />
+                  
+                  {/* Description */}
+                  <div className="h-32 sm:h-40 md:h-48 overflow-hidden">
+                    <AnimatePresence>
+                      {isActive && (
+                        <motion.p
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -10 }}
+                          transition={{ duration: 0.3, ease: "easeInOut" }}
+                          className="text-base sm:text-lg lg:text-base xl:text-lg leading-relaxed text-gray-300"
+                        >
+                          {milestone.description}
+                        </motion.p>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                </button>
+              </div>
+            );
+          })}
+        </motion.div>
+      </motion.div>
+    </div>
+  );
+};
+
 const KeyMilestonesSection = ({ data }: { data: AboutPageData }) => {
   // Format date string to "MMM. DD, YYYY" format
   const formatDate = (dateString: string) => {
@@ -239,25 +441,19 @@ const KeyMilestonesSection = ({ data }: { data: AboutPageData }) => {
   const isFirst = activeIndex === 0;
   const isLast = activeIndex === milestones.length - 1;
 
-  // Milestone width calculation - show more milestones at once
-  const visibleMilestones = 3.5; // Number of milestones visible at once (increased from 2.5)
-  const milestoneWidthPercent = 100 / visibleMilestones; // Width of each milestone (approx 28.6%)
-  const initialLeftOffset = milestoneWidthPercent; // Initial positive offset equal to one milestone width
+  // Check if mobile (including md screens)
+  const [isMobile, setIsMobile] = useState(false);
   
-  // Calculate scroll position - start with offset to the right, then scroll left to center milestones
-  const calculateScrollX = () => {
-    // For the first milestone, use the initial positive offset (shift right to show space on left)
-    if (milestones.length <= visibleMilestones || activeIndex === 0) {
-      return `${initialLeftOffset}%`;
-    }
-    
-    // Scroll left by one milestone width for each step from the initial offset
-    // This ensures forward scrolling (left) when clicking next
-    const scrollLeft = activeIndex * milestoneWidthPercent;
-    const translateX = initialLeftOffset - scrollLeft;
-    
-    return `${translateX}%`;
-  };
+  useEffect(() => {
+    const checkMobile = () => {
+      if (typeof window !== 'undefined') {
+        setIsMobile(window.innerWidth < 1024); // Use mobile timeline for sm and md screens (< 1024px)
+      }
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   return (
     <section id="milestones" className="bg-black text-white py-20 ">
@@ -277,102 +473,29 @@ const KeyMilestonesSection = ({ data }: { data: AboutPageData }) => {
           </p>
         </motion.div>
 
-        {/* Timeline with Flex Container */}
+        {/* Timeline - Conditional rendering based on screen size */}
         <div className="relative mt-16">
-          {/* Navigation Buttons - Fixed position on the left, outside scrolling container */}
-          <div className="absolute left-0 top-[55%] -translate-y-1/2 z-20 flex flex-row gap-2">
-            <motion.button
-              onClick={handlePrev}
-              disabled={isFirst}
-              className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed hover:bg-white/20 transition-colors shadow-sm"
-              whileHover={{ scale: isFirst ? 1 : 1.05 }}
-              whileTap={{ scale: isFirst ? 1 : 0.95 }}
-            >
-              <ArrowLeft className="w-6 h-6" />
-            </motion.button>
-            <motion.button
-              onClick={handleNext}
-              disabled={isLast}
-              className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed hover:bg-white/20 transition-colors shadow-sm"
-              whileHover={{ scale: isLast ? 1 : 1.05 }}
-              whileTap={{ scale: isLast ? 1 : 0.95 }}
-            >
-              <ArrowRight className="w-6 h-6" />
-            </motion.button>
-          </div>
-
-          {/* Timeline Container - Overflow hidden wrapper */}
-          <motion.div className="relative overflow-hidden" variants={fadeInUp}>
-              {/* Flex Container - Scrollable timeline */}
-              <motion.div
-                className="flex items-start relative"
-                animate={{
-                  x: calculateScrollX()
-                }}
-                transition={{ duration: 0.5, ease: "easeInOut" }}
-                style={{
-                  width: `${milestones.length * milestoneWidthPercent}%`
-                }}
-              >
-                {milestones.map((milestone, index) => {
-                  // Ensure we're using the correct index for comparison
-                  const isActive = index === activeIndex;
-                  return (
-                    <div
-                      key={`milestone-${milestone.id}`}
-                      className="flex flex-col shrink-0"
-                      style={{ width: `${milestoneWidthPercent}%` }}
-                    >
-                      {/* Milestone Container */}
-                      <button
-                        onClick={() => {
-                          setActiveIndex(index);
-                        }}
-                        type="button"
-                        className="flex flex-col items-start text-left w-full group pt-4"
-                      >
-                        {/* Date at the top - large, bold */}
-                        <div className={`text-2xl sm:text-3xl lg:text-4xl font-bold transition-colors mb-4 ${
-                          isActive ? 'text-white' : 'text-gray-500'
-                        }`}>
-                          {milestone.formattedDate}
-                        </div>
-                        
-                        {/* Title in uppercase below date */}
-                        <div className={`text-xs sm:text-sm uppercase tracking-widest font-semibold mb-6 transition-colors ${
-                          isActive ? 'text-gray-300' : 'text-gray-600'
-                        }`}>
-                          {milestone.title}
-                        </div>
-                        
-                        {/* Horizontal separator line */}
-                        <div className={`w-full h-px mb-8 transition-colors ${
-                          isActive ? 'bg-goldcolor-9' : 'bg-gray-700'
-                        }`} />
-                        
-                        {/* Description container with fixed height to prevent layout shift */}
-                        <div className="h-32 sm:h-40 md:h-48 overflow-hidden">
-                          {/* Description text - animated visibility for active milestone */}
-                          <AnimatePresence>
-                            {isActive && (
-                              <motion.p
-                                initial={{ opacity: 0, y: -10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -10 }}
-                                transition={{ duration: 0.3, ease: "easeInOut" }}
-                                className="text-base sm:text-lg leading-relaxed text-gray-300"
-                              >
-                                {milestone.description}
-                              </motion.p>
-                            )}
-                          </AnimatePresence>
-                        </div>
-                      </button>
-                    </div>
-                  );
-                })}
-              </motion.div>
-            </motion.div>
+          {isMobile ? (
+            <MobileMilestonesTimeline
+              milestones={milestones}
+              activeIndex={activeIndex}
+              setActiveIndex={setActiveIndex}
+              handlePrev={handlePrev}
+              handleNext={handleNext}
+              isFirst={isFirst}
+              isLast={isLast}
+            />
+          ) : (
+            <DesktopMilestonesTimeline
+              milestones={milestones}
+              activeIndex={activeIndex}
+              setActiveIndex={setActiveIndex}
+              handlePrev={handlePrev}
+              handleNext={handleNext}
+              isFirst={isFirst}
+              isLast={isLast}
+            />
+          )}
         </div>
       </motion.div>
     </section>
