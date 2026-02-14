@@ -54,19 +54,19 @@ const AboutHeroSection = ({ data }: { data: AboutPageData }) => {
           </h1>
         </motion.div>
 
-        <div className="flex flex-col gap-8 lg:grid lg:grid-cols-12 lg:gap-8 items-start">
-          <motion.div className="lg:col-span-7" variants={fadeInUp}>
+        <div className="flex flex-col gap-8 lg:grid lg:grid-cols-12 items-start">
+          <motion.div className="col-span-12 xl:col-span-6" variants={fadeInUp}>
             <p className="leading-relaxed max-w-[537px] text-[#8298AB]">
               {data.about_us.description}
             </p>
           </motion.div>
           <motion.div 
-            className="w-full flex flex-col sm:flex-row sm:justify-between gap-10 sm:gap-4 lg:col-span-5 text-center"
+            className="w-full flex flex-col sm:flex-row sm:justify-between gap-10 col-span-12 xl:col-span-6 text-center"
             variants={staggerContainer}
           >
             {data.about_us.numbers.map((number, index) => (
               <motion.div key={index} variants={fadeInUp}>
-                <p className="text-[30px] sm:text-5xl xl:text-[64px] font-normal text-bluecolor-9">{number.value}</p>
+                <p className="text-3xl sm:text-4xl lg:text-6xl font-normal text-bluecolor-9">{number.value}</p>
                 <p className="text-sm mt-1 max-w-[144px] mx-auto text-[#8195AA]">{number.title}</p>
               </motion.div>
             ))}
@@ -98,7 +98,7 @@ const ExperienceSection = ({ data }: { data: AboutPageData }) => {
           transition={{ duration: 0.3 }}
         >
           <motion.img 
-            src={data.mandate.history_bg_img.url} 
+            src={data?.mandate?.history_bg_img?.url} 
             alt="Our Experience" 
             className="absolute inset-0 w-full h-full object-cover"
             style={{
@@ -108,9 +108,9 @@ const ExperienceSection = ({ data }: { data: AboutPageData }) => {
           <div className="absolute inset-0 bg-black bg-opacity-50" />
           <div className="relative h-full flex flex-col justify-end p-8 gap-8 sm:flex-row sm:justify-between sm:items-start sm:p-12 sm:pt-28">
             <div>
-              <h2 className="text-4xl sm:text-5xl font-bold text-white max-w-md">{data.mandate.title}</h2>
+              <h2 className="text-4xl sm:text-5xl font-bold text-white max-w-md">{data?.mandate?.title}</h2>
               <p className="mt-4 text-white max-w-md">
-                {data.mandate.experience}
+                {data?.mandate?.experience}
               </p>
             </div>
             <a href="#milestones">
@@ -661,18 +661,11 @@ interface AboutPageClientProps {
 }
 
 const AboutPageClient = ({ initialData }: AboutPageClientProps) => {
-  const [data, setData] = useState<AboutPageData | null>(initialData || null);
-  const [loading, setLoading] = useState(!initialData);
+  const [data, setData] = useState<AboutPageData | null>();
+  const [loading, setLoading] = useState(!data);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Only fetch data if no initial data was provided
-    if (initialData) {
-      setData(initialData);
-      setLoading(false);
-      return;
-    }
-
     const fetchData = async () => {
       try {
         setLoading(true);
@@ -687,7 +680,7 @@ const AboutPageClient = ({ initialData }: AboutPageClientProps) => {
     };
 
     fetchData();
-  }, [initialData]);
+  }, []);
 
   if (loading) {
     return (
