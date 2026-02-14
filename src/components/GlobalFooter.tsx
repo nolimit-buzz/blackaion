@@ -45,7 +45,7 @@ export const GlobalFooter = () => {
       <div className="bg-gray-900 text-white py-12">
         <div className="max-w-[1440px] mx-auto px-5 sm:px-10 lg:px-16 xl:px-20">
           <div className="text-center">
-            <p className="text-gray-400">© 2024 Blackaion. All rights reserved.</p>
+            <p className="text-gray-400">© 2026 Blackaion. All rights reserved.</p>
           </div>
         </div>
       </div>

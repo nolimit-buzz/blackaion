@@ -25,11 +25,20 @@ export const metadata: Metadata = {
     type: 'website',
     url: 'https://blackaion.com',
     siteName: 'Blackaion',
+    images: [
+      {
+        url: 'https://cms.blackaion.com/uploads/thumbnail_vecteezy_digital_rendering_portrays_africa_s_illuminated_cities_71161648_1_1_1_d655d92dc1.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Blackaion - Infrastructure Investment & Development',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Blackaion - Infrastructure Investment & Development',
     description: 'Investment and advisory company with a focus on developing and growing infrastructure, energy and technology ventures across West Africa.',
+    images: ['https://cms.blackaion.com/uploads/thumbnail_vecteezy_digital_rendering_portrays_africa_s_illuminated_cities_71161648_1_1_1_d655d92dc1.jpg'],
   },
 }
 
@@ -46,10 +55,10 @@ export default function RootLayout({
         <link rel="preload" href="/chevron-up.svg" as="image" type="image/svg+xml" />
         <link rel="preload" href="/chevron-down.svg" as="image" type="image/svg+xml" />
         <link rel="preload" href="/logo-white.png" as="image" type="image/png" />
-        
+
         {/* DNS prefetch for external APIs */}
         <link rel="dns-prefetch" href={process.env.NEXT_PUBLIC_API_URL} />
-        
+
         {/* Preconnect to API domain */}
         <link rel="preconnect" href={process.env.NEXT_PUBLIC_API_URL} crossOrigin="anonymous" />
       </head>
@@ -59,7 +68,6 @@ export default function RootLayout({
           {children}
         </main>
         <GlobalFooter />
-        <PerformanceMonitor />
       </body>
     </html>
   )
