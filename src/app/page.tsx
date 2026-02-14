@@ -6,5 +6,5 @@ import { fetchHomePageData } from "@/lib/api";
 export default async function Home() {
   const data = await fetchHomePageData();
   
-  return <Element initialData={data} />;
+  return <Element data={data} />;
 }
