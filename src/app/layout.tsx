@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { Outfit } from 'next/font/google'
 import './globals.css'
-import { PerformanceMonitor } from '@/components/PerformanceMonitor'
 import { GlobalNavbar } from '@/components/GlobalNavbar'
 import { GlobalFooter } from '@/components/GlobalFooter'
 
@@ -64,7 +63,7 @@ export default function RootLayout({
       </head>
       <body className={`${outfit.className} antialiased`}>
         <GlobalNavbar />
-        <main className="">
+        <main className="mt-16">
           {children}
         </main>
         <GlobalFooter />

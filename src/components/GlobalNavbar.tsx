@@ -8,22 +8,18 @@ import { usePathname } from 'next/navigation';
 
 export function GlobalNavbar() {
   const [navbarData, setNavbarData] = useState<NavbarData>();
-  const [isUpdating, setIsUpdating] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
     const loadNavbarData = async () => {
       try {
-        setIsUpdating(true);
         const data = await fetchNavbarData();
-        console.log("navbar data", data);
         setNavbarData(data);
       } catch (error) {
         console.error('Error loading navbar data:', error);
-      } finally {
-        setIsUpdating(false);
       }
     };
+    loadNavbarData();
   }, []);
 
   return (
@@ -32,9 +28,6 @@ export function GlobalNavbar() {
         theme={pathname === '/' ? 'dark' : 'light'}
         data={navbarData}
       />}
-      {isUpdating && (
-        <div className="absolute top-2 right-2 w-2 h-2 bg-blue-500 rounded-full animate-pulse opacity-60" />
-      )}
     </div>
   );
 } 

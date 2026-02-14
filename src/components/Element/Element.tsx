@@ -1,9 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Portfolio } from "./sections/Portfolio/Portfolio";
 import { Services } from "./sections/Services/Services";
-import { FooterSubsection } from "./sections/Footer/Footer";
 import { Hero } from "./sections/Hero/Hero";
 import { Mandate } from "./sections/Mandate/Mandate";
 import { ESGImpact } from "./sections/ESGImpact/ESGImpact";
@@ -20,18 +18,10 @@ export const  Element = ({ initialData }: ElementProps): JSX.Element => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Only fetch data if no initial data was provided
-    // if (initialData) {
-    //   setData(initialData);
-    //   setLoading(false);
-    //   return;
-    // }
-
     const loadData = async () => {
       try {
         setLoading(true);
         const homePageData = await fetchHomePageData();
-        console.log(homePageData);
         setData(homePageData);
       } catch (err) {
         console.error('Failed to load home page data:', err);
@@ -40,31 +30,17 @@ export const  Element = ({ initialData }: ElementProps): JSX.Element => {
         setLoading(false);
       }
     };
-
     loadData();
   }, []);
 
-  if (loading) {
-    return <Loader />;
-  }
-
-  if (error || !data) {
-    return (
-      <main className="flex flex-col w-full p-4 items-center justify-center min-h-screen">
-        <div className="text-center">
-          <p className="text-red-600 mb-4">Error loading content</p>
-          <p className="text-gray-600 text-sm">{error}</p>
-        </div>
-      </main>
-    );
-  }
-
   return (
     <main className="bg-black flex flex-col w-full">
+     {!data ? <></> : <>
       <Hero data={data.hero} navbar={data.navbar} />
       <Mandate data={data.mandate} />
       <Services data={data.what_we_do} />
       <ESGImpact data={data.esg_impact} />
+      </>}
     </main>
   );
 };
