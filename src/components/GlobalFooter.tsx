@@ -26,32 +26,9 @@ export const GlobalFooter = () => {
     loadFooterData();
   }, []);
 
-  if (loading) {
-    return (
-      <div className="bg-gray-900 text-white py-12">
-        <div className="max-w-[1440px] mx-auto px-5 sm:px-10 lg:px-16 xl:px-20">
-          <div className="text-center">
-            <div className="animate-pulse bg-gray-700 h-4 w-48 mx-auto rounded mb-4"></div>
-            <div className="animate-pulse bg-gray-700 h-4 w-32 mx-auto rounded"></div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (error || !footerData) {
-    // Fallback footer with basic structure
-    return (
-      <div className="bg-gray-900 text-white py-12">
-        <div className="max-w-[1440px] mx-auto px-5 sm:px-10 lg:px-16 xl:px-20">
-          <div className="text-center">
-            <p className="text-gray-400">© 2026 Blackaion. All rights reserved.</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-  console.log("footerData",footerData);
-
-  return <FooterSubsection data={footerData} />;
+  return <>
+    <div>
+      {footerData && <FooterSubsection data={footerData} />}
+    </div>
+  </>;
 }; 

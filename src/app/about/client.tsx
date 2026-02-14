@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { fetchAboutPageData, AboutPageData } from "@/lib/api";
 import { Navbar } from "@/components/Navbar";
+import { Loader } from "@/components/Loader/Loader";
 
 // Optimized Animation Variants
 const fadeInUp = {
@@ -36,13 +37,13 @@ const staggerContainer = {
 // Placeholder components for each section
 const AboutHeroSection = ({ data }: { data: AboutPageData }) => {
   return (
-    <motion.section 
+    <motion.section
       className="bg-white text-black py-20 pt-[140px]"
       initial="hidden"
       animate="visible"
       variants={staggerContainer}
     >
-    
+
       <div className="max-w-[1440px] mx-auto px-5 sm:px-10 lg:px-16 xl:px-20">
         <motion.div className="text-left mb-12" variants={fadeInUp}>
           <div>
@@ -60,7 +61,7 @@ const AboutHeroSection = ({ data }: { data: AboutPageData }) => {
               {data.about_us.description}
             </p>
           </motion.div>
-          <motion.div 
+          <motion.div
             className="w-full flex flex-col sm:flex-row sm:justify-between gap-10 col-span-12 xl:col-span-6 text-center"
             variants={staggerContainer}
           >
@@ -79,10 +80,10 @@ const AboutHeroSection = ({ data }: { data: AboutPageData }) => {
 
 const ExperienceSection = ({ data }: { data: AboutPageData }) => {
   const { scrollYProgress } = useScroll();
-  
+
   return (
     <section className="bg-white pt-20">
-      <motion.div 
+      <motion.div
         className="max-w-[1440px] mx-auto px-5 sm:px-10 lg:px-16 xl:px-20"
         initial="hidden"
         whileInView="visible"
@@ -91,15 +92,15 @@ const ExperienceSection = ({ data }: { data: AboutPageData }) => {
       >
         <p className="text-sm uppercase text-gray-500 tracking-widest">OUR MANDATE</p>
         <div className="w-full h-px bg-gray-200 mt-2 mb-12"></div>
-        <motion.div 
+        <motion.div
           className="relative rounded-2xl overflow-hidden h-[500px]"
           variants={scaleIn}
           whileHover={{ scale: 1.01 }}
           transition={{ duration: 0.3 }}
         >
-          <motion.img 
-            src={data?.mandate?.history_bg_img?.url} 
-            alt="Our Experience" 
+          <motion.img
+            src={data?.mandate?.history_bg_img?.url}
+            alt="Our Experience"
             className="absolute inset-0 w-full h-full object-cover"
             style={{
               y: useTransform(scrollYProgress, [0, 1], [0, -50])
@@ -114,16 +115,16 @@ const ExperienceSection = ({ data }: { data: AboutPageData }) => {
               </p>
             </div>
             <a href="#milestones">
-            <motion.button 
-              className="flex items-center gap-4 bg-goldcolor-9 text-white rounded-full pl-6 pr-2 py-2 text-sm w-fit font-medium transition-colors hover:bg-goldcolor-8 shrink-0"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <span>View Trackrecord</span>
-              <div className="bg-white text-black rounded-full w-8 h-8 flex items-center justify-center">
-                <ChevronDown className="w-5 h-5" />
-              </div>
-            </motion.button>
+              <motion.button
+                className="flex items-center gap-4 bg-goldcolor-9 text-white rounded-full pl-6 pr-2 py-2 text-sm w-fit font-medium transition-colors hover:bg-goldcolor-8 shrink-0"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <span>View Trackrecord</span>
+                <div className="bg-white text-black rounded-full w-8 h-8 flex items-center justify-center">
+                  <ChevronDown className="w-5 h-5" />
+                </div>
+              </motion.button>
             </a>
           </div>
         </motion.div>
@@ -135,7 +136,7 @@ const ExperienceSection = ({ data }: { data: AboutPageData }) => {
 const MissionVisionSection = ({ data }: { data: AboutPageData }) => {
   return (
     <section className="bg-white pb-12 sm:pb-16 md:pb-20">
-      <motion.div 
+      <motion.div
         className="max-w-[1280px] mx-auto px-5 sm:px-10 lg:px-16 xl:px-20 relative"
         initial="hidden"
         whileInView="visible"
@@ -143,7 +144,7 @@ const MissionVisionSection = ({ data }: { data: AboutPageData }) => {
         variants={fadeInUp}
       >
         <div className="bg-white shadow-xl rounded-2xl p-6 sm:p-8 md:p-10 lg:p-12 mt-12 md:-mt-32 relative z-10">
-          <motion.div 
+          <motion.div
             className="flex items-start md:items-center"
             variants={staggerContainer}
           >
@@ -163,25 +164,6 @@ const MissionVisionSection = ({ data }: { data: AboutPageData }) => {
                 </p>
               </div>
             </motion.div>
-            {/* <motion.div variants={fadeInUp}>
-              <div className="flex justify-center items-center bg-gray-100 h-80 rounded-lg">
-                <p className="text-gray-400">World Map Placeholder</p>
-              </div>
-              <div className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
-                  <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 rounded-full bg-goldcolor-8"></div>
-                      <span className="text-sm text-gray-600">Investments & Advisory</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 rounded-full bg-goldcolor-9"></div>
-                      <span className="text-sm text-gray-600">Advisory Only</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 rounded-full bg-bluecolor-8"></div>
-                      <span className="text-sm text-gray-600">Office</span>
-                  </div>
-              </div>
-            </motion.div> */}
           </motion.div>
         </div>
       </motion.div>
@@ -191,7 +173,7 @@ const MissionVisionSection = ({ data }: { data: AboutPageData }) => {
 
 // Mobile Timeline Component
 const MobileMilestonesTimeline = ({ milestones, activeIndex, setActiveIndex, handlePrev, handleNext, isFirst, isLast }: {
-  milestones: Array<{ id: number | string; date: string; formattedDate: string; title: string; description: string; [key: string]: any }>;
+  milestones: Array<{ id: number | string; date: string; formattedDate: string; title: string; description: string;[key: string]: any }>;
   activeIndex: number;
   setActiveIndex: (index: number) => void;
   handlePrev: () => void;
@@ -239,15 +221,15 @@ const MobileMilestonesTimeline = ({ milestones, activeIndex, setActiveIndex, han
               <div className="text-3xl font-bold text-white mb-3">
                 {milestones[activeIndex].formattedDate}
               </div>
-              
+
               {/* Title */}
               <div className="text-xs uppercase tracking-widest font-semibold text-gray-300 mb-6">
                 {milestones[activeIndex].title}
               </div>
-              
+
               {/* Separator */}
               <div className="w-full h-px bg-goldcolor-9 mb-6" />
-              
+
               {/* Description */}
               <p className="text-sm leading-relaxed text-gray-300 break-words">
                 {milestones[activeIndex].description}
@@ -263,9 +245,8 @@ const MobileMilestonesTimeline = ({ milestones, activeIndex, setActiveIndex, han
           <button
             key={index}
             onClick={() => setActiveIndex(index)}
-            className={`h-2 rounded-full transition-all ${
-              index === activeIndex ? 'w-8 bg-goldcolor-9' : 'w-2 bg-gray-600'
-            }`}
+            className={`h-2 rounded-full transition-all ${index === activeIndex ? 'w-8 bg-goldcolor-9' : 'w-2 bg-gray-600'
+              }`}
             aria-label={`Go to milestone ${index + 1}`}
           />
         ))}
@@ -276,7 +257,7 @@ const MobileMilestonesTimeline = ({ milestones, activeIndex, setActiveIndex, han
 
 // Desktop Timeline Component
 const DesktopMilestonesTimeline = ({ milestones, activeIndex, setActiveIndex, handlePrev, handleNext, isFirst, isLast }: {
-  milestones: Array<{ id: number | string; date: string; formattedDate: string; title: string; description: string; [key: string]: any }>;
+  milestones: Array<{ id: number | string; date: string; formattedDate: string; title: string; description: string;[key: string]: any }>;
   activeIndex: number;
   setActiveIndex: (index: number) => void;
   handlePrev: () => void;
@@ -287,7 +268,7 @@ const DesktopMilestonesTimeline = ({ milestones, activeIndex, setActiveIndex, ha
   const visibleMilestones = 3.5;
   const milestoneWidthPercent = 100 / visibleMilestones;
   const initialLeftOffset = milestoneWidthPercent;
-  
+
   const calculateScrollX = () => {
     if (milestones.length <= visibleMilestones || activeIndex === 0) {
       return `${initialLeftOffset}%`;
@@ -347,24 +328,21 @@ const DesktopMilestonesTimeline = ({ milestones, activeIndex, setActiveIndex, ha
                   className="flex flex-col items-start text-left w-full group pt-4"
                 >
                   {/* Date */}
-                  <div className={`text-2xl sm:text-3xl lg:text-3xl xl:text-4xl font-bold transition-colors mb-4 ${
-                    isActive ? 'text-white' : 'text-gray-500'
-                  }`}>
+                  <div className={`text-2xl sm:text-3xl lg:text-3xl xl:text-4xl font-bold transition-colors mb-4 ${isActive ? 'text-white' : 'text-gray-500'
+                    }`}>
                     {milestone.formattedDate}
                   </div>
-                  
+
                   {/* Title */}
-                  <div className={`text-xs sm:text-sm lg:text-xs xl:text-sm uppercase tracking-widest font-semibold mb-6 transition-colors ${
-                    isActive ? 'text-gray-300' : 'text-gray-600'
-                  }`}>
+                  <div className={`text-xs sm:text-sm lg:text-xs xl:text-sm uppercase tracking-widest font-semibold mb-6 transition-colors ${isActive ? 'text-gray-300' : 'text-gray-600'
+                    }`}>
                     {milestone.title}
                   </div>
-                  
+
                   {/* Separator */}
-                  <div className={`w-full h-px mb-8 transition-colors ${
-                    isActive ? 'bg-goldcolor-9' : 'bg-gray-700'
-                  }`} />
-                  
+                  <div className={`w-full h-px mb-8 transition-colors ${isActive ? 'bg-goldcolor-9' : 'bg-gray-700'
+                    }`} />
+
                   {/* Description */}
                   <div className="h-32 sm:h-40 md:h-48 overflow-hidden">
                     <AnimatePresence>
@@ -444,7 +422,7 @@ const KeyMilestonesSection = ({ data }: { data: AboutPageData }) => {
 
   // Check if mobile (including md screens)
   const [isMobile, setIsMobile] = useState(false);
-  
+
   useEffect(() => {
     const checkMobile = () => {
       if (typeof window !== 'undefined') {
@@ -458,7 +436,7 @@ const KeyMilestonesSection = ({ data }: { data: AboutPageData }) => {
 
   return (
     <section id="milestones" className="bg-black text-white py-20 ">
-      <motion.div 
+      <motion.div
         className="mx-auto max-w-[1440px] mx-auto px-5 sm:px-10 lg:px-16 xl:px-20"
         initial="hidden"
         whileInView="visible"
@@ -503,97 +481,11 @@ const KeyMilestonesSection = ({ data }: { data: AboutPageData }) => {
   );
 };
 
-// const TeamSection = () => {
-//   return (
-//     <section className="bg-white py-20 max-w-[1440px] mx-auto">
-//       <motion.div 
-//         className="w-full mx-auto px-5 sm:px-10 lg:px-16 xl:px-20"
-//         initial="hidden"
-//         whileInView="visible"
-//         viewport={{ once: true, amount: 0.1 }}
-//         variants={staggerContainer}
-//       >
-//         <motion.div className="text-left mb-12" variants={fadeInUp}>
-//           <p className="text-sm uppercase text-gray-500 tracking-widest">Our Team</p>
-//           <div className="w-full h-px bg-[#8298AB]/[0.3] mt-2"></div>
-//         </motion.div>
-
-//         <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 items-center" variants={staggerContainer}>
-//           {/* Board of Directors Text */}
-//           {/* <motion.div className="text-left" variants={fadeInUp}>
-//             <h3 className="text-2xl sm:text-[28px] font-medium text-bluecolor-9 leading-[1.35]">Board Of<br /> Directors</h3>
-//             <div className="w-full h-px bg-[#8298AB]/[0.3] my-6"></div>
-//             <p className="text-[#8195AA]">The Board of Directors oversees strategic direction to drive long-term growth & market sustainability.</p>
-//             <motion.button 
-//               className="mt-8 flex items-center gap-2 text-bluecolor-9 group"
-//               whileHover={{ x: 3 }}
-//               transition={{ type: "spring", stiffness: 400, damping: 10 }}
-//             >
-//               <span className="group-hover:underline">View Board</span>
-//               <div className="bg-bluecolor-9 text-white rounded-full w-8 h-8 flex items-center justify-center transition-transform group-hover:scale-110">
-//                 <ArrowUpRight className="w-4 h-4" />
-//               </div>
-//             </motion.button>
-//           </motion.div> */}
-
-//           {/* Obiora Okoye Card */}
-//           <motion.div 
-//             className="relative rounded-2xl overflow-hidden w-full max-w-[280px] mx-auto" 
-//             variants={scaleIn}
-//             whileHover={{ scale: 1.02, y: -3 }}
-//           >
-//             <img src="/obiora.png" alt="Obiora Okoye" className="w-full h-auto object-cover brightness-90" />
-//             <div className="flex flex-col items-end absolute bottom-0 left-0 right-0 p-6 text-left text-white bg-gradient-to-t from-black via-black/80 via-20% to-transparent">
-//               <div className="inline-block">
-//                 <h4 className="text-lg sm:text-xl font-medium">Obiora Okoye</h4>
-//                 <div className="h-px bg-goldcolor-i mt-2 mb-3"></div>
-//               </div>
-//               <p className="text-gray-200">Co-Founder & Partner</p>
-//             </div>
-//           </motion.div>
-          
-//           {/* Okwu Njoku Card */}
-//           <motion.div 
-//             className="relative rounded-2xl overflow-hidden w-full max-w-[280px] mx-auto" 
-//             variants={scaleIn}
-//             whileHover={{ scale: 1.02, y: -3 }}
-//           >
-//             <img src="/okwu.png" alt="Okwu Njoku" className="w-full h-auto object-cover brightness-90" />
-//             <div className="absolute bottom-0 left-0 right-0 p-6 text-left text-white bg-gradient-to-t from-black via-black/80 via-20% to-transparent">
-//               <div className="inline-block">
-//                 <h4 className="text-lg sm:text-xl font-medium">Okwu Njoku</h4>
-//                 <div className="h-px bg-goldcolor-i mt-2 mb-3"></div>
-//               </div>
-//               <p className="text-gray-200">Co-Founder & Partner</p>
-//             </div>
-//           </motion.div>
-
-//           {/* Management Team Text */}
-//           <motion.div className="text-left" variants={fadeInUp}>
-//             <h3 className="text-2xl sm:text-[28px] font-medium text-bluecolor-9 leading-[1.35]">Board of Directors</h3>
-//             <div className="w-full h-px bg-[#8298AB]/[0.3] my-6"></div>
-//             <p className="text-[#8195AA]">Our Board of Directors oversees strategic direction to drive long-term growth & market sustainability.</p>
-//             <a href="/team"><motion.button 
-//               className="mt-8 flex items-center gap-2 text-bluecolor-9 group"
-//               whileHover={{ x: 3 }}
-//               transition={{ type: "spring", stiffness: 400, damping: 10 }}
-//             >
-//               <span className="group-hover:underline">View Team</span>
-//               <div className="bg-bluecolor-9 text-white rounded-full w-8 h-8 flex items-center justify-center transition-transform group-hover:scale-110">
-//                 <ArrowUpRight className="w-4 h-4" />
-//               </div>
-//             </motion.button></a>
-//           </motion.div>
-//         </motion.div>
-//       </motion.div>
-//     </section>
-//   );
-// };
 
 const InfraTechSection = ({ data }: { data: AboutPageData }) => {
   return (
     <section className="w-full bg-black text-white py-[70px] sm:py-[100px]">
-      <motion.div 
+      <motion.div
         className="flex flex-col w-full max-w-[1440px] mx-auto items-start gap-[60px] px-5 sm:px-10 lg:px-16 xl:px-20"
         initial="hidden"
         whileInView="visible"
@@ -607,15 +499,9 @@ const InfraTechSection = ({ data }: { data: AboutPageData }) => {
               {data.infratech.title}
             </h2>
             <p className="text-[#8195AA] text-base sm:text-lg max-w-[450px]">
-             {data.infratech.description}
+              {data.infratech.description}
             </p>
           </div>
-          {/* <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-            <Button className="bg-white hover:bg-white/90 text-black rounded-full text-xs sm:text-sm px-[30px] py-[20px] flex items-center font-normal gap-2 transition-all duration-300">
-              <span>Learn More</span>
-              <ArrowUpRight className="w-5 h-5" />
-            </Button>
-          </motion.div> */}
         </motion.div>
 
         {/* Accordion section */}
@@ -629,23 +515,23 @@ const InfraTechSection = ({ data }: { data: AboutPageData }) => {
                 className="w-full space-y-2"
               >
                 <AccordionItem value={`item-${index}`} className="border-b border-white/10">
-                    <AccordionTrigger className="w-full text-left hover:no-underline py-6 group [&>svg]:hidden">
-                        <div className="flex flex-col sm:flex-row items-start sm:items-center w-full gap-4 sm:justify-between">
-                            <h3 className="text-2xl sm:text-3xl font-light w-full sm:w-1/4 text-[#8195AA] group-data-[state=open]:text-white transition-colors duration-300">
-                                {item.title}
-                            </h3>
-                            <p className="text-base font-normal text-[#8195AA] w-full sm:w-1/2 max-w-xl text-left group-data-[state=open]:hidden">
-                                {`${item.description.substring(0, 90)}...`}
-                            </p>
-                             <p className="text-base font-normal text-[#8195AA] w-full sm:w-1/2 max-w-xl text-left group-data-[state=closed]:hidden">
-                                 {`${item.description}`}
-                             </p>
-                            <div className="w-[50px] h-[50px] rounded-full flex items-center justify-center self-end sm:self-auto flex-shrink-0 transition-colors duration-300 border group-data-[state=open]:bg-white group-data-[state=closed]:bg-transparent group-data-[state=open]:border-transparent group-data-[state=closed]:border-white/40">
-                                <ArrowUpRight className="h-6 w-6 text-black hidden group-data-[state=open]:block" />
-                                <ArrowDown className="h-6 w-6 text-[#8195AA] hidden group-data-[state=closed]:block" />
-                            </div>
-                        </div>
-                    </AccordionTrigger>
+                  <AccordionTrigger className="w-full text-left hover:no-underline py-6 group [&>svg]:hidden">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center w-full gap-4 sm:justify-between">
+                      <h3 className="text-2xl sm:text-3xl font-light w-full sm:w-1/4 text-[#8195AA] group-data-[state=open]:text-white transition-colors duration-300">
+                        {item.title}
+                      </h3>
+                      <p className="text-base font-normal text-[#8195AA] w-full sm:w-1/2 max-w-xl text-left group-data-[state=open]:hidden">
+                        {`${item.description.substring(0, 90)}...`}
+                      </p>
+                      <p className="text-base font-normal text-[#8195AA] w-full sm:w-1/2 max-w-xl text-left group-data-[state=closed]:hidden">
+                        {`${item.description}`}
+                      </p>
+                      <div className="w-[50px] h-[50px] rounded-full flex items-center justify-center self-end sm:self-auto flex-shrink-0 transition-colors duration-300 border group-data-[state=open]:bg-white group-data-[state=closed]:bg-transparent group-data-[state=open]:border-transparent group-data-[state=closed]:border-white/40">
+                        <ArrowUpRight className="h-6 w-6 text-black hidden group-data-[state=open]:block" />
+                        <ArrowDown className="h-6 w-6 text-[#8195AA] hidden group-data-[state=closed]:block" />
+                      </div>
+                    </div>
+                  </AccordionTrigger>
                 </AccordionItem>
               </Accordion>
             </motion.div>
@@ -683,14 +569,7 @@ const AboutPageClient = ({ initialData }: AboutPageClientProps) => {
   }, []);
 
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-bluecolor-9 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading...</p>
-        </div>
-      </div>
-    );
+    return <Loader />;
   }
 
   if (error || !data) {
@@ -711,7 +590,7 @@ const AboutPageClient = ({ initialData }: AboutPageClientProps) => {
       <ExperienceSection data={data} />
       <MissionVisionSection data={data} />
       <InfraTechSection data={data} />
-      <KeyMilestonesSection data={data} />      
+      <KeyMilestonesSection data={data} />
     </div>
   );
 };

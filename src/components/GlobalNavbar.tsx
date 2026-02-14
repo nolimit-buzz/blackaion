@@ -12,7 +12,6 @@ export function GlobalNavbar() {
   const pathname = usePathname();
 
   useEffect(() => {
-    // Start with fallback data, then fetch fresh data
     const loadNavbarData = async () => {
       try {
         setIsUpdating(true);
@@ -21,25 +20,18 @@ export function GlobalNavbar() {
         setNavbarData(data);
       } catch (error) {
         console.error('Error loading navbar data:', error);
-        // Keep fallback data on error - never show "unavailable"
       } finally {
         setIsUpdating(false);
       }
     };
-
-    // // Small delay to prioritize initial render
-    // const timer = setTimeout(loadNavbarData, 100);
-    // return () => clearTimeout(timer);
   }, []);
 
-console.log(navbarData)
   return (
     <div className="fixed backdrop-blur-md top-0 left-0 right-0 z-50 w-full h-[100px] bg-transparent">
       {navbarData && <Navbar
         theme={pathname === '/' ? 'dark' : 'light'}
         data={navbarData}
       />}
-      {/* Subtle indicator when updating */}
       {isUpdating && (
         <div className="absolute top-2 right-2 w-2 h-2 bg-blue-500 rounded-full animate-pulse opacity-60" />
       )}

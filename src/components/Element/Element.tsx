@@ -14,9 +14,9 @@ interface ElementProps {
   initialData?: HomePageData;
 }
 
-export const Element = ({ initialData }: ElementProps): JSX.Element => {
+export const  Element = ({ initialData }: ElementProps): JSX.Element => {
   const [data, setData] = useState<HomePageData | null>(null);
-  const [loading, setLoading] = useState(!initialData);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {

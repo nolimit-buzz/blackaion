@@ -64,7 +64,7 @@ export default function RootLayout({
       </head>
       <body className={`${outfit.className} antialiased`}>
         <GlobalNavbar />
-        <main className="mt-16">
+        <main className="">
           {children}
         </main>
         <GlobalFooter />
