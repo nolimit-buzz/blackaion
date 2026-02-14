@@ -22,8 +22,8 @@ type ESGImpactProps = {
         id: number;
         name: string;
         url: string;
-        formats: {
-          thumbnail: { url: string };
+        formats?: {
+          thumbnail?: { url: string };
         };
       }>;
     }>;
@@ -31,19 +31,19 @@ type ESGImpactProps = {
 };
 
 export const ESGImpact = ({ data }: ESGImpactProps): JSX.Element => {
-  
+
   const esgCategories = data.esg_goals.map(goal => {
-    console.log(goal.sdg_images)
-    return({
-    id: `esg-${goal.id}`,
-    title: goal.title,
-    description: goal.description,
-    sdgImages: goal.sdg_images.map(image => ({
-      id: image.id,
-      name: image.name,
-      url: image.url,
-    })),
-  })});
+    return ({
+      id: `esg-${goal.id}`,
+      title: goal.title,
+      description: goal.description,
+      sdgImages: goal.sdg_images.map(image => ({
+        id: image.id,
+        name: image.name,
+        url: image.formats?.thumbnail?.url || image.url,
+      })),
+    })
+  });
 
   return (
     <section id="esg-impact" className="w-full max-w-[1440px] mx-auto px-5 sm:px-10 lg:px-16 xl:px-20 bg-black text-white py-[70px] sm:py-[100px]">
@@ -73,20 +73,20 @@ export const ESGImpact = ({ data }: ESGImpactProps): JSX.Element => {
         >
           {esgCategories.map((category) => (
             <AccordionItem key={category.id} value={category.id} className="border-b border-white/10">
-                <AccordionTrigger className="w-full text-left hover:no-underline py-6 group [&>svg]:hidden">
-                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center w-full gap-4">
-                        <h3 className="text-2xl sm:text-3xl font-light w-full md:w-1/4">
-                            {category.title}
-                        </h3>
-                        <p className="text-base font-normal text-white/70 w-full md:w-1/2 max-w-xl text-left">
-                            {category.description}
-                        </p>
-                        <div className="w-[50px] h-[50px] rounded-full flex items-center justify-center flex-shrink-0 transition-colors duration-300 border group-data-[state=open]:bg-white group-data-[state=closed]:bg-transparent group-data-[state=open]:border-transparent group-data-[state=closed]:border-white/40">
-                            <ArrowUpRight className="h-6 w-6 text-black hidden group-data-[state=open]:block" />
-                            <ArrowDown className="h-6 w-6 text-white/70 hidden group-data-[state=closed]:block" />
-                        </div>
-                    </div>
-                </AccordionTrigger>
+              <AccordionTrigger className="w-full text-left hover:no-underline py-6 group [&>svg]:hidden">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center w-full gap-4">
+                  <h3 className="text-2xl sm:text-3xl font-light w-full md:w-1/4">
+                    {category.title}
+                  </h3>
+                  <p className="text-base font-normal text-white/70 w-full md:w-1/2 max-w-xl text-left">
+                    {category.description}
+                  </p>
+                  <div className="w-[50px] h-[50px] rounded-full flex items-center justify-center flex-shrink-0 transition-colors duration-300 border group-data-[state=open]:bg-white group-data-[state=closed]:bg-transparent group-data-[state=open]:border-transparent group-data-[state=closed]:border-white/40">
+                    <ArrowUpRight className="h-6 w-6 text-black hidden group-data-[state=open]:block" />
+                    <ArrowDown className="h-6 w-6 text-white/70 hidden group-data-[state=closed]:block" />
+                  </div>
+                </div>
+              </AccordionTrigger>
               <AccordionContent className="pt-4 pb-8">
                 <div className="flex w-full justify-end gap-1 mr-auto">
                   {category.sdgImages.map((image, index) => (

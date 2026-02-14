@@ -8,6 +8,7 @@ import { Hero } from "./sections/Hero/Hero";
 import { Mandate } from "./sections/Mandate/Mandate";
 import { ESGImpact } from "./sections/ESGImpact/ESGImpact";
 import { fetchHomePageData, HomePageData } from "@/lib/api";
+import { Loader } from "@/components/Loader/Loader";
 
 interface ElementProps {
   initialData?: HomePageData;
@@ -43,14 +44,7 @@ export const Element = ({ initialData }: ElementProps): JSX.Element => {
   }, [initialData]);
 
   if (loading) {
-    return (
-      <main className="flex flex-col w-full p-4 items-center justify-center min-h-screen">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading...</p>
-        </div>
-      </main>
-    );
+    return <Loader />;
   }
 
   if (error || !data) {
