@@ -154,18 +154,22 @@ export const Hero = ({ theme = 'dark', data, navbar }: HeroProps): JSX.Element =
             <AnimatePresence initial={false} mode="wait">
               <motion.div
                 key={currentImageIndex}
-                className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-                style={{
-                  backgroundImage: sliderImages ? `url('${sliderImages[currentImageIndex].optimizedUrl}')` : "",
-                  y: backgroundY,
-                  scale: backgroundScale,
-                }}
+                className="absolute inset-0"
                 variants={fadeVariants}
                 initial="hidden"
                 animate="visible"
                 exit="exit"
                 transition={{ duration: 1, ease: "easeInOut" }}
-              />
+              >
+                <Image
+                  className="object-cover object-center w-full h-full"
+                  src={sliderImages[currentImageIndex].optimizedUrl}
+                  alt="hero"
+                  width={1440}
+                  height={800}
+                  priority
+                />
+              </motion.div>
             </AnimatePresence>
 
             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
@@ -195,17 +199,7 @@ export const Hero = ({ theme = 'dark', data, navbar }: HeroProps): JSX.Element =
                   >
                     <span className="flex items-center text-white">
                       {data.cta}
-                      <motion.img
-                        className="ml-2 w-4 h-4"
-                        src="/arrow---arrow-right-md.svg"
-                        alt="arrow"
-                        animate={{ x: [0, 4, 0] }}
-                        transition={{
-                          repeat: Infinity,
-                          duration: 1.5,
-                          ease: "easeInOut",
-                        }}
-                      />
+                      <Image src="/arrow---arrow-right-md.svg" alt="arrow" width={16} height={16} priority/>
                     </span>
                   </Button>
                   </a>
