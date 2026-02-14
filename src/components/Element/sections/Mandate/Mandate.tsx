@@ -369,9 +369,7 @@ export const Mandate = ({ data }: MandateProps): JSX.Element => {
                       </span>
                       
                       <motion.div
-                        className={`rounded-full p-2 ml-4 transition-all duration-500 ${
-                          activeItem === section.id ? "bg-white shadow-lg" : "bg-bluecolor-4"
-                        }`}
+                        className={`transition-all duration-500`}
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.95 }}
                         animate={{ 
@@ -381,7 +379,7 @@ export const Mandate = ({ data }: MandateProps): JSX.Element => {
                       >
                         <ChevronDownIcon 
                           className={`w-5 h-5 transition-colors duration-500 ${
-                            activeItem === section.id ? "text-colorbrand-black" : "text-white"
+                            activeItem === section.id ? "text-white/40" : "text-white/20"
                           }`} 
                         />
                       </motion.div>

@@ -69,9 +69,7 @@ export const Element = ({ initialData }: ElementProps): JSX.Element => {
       <Hero data={data.hero} navbar={data.navbar} />
       <Mandate data={data.mandate} />
       <Services data={data.what_we_do} />
-      {/* <Portfolio data={data.portfolio} /> */}
       <ESGImpact data={data.esg_impact} />
-      {/* <FooterSubsection data={data.footer} /> */}
     </main>
   );
 };

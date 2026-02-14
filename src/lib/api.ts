@@ -149,29 +149,32 @@ export interface ApiResponse {
   meta: any;
 }
 
-// Cache for API responses
-const cache = new Map<string, { data: any; timestamp: number }>();
-const CACHE_DURATION = 30 * 60 * 1000; // 30 minutes (increased from 5)
 
-function getCachedData(key: string) {
-  const cached = cache.get(key);
-  if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
-    return cached.data;
+
+function prefixImageUrls(data: any): any {
+  if (!data) return data;
+
+  if (Array.isArray(data)) {
+    return data.map(item => prefixImageUrls(item));
   }
-  return null;
-}
 
-function setCachedData(key: string, data: any) {
-  cache.set(key, { data, timestamp: Date.now() });
+  if (typeof data === 'object') {
+    const newData: any = {};
+    for (const key in data) { // iterate over keys
+      if (key === 'url' && typeof data[key] === 'string' && data[key].startsWith('/')) {
+        newData[key] = `${process.env.NEXT_PUBLIC_API_URL}${data[key]}`;
+      } else {
+        newData[key] = prefixImageUrls(data[key]);
+      }
+    }
+    return newData;
+  }
+
+  return data;
 }
 
 export async function fetchHomePageData(): Promise<HomePageData> {
-  const cacheKey = 'homepage-data';
-  const cachedData = getCachedData(cacheKey);
-  
-  if (cachedData) {
-    return cachedData;
-  }
+
 
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const apiToken = process.env.NEXT_PUBLIC_API_TOKEN;
@@ -197,11 +200,11 @@ export async function fetchHomePageData(): Promise<HomePageData> {
     }
 
     const data: ApiResponse = await response.json();
-    const result = data.data;
-    
-    // Cache the result
-    setCachedData(cacheKey, result);
-    
+    let result = data.data;
+    result = prefixImageUrls(result);
+
+
+
     return result;
   } catch (error) {
     console.error('Error fetching home page data:', error);
@@ -212,13 +215,13 @@ export async function fetchHomePageData(): Promise<HomePageData> {
 // Helper function to extract text from rich text content
 export function extractTextFromRichText(content: Array<{ type: string; children: Array<{ type: string; text: string; bold?: boolean }> }>): string {
   return content
-    .map(block => 
+    .map(block =>
       block.children
         .map(child => child.text)
         .join('')
     )
     .join('\n');
-} 
+}
 
 export interface AboutPageData {
   id: number;
@@ -450,12 +453,7 @@ export interface AboutPageApiResponse {
 }
 
 export async function fetchAboutPageData(): Promise<AboutPageData> {
-  const cacheKey = 'aboutpage-data';
-  const cachedData = getCachedData(cacheKey);
-  
-  if (cachedData) {
-    return cachedData;
-  }
+
 
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const apiToken = process.env.NEXT_PUBLIC_API_TOKEN;
@@ -481,11 +479,11 @@ export async function fetchAboutPageData(): Promise<AboutPageData> {
     }
 
     const data: AboutPageApiResponse = await response.json();
-    const result = data.data;
-    
-    // Cache the result
-    setCachedData(cacheKey, result);
-    
+    let result = data.data;
+    result = prefixImageUrls(result);
+
+
+
     return result;
   } catch (error) {
     console.error('Error fetching about page data:', error);
@@ -630,13 +628,7 @@ export interface TeamPageApiResponse {
 }
 
 export async function fetchTeamPageData(): Promise<TeamPageData> {
-  const cacheKey = 'teampage-data';
-  const cachedData = getCachedData(cacheKey);
-  
-  if (cachedData) {
-    console.log('Using cached team page data');
-    return cachedData;
-  }
+
 
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const apiToken = process.env.NEXT_PUBLIC_API_TOKEN;
@@ -646,7 +638,7 @@ export async function fetchTeamPageData(): Promise<TeamPageData> {
   }
 
   const endpoint = `${apiUrl}/api/team-page?populate=navbar&populate=navbar.logo&populate=team_members&populate=team_members.img`;
-  
+
   console.log('Fetching team page data from:', endpoint);
 
   try {
@@ -674,12 +666,12 @@ export async function fetchTeamPageData(): Promise<TeamPageData> {
 
     const data: TeamPageApiResponse = await response.json();
     console.log('Team page data received:', data ? 'Yes' : 'No');
-    
-    const result = data.data;
-    
-    // Cache the result
-    setCachedData(cacheKey, result);
-    
+
+    let result = data.data;
+    result = prefixImageUrls(result);
+
+
+
     return result;
   } catch (error) {
     console.error('Error fetching team page data:', error);
@@ -741,12 +733,7 @@ export interface TeamMemberDetailApiResponse {
 }
 
 export async function fetchTeamMemberDetail(documentId: string): Promise<TeamMemberDetailData> {
-  const cacheKey = `team-member-${documentId}`;
-  const cachedData = getCachedData(cacheKey);
-  
-  if (cachedData) {
-    return cachedData;
-  }
+
 
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const apiToken = process.env.NEXT_PUBLIC_API_TOKEN;
@@ -778,11 +765,11 @@ export async function fetchTeamMemberDetail(documentId: string): Promise<TeamMem
     }
 
     const data: TeamMemberDetailApiResponse = await response.json();
-    const result = data.data;
-    
-    // Cache the result
-    setCachedData(cacheKey, result);
-    
+    let result = data.data;
+    result = prefixImageUrls(result);
+
+
+
     return result;
   } catch (error) {
     console.error('Error fetching team member detail:', error);
@@ -798,7 +785,7 @@ export interface FooterData {
     formats: {
       thumbnail: { url: string };
     };
-   };
+  };
   description: string;
   social_links: Array<{ link: string; title: string }>;
   quick_links: Array<{ link: string; title: string }>;
@@ -817,12 +804,7 @@ export interface FooterApiResponse {
 }
 
 export async function fetchFooterData(): Promise<FooterData> {
-  const cacheKey = 'footer-data';
-  const cachedData = getCachedData(cacheKey);
-  
-  if (cachedData) {
-    return cachedData;
-  }
+
 
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const apiToken = process.env.NEXT_PUBLIC_API_TOKEN;
@@ -856,8 +838,8 @@ export async function fetchFooterData(): Promise<FooterData> {
 
     const data: any = await response.json();
     const result = data.data;
-    console.log("result",result);
-    
+    console.log("result", result);
+
     // Transform the data to match the FooterData interface
     const transformedResult = {
       logo: result.logo,
@@ -872,11 +854,12 @@ export async function fetchFooterData(): Promise<FooterData> {
         telephone: office.telephone || null
       }))
     };
-    
-    // Cache the result
-    setCachedData(cacheKey, transformedResult);
-    
-    return transformedResult;
+
+    const finalResult = prefixImageUrls(transformedResult);
+
+
+
+    return finalResult;
   } catch (error) {
     console.error('Error fetching footer data:', error);
     if (error instanceof Error && error.name === 'AbortError') {
@@ -962,12 +945,7 @@ export interface NavbarData {
 }
 
 export async function fetchNavbarData(): Promise<NavbarData> {
-  const cacheKey = 'navbar-data';
-  const cachedData = getCachedData(cacheKey);
-  
-  if (cachedData) {
-    return cachedData;
-  }
+
 
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const apiToken = process.env.NEXT_PUBLIC_API_TOKEN;
@@ -1001,18 +979,19 @@ export async function fetchNavbarData(): Promise<NavbarData> {
 
     const data: any = await response.json();
     const result = data.data;
-    
+
     // Transform the data to match the Navbar component interface
     const transformedResult = {
       id: result.id,
       nav_links: result.links, // Note: API returns 'links' but component expects 'nav_links'
       logo: result.logo
     };
-    
-    // Cache the result
-    setCachedData(cacheKey, transformedResult);
-    
-    return transformedResult;
+
+    const finalResult = prefixImageUrls(transformedResult);
+
+
+
+    return finalResult;
   } catch (error) {
     console.error('Error fetching navbar data:', error);
     if (error instanceof Error && error.name === 'AbortError') {
@@ -1020,7 +999,7 @@ export async function fetchNavbarData(): Promise<NavbarData> {
     }
     throw error;
   }
-} 
+}
 
 export interface FundsPageData {
   id: number;
@@ -1061,11 +1040,7 @@ export interface FundsPageData {
 export interface FundsPageApiResponse { data: FundsPageData; meta: any; }
 
 export async function fetchFundsPageData(): Promise<FundsPageData> {
-  const cacheKey = 'funds-page-data';
-  const cachedData = getCachedData(cacheKey);
-  if (cachedData) {
-    return cachedData;
-  }
+
 
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const apiToken = process.env.NEXT_PUBLIC_API_TOKEN;
@@ -1099,9 +1074,10 @@ export async function fetchFundsPageData(): Promise<FundsPageData> {
     }
 
     const data: FundsPageApiResponse = await response.json();
-    const result = data.data;
-    
-    setCachedData(cacheKey, result);
+    let result = data.data;
+    result = prefixImageUrls(result);
+
+
     return result;
   } catch (error) {
     console.error('Error fetching funds page data:', error);
@@ -1110,7 +1086,7 @@ export async function fetchFundsPageData(): Promise<FundsPageData> {
     }
     throw error;
   }
-} 
+}
 
 export interface FundDetailData {
   id: number;
@@ -1141,11 +1117,7 @@ export interface FundDetailData {
 export interface FundDetailApiResponse { data: FundDetailData; meta: any; }
 
 export async function fetchFundDetail(documentId: string): Promise<FundDetailData> {
-  const cacheKey = `fund-detail-${documentId}`;
-  const cachedData = getCachedData(cacheKey);
-  if (cachedData) {
-    return cachedData;
-  }
+
 
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const apiToken = process.env.NEXT_PUBLIC_API_TOKEN;
@@ -1178,8 +1150,9 @@ export async function fetchFundDetail(documentId: string): Promise<FundDetailDat
     }
 
     const data: FundDetailApiResponse = await response.json();
-    const result = data.data;
-    setCachedData(cacheKey, result);
+    let result = data.data;
+    result = prefixImageUrls(result);
+
     return result;
   } catch (error) {
     console.error('Error fetching fund detail:', error);
