@@ -15,22 +15,23 @@ interface ElementProps {
 }
 
 export const Element = ({ initialData }: ElementProps): JSX.Element => {
-  const [data, setData] = useState<HomePageData | null>(initialData || null);
+  const [data, setData] = useState<HomePageData | null>(null);
   const [loading, setLoading] = useState(!initialData);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     // Only fetch data if no initial data was provided
-    if (initialData) {
-      setData(initialData);
-      setLoading(false);
-      return;
-    }
+    // if (initialData) {
+    //   setData(initialData);
+    //   setLoading(false);
+    //   return;
+    // }
 
     const loadData = async () => {
       try {
         setLoading(true);
         const homePageData = await fetchHomePageData();
+        console.log(homePageData);
         setData(homePageData);
       } catch (err) {
         console.error('Failed to load home page data:', err);
@@ -41,7 +42,7 @@ export const Element = ({ initialData }: ElementProps): JSX.Element => {
     };
 
     loadData();
-  }, [initialData]);
+  }, []);
 
   if (loading) {
     return <Loader />;

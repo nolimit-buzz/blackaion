@@ -958,8 +958,8 @@ export async function fetchNavbarData(): Promise<NavbarData> {
   const endpoint = `${apiUrl}/api/navbar?populate=logo`;
 
   try {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 5000); // Reduced timeout to 5 seconds
+    // const controller = new AbortController();
+    // const timeoutId = setTimeout(() => controller.abort(), 5000); // Reduced timeout to 5 seconds
 
     const response = await fetch(endpoint, {
       method: 'GET',
@@ -967,17 +967,19 @@ export async function fetchNavbarData(): Promise<NavbarData> {
         'Authorization': `Bearer ${apiToken}`,
         'Content-Type': 'application/json',
       },
-      signal: controller.signal,
-      next: { revalidate: 3600 }, // Cache for 1 hour
+      // signal: controller.signal,
+      // next: { revalidate: 3600 }, // Cache for 1 hour
     });
+    console.log("response", response);
 
-    clearTimeout(timeoutId);
+    // clearTimeout(timeoutId);
 
     if (!response.ok) {
       throw new Error(`API request failed: ${response.status} ${response.statusText}`);
     }
 
     const data: any = await response.json();
+    console.log("data", data);
     const result = data.data;
 
     // Transform the data to match the Navbar component interface

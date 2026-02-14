@@ -116,8 +116,8 @@ export const Navbar = ({ theme = 'dark', data }: NavbarProps): JSX.Element => {
             <motion.div variants={slideInFromLeft}>
               <motion.img
                 className="w-auto h-[48px] object-contain cursor-pointer"
-                src={theme === 'light' ? "https://cms.blackaion.com/uploads/small_Logo_Final2_f644d11353.png" : data.logo.formats?.small?.url || data.logo.url}
-                alt={data.logo.alternativeText || "Blackaion Logo"}
+                src={theme === 'light' ? "https://cms.blackaion.com/uploads/thumbnail_Logo_Final2_03883dec4d.png" : data?.logo?.formats?.small?.url || data?.logo?.url}
+                alt={ "Blackaion Logo"}
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.2 }}
               />

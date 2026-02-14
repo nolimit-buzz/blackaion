@@ -84,7 +84,7 @@ export const Hero = ({ theme = 'dark', data, navbar }: HeroProps): JSX.Element =
 
   // Memoize slider images to prevent unnecessary re-renders
   const sliderImages = useMemo(() => {
-    return data.slider.map(slide => ({
+    return data?.slider?.map(slide => ({
       ...slide,
       optimizedUrl: slide.formats.large.url
     }));
@@ -104,13 +104,13 @@ export const Hero = ({ theme = 'dark', data, navbar }: HeroProps): JSX.Element =
   // Slider logic
   const goToNext = () => {
     setCurrentImageIndex((prevIndex) =>
-      prevIndex === sliderImages.length - 1 ? 0 : prevIndex + 1
+      prevIndex === sliderImages?.length - 1 ? 0 : prevIndex + 1
     );
   };
 
   const goToPrevious = () => {
     setCurrentImageIndex((prevIndex) =>
-      prevIndex === 0 ? sliderImages.length - 1 : prevIndex - 1
+      prevIndex === 0 ? sliderImages?.length - 1 : prevIndex - 1
     );
   };
 
@@ -156,7 +156,7 @@ export const Hero = ({ theme = 'dark', data, navbar }: HeroProps): JSX.Element =
                 key={currentImageIndex}
                 className="absolute inset-0 bg-cover bg-center bg-no-repeat"
                 style={{
-                  backgroundImage: `url('${sliderImages[currentImageIndex].optimizedUrl}')`,
+                  backgroundImage: sliderImages ? `url('${sliderImages[currentImageIndex].optimizedUrl}')` : "",
                   y: backgroundY,
                   scale: backgroundScale,
                 }}

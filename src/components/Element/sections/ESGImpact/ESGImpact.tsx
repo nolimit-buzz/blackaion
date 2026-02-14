@@ -32,15 +32,15 @@ type ESGImpactProps = {
 
 export const ESGImpact = ({ data }: ESGImpactProps): JSX.Element => {
 
-  const esgCategories = data.esg_goals.map(goal => {
+  const esgCategories = data?.esg_goals?.map(goal => {
     return ({
-      id: `esg-${goal.id}`,
-      title: goal.title,
-      description: goal.description,
-      sdgImages: goal.sdg_images.map(image => ({
-        id: image.id,
-        name: image.name,
-        url: image.formats?.thumbnail?.url || image.url,
+      id: `esg-${goal?.id}`,
+      title: goal?.title,
+      description: goal?.description,
+      sdgImages: goal?.sdg_images?.map(image => ({
+        id: image?.id,
+        name: image?.name, 
+        url: image?.formats?.thumbnail?.url || image?.url,
       })),
     })
   });
@@ -89,7 +89,7 @@ export const ESGImpact = ({ data }: ESGImpactProps): JSX.Element => {
               </AccordionTrigger>
               <AccordionContent className="pt-4 pb-8">
                 <div className="flex w-full justify-end gap-1 mr-auto">
-                  {category.sdgImages.map((image, index) => (
+                  {category?.sdgImages?.map((image, index) => (
                     <Image
                       key={index}
                       src={image.url}

@@ -7,7 +7,7 @@ import { FALLBACK_NAVBAR_DATA } from '@/lib/fallbackData';
 import { usePathname } from 'next/navigation';
 
 export function GlobalNavbar() {
-  const [navbarData, setNavbarData] = useState<NavbarData>(FALLBACK_NAVBAR_DATA);
+  const [navbarData, setNavbarData] = useState<NavbarData>();
   const [isUpdating, setIsUpdating] = useState(false);
   const pathname = usePathname();
 
@@ -17,6 +17,7 @@ export function GlobalNavbar() {
       try {
         setIsUpdating(true);
         const data = await fetchNavbarData();
+        console.log("navbar data", data);
         setNavbarData(data);
       } catch (error) {
         console.error('Error loading navbar data:', error);
@@ -26,17 +27,18 @@ export function GlobalNavbar() {
       }
     };
 
-    // Small delay to prioritize initial render
-    const timer = setTimeout(loadNavbarData, 100);
-    return () => clearTimeout(timer);
+    // // Small delay to prioritize initial render
+    // const timer = setTimeout(loadNavbarData, 100);
+    // return () => clearTimeout(timer);
   }, []);
 
+console.log(navbarData)
   return (
     <div className="fixed backdrop-blur-md top-0 left-0 right-0 z-50 w-full h-[100px] bg-transparent">
-      <Navbar
+      {navbarData && <Navbar
         theme={pathname === '/' ? 'dark' : 'light'}
         data={navbarData}
-      />
+      />}
       {/* Subtle indicator when updating */}
       {isUpdating && (
         <div className="absolute top-2 right-2 w-2 h-2 bg-blue-500 rounded-full animate-pulse opacity-60" />
