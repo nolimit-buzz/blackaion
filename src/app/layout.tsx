@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     siteName: 'Blackaion',
     images: [
       {
-        url: 'https://cms.blackaion.com/uploads/thumbnail_vecteezy_digital_rendering_portrays_africa_s_illuminated_cities_71161648_1_1_1_d655d92dc1.jpg',
+        url: 'https://cms.blackaion.com/uploads/thumbnail_vecteezy_digital_rendering_portrays_africa_s_illuminated_cities_71161648_1_1_1_1_37e585709a.webp',
         width: 1200,
         height: 630,
         alt: 'Blackaion - Infrastructure Investment & Development',
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Blackaion - Infrastructure Investment & Development',
     description: 'Investment and advisory company with a focus on developing and growing infrastructure, energy and technology ventures across West Africa.',
-    images: ['https://cms.blackaion.com/uploads/thumbnail_vecteezy_digital_rendering_portrays_africa_s_illuminated_cities_71161648_1_1_1_d655d92dc1.jpg'],
+    images: ['https://cms.blackaion.com/uploads/thumbnail_vecteezy_digital_rendering_portrays_africa_s_illuminated_cities_71161648_1_1_1_1_37e585709a.webp'],
   },
 }
 
