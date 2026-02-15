@@ -1,18 +1,14 @@
 'use client'
 import { ChevronDown, ArrowLeft, ArrowRight, ArrowUpRight, ArrowDown } from "lucide-react";
-import React, { useState, useMemo, useEffect, useRef } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import {
   Accordion,
-  AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
-import { fetchAboutPageData, AboutPageData } from "@/lib/api";
-import { Navbar } from "@/components/Navbar";
-import { Loader } from "@/components/Loader/Loader";
-
+import { AboutPageData } from "@/lib/api";
+import Image from "next/image";
 // Optimized Animation Variants
 const fadeInUp = {
   hidden: { opacity: 0, y: 20 },
@@ -51,21 +47,21 @@ const AboutHeroSection = ({ data }: { data: AboutPageData }) => {
             <div className="w-full h-px bg-gray-300 mt-4 mb-8"></div>
           </div>
           <h1 className="text-3xl sm:text-4xl font-medium max-w-[680px] text-bluecolor-9 leading-[1.4]">
-            {data.about_us.title}
+            {data?.about_us?.title}
           </h1>
         </motion.div>
 
         <div className="flex flex-col gap-8 lg:grid lg:grid-cols-12 items-start">
           <motion.div className="col-span-12 xl:col-span-6" variants={fadeInUp}>
             <p className="leading-relaxed max-w-[537px] text-[#8298AB]">
-              {data.about_us.description}
+              {data?.about_us?.description}
             </p>
           </motion.div>
           <motion.div
             className="w-full flex flex-col sm:flex-row sm:justify-between gap-10 col-span-12 xl:col-span-6 text-center"
             variants={staggerContainer}
           >
-            {data.about_us.numbers.map((number, index) => (
+            {data?.about_us?.numbers?.map((number, index) => (
               <motion.div key={index} variants={fadeInUp}>
                 <p className="text-3xl sm:text-4xl lg:text-6xl font-normal text-bluecolor-9">{number.value}</p>
                 <p className="text-sm mt-1 max-w-[144px] mx-auto text-[#8195AA]">{number.title}</p>
@@ -98,13 +94,16 @@ const ExperienceSection = ({ data }: { data: AboutPageData }) => {
           whileHover={{ scale: 1.01 }}
           transition={{ duration: 0.3 }}
         >
-          <motion.img
+          <Image
             src={data?.mandate?.history_bg_img?.url}
             alt="Our Experience"
+            width={1000}
+            height={500}
+            priority
             className="absolute inset-0 w-full h-full object-cover"
-            style={{
-              y: useTransform(scrollYProgress, [0, 1], [0, -50])
-            }}
+            // style={{
+            //   y: useTransform(scrollYProgress, [0, 1], [0, -50])
+            // }}
           />
           <div className="absolute inset-0 bg-black bg-opacity-50" />
           <div className="relative h-full flex flex-col justify-end p-8 gap-8 sm:flex-row sm:justify-between sm:items-start sm:p-12 sm:pt-28">
@@ -152,7 +151,7 @@ const MissionVisionSection = ({ data }: { data: AboutPageData }) => {
               <div className="flex-1 w-full md:w-auto">
                 <h3 className="text-lg sm:text-xl md:text-[22px] font-medium text-goldcolor-9 leading-[1.4]">Mission</h3>
                 <p className="mt-3 sm:mt-4 text-sm sm:text-base md:text-lg text-bluecolor-4 leading-relaxed">
-                  {data.mandate.mission}
+                  {data?.mandate?.mission}
                 </p>
               </div>
               {/* Separator line - horizontal on mobile, vertical on desktop */}
@@ -160,7 +159,7 @@ const MissionVisionSection = ({ data }: { data: AboutPageData }) => {
               <div className="flex-1 w-full md:w-auto">
                 <h3 className="text-lg sm:text-xl md:text-[22px] font-medium text-goldcolor-9 leading-[1.4]">Vision</h3>
                 <p className="mt-3 sm:mt-4 text-sm sm:text-base md:text-lg text-bluecolor-4 leading-relaxed">
-                  {data.mandate.vision}
+                  {data?.mandate?.vision}
                 </p>
               </div>
             </motion.div>
@@ -270,7 +269,7 @@ const DesktopMilestonesTimeline = ({ milestones, activeIndex, setActiveIndex, ha
   const initialLeftOffset = milestoneWidthPercent;
 
   const calculateScrollX = () => {
-    if (milestones.length <= visibleMilestones || activeIndex === 0) {
+    if (milestones?.length <= visibleMilestones || activeIndex === 0) {
       return `${initialLeftOffset}%`;
     }
     const scrollLeft = activeIndex * milestoneWidthPercent;
@@ -311,10 +310,10 @@ const DesktopMilestonesTimeline = ({ milestones, activeIndex, setActiveIndex, ha
           }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
           style={{
-            width: `${milestones.length * milestoneWidthPercent}%`
+            width: `${milestones?.length * milestoneWidthPercent}%`
           }}
         >
-          {milestones.map((milestone, index) => {
+          {milestones?.map((milestone, index) => {
             const isActive = index === activeIndex;
             return (
               <div
@@ -387,23 +386,23 @@ const KeyMilestonesSection = ({ data }: { data: AboutPageData }) => {
 
   // Get only real milestones (no placeholders) and sort by date
   const milestones = useMemo(() => {
-    return data.milestones.milestones_list
+    return data?.milestones?.milestones_list
       .map((milestone) => ({
         ...milestone,
         dateObj: new Date(milestone.date),
         formattedDate: formatDate(milestone.date),
       }))
       .sort((a, b) => a.dateObj.getTime() - b.dateObj.getTime());
-  }, [data.milestones.milestones_list]);
+  }, [data?.milestones?.milestones_list]);
 
   const [activeIndex, setActiveIndex] = useState(0);
 
   // Ensure activeIndex stays within bounds
   useEffect(() => {
-    if (activeIndex >= milestones.length) {
-      setActiveIndex(Math.max(0, milestones.length - 1));
+    if (activeIndex >= milestones?.length) {
+      setActiveIndex(Math.max(0, milestones?.length - 1));
     }
-  }, [activeIndex, milestones.length]);
+  }, [activeIndex, milestones?.length]);
 
   const handlePrev = () => {
     if (activeIndex > 0) {
@@ -418,7 +417,7 @@ const KeyMilestonesSection = ({ data }: { data: AboutPageData }) => {
   };
 
   const isFirst = activeIndex === 0;
-  const isLast = activeIndex === milestones.length - 1;
+  const isLast = activeIndex === milestones?.length - 1;
 
   // Check if mobile (including md screens)
   const [isMobile, setIsMobile] = useState(false);
@@ -446,9 +445,9 @@ const KeyMilestonesSection = ({ data }: { data: AboutPageData }) => {
         <motion.div className="text-left mb-16" variants={fadeInUp}>
           <p className="text-sm sm:text-base uppercase text-gray-400 tracking-widest font-semibold">KEY MILESTONES</p>
           <div className="w-full h-px bg-gray-700 mt-4 mb-8"></div>
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-[1.2]">{data.milestones.title}</h2>
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-[1.2]">{data?.milestones?.title}</h2>
           <p className="mt-6 text-lg sm:text-xl text-gray-400 max-w-[680px] leading-relaxed font-medium">
-            {data.milestones.description}
+            {data?.milestones?.description}
           </p>
         </motion.div>
 
@@ -496,17 +495,17 @@ const InfraTechSection = ({ data }: { data: AboutPageData }) => {
         <motion.div className="flex w-full flex-col items-start gap-8 sm:flex-row sm:items-center sm:justify-between" variants={fadeInUp}>
           <div className="flex flex-col items-start gap-4">
             <h2 className="text-[36px] sm:text-[42px] lg:text-[48px] font-bold tracking-[-0.02em]">
-              {data.infratech.title}
+              {data?.infratech?.title}
             </h2>
             <p className="text-[#8195AA] text-base sm:text-lg max-w-[450px]">
-              {data.infratech.description}
+              {data?.infratech?.description}
             </p>
           </div>
         </motion.div>
 
         {/* Accordion section */}
         <motion.div className="w-full" variants={staggerContainer}>
-          {data.infratech.accordion_items.map((item, index) => (
+          {data?.infratech?.accordion_items?.map((item, index) => (
             <motion.div key={index} variants={fadeInUp}>
               <Accordion
                 type="single"
@@ -542,50 +541,10 @@ const InfraTechSection = ({ data }: { data: AboutPageData }) => {
   );
 };
 
-interface AboutPageClientProps {
-  initialData?: AboutPageData;
-}
 
-const AboutPageClient = ({ initialData }: AboutPageClientProps) => {
-  const [data, setData] = useState<AboutPageData | null>();
-  const [loading, setLoading] = useState(!data);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const aboutData = await fetchAboutPageData();
-        setData(aboutData);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to fetch data');
-        console.error('Error fetching about page data:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  if (loading) {
-    return <Loader />;
-  }
-
-  if (error || !data) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-red-600 mb-4">Error loading page data</p>
-          <p className="text-gray-600">{error}</p>
-        </div>
-      </div>
-    );
-  }
-
+const AboutPageClient = ({ data }: { data: AboutPageData }) => {
   return (
     <div className="bg-white">
-      <Navbar theme="light" data={data.navbar} />
       <AboutHeroSection data={data} />
       <ExperienceSection data={data} />
       <MissionVisionSection data={data} />

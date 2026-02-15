@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-
+import Image from "next/image";
 interface NavbarProps {
   theme?: 'light' | 'dark';
   data: {
@@ -114,12 +114,15 @@ export const Navbar = ({ theme = 'dark', data }: NavbarProps): JSX.Element => {
             {/* Logo */}
             <a href="/">  
             <motion.div variants={slideInFromLeft}>
-              <motion.img
+              <Image
                 className="w-auto h-[48px] object-contain cursor-pointer"
                 src={theme === 'light' ? "https://cms.blackaion.com/uploads/thumbnail_Logo_Final2_03883dec4d.png" : data?.logo?.formats?.small?.url || data?.logo?.url}
                 alt={ "Blackaion Logo"}
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.2 }}
+                width={100}
+                height={100}
+                priority
+                // whileHover={{ scale: 1.05 }}
+                // transition={{ duration: 0.2 }}
               />
             </motion.div>
 </a>
