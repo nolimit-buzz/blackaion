@@ -304,13 +304,13 @@ export const Services = ({ data }: ServicesProps): JSX.Element => {
                       transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
                     >
                       {/* Real service image */}
-                      <motion.img
+                      <img
                         src={service.image}
                         alt={`${service.title} service`}
                         className="w-full h-full object-cover"
                         initial={{ scale: 1 }}
-                        whileHover={{ scale: 1.05 }}
-                        transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+                        // whileHover={{ scale: 1.05 }}
+                        // transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
                       />
                       
                       {/* Professional hover overlay */}
