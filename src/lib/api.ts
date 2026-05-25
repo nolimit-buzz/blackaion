@@ -86,6 +86,18 @@ export interface HomePageData {
       title: string;
       description: string;
       cta: string | null;
+      img?: {
+        id: number;
+        name: string;
+        alternativeText: string | null;
+        url: string;
+        formats?: {
+          large?: { url: string };
+          medium?: { url: string };
+          small?: { url: string };
+          thumbnail?: { url: string };
+        };
+      };
     }>;
   };
   portfolio: {
@@ -183,7 +195,7 @@ export async function fetchHomePageData(): Promise<HomePageData> {
     throw new Error('API URL or token not configured');
   }
 
-  const endpoint = `${apiUrl}/api/home-page?populate=navbar&populate=navbar.logo&populate=hero&populate=hero.slider&populate=mandate&populate=mandate.accordion&populate=mandate.accordion.accordion_items&populate=what_we_do&populate=what_we_do.services&populate=portfolio&populate=portfolio.projects&populate=esg_impact&populate=esg_impact.esg_goals&populate=esg_impact.esg_goals.sdg_images&populate=footer&populate=footer.offices`;
+  const endpoint = `${apiUrl}/api/home-page?populate=navbar&populate=navbar.logo&populate=hero&populate=hero.slider&populate=mandate&populate=mandate.accordion&populate=mandate.accordion.accordion_items&populate=what_we_do&populate=what_we_do.services&populate=what_we_do.services.img&populate=portfolio&populate=portfolio.projects&populate=esg_impact&populate=esg_impact.esg_goals&populate=esg_impact.esg_goals.sdg_images&populate=footer&populate=footer.offices`;
 
   try {
     const response = await fetch(endpoint, {

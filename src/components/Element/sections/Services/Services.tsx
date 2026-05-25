@@ -17,17 +17,37 @@ type ServicesProps = {
       title: string;
       description: string;
       cta: string | null;
+      img?: {
+        id: number;
+        name: string;
+        alternativeText: string | null;
+        url: string;
+        formats?: {
+          large?: { url: string };
+          medium?: { url: string };
+          small?: { url: string };
+          thumbnail?: { url: string };
+        };
+      };
     }>;
   };
 };
 
 export const Services = ({ data }: ServicesProps): JSX.Element => {
   // Use CMS data for services
-  const services = data.services.map(service => ({
-    title: service.title,
-    description: service.description,
-    image: `/service-img-${service.id % 3 + 1}.png`, // Fallback to existing images
-  }));
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? '';
+  const services = data.services.map(service => {
+    const rawUrl = service.img?.formats?.medium?.url
+      ?? service.img?.formats?.large?.url
+      ?? service.img?.url
+      ?? null;
+    return {
+      title: service.title,
+      description: service.description,
+      image: rawUrl ? (rawUrl.startsWith('http') ? rawUrl : `${apiUrl}${rawUrl}`) : null,
+      alt: service.img?.alternativeText ?? service.title,
+    };
+  });
 
   // Intersection observers for professional staggered animations
   const [sectionRef, sectionInView] = useInView({
@@ -303,15 +323,19 @@ export const Services = ({ data }: ServicesProps): JSX.Element => {
                       }}
                       transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
                     >
-                      {/* Real service image */}
-                      <img
-                        src={service.image}
-                        alt={`${service.title} service`}
-                        className="w-full h-full object-cover"
-                        // initial={{ scale: 1 }}
-                        // whileHover={{ scale: 1.05 }}
-                        // transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
-                      />
+                      {/* Real service image from CMS */}
+                      {service.image ? (
+                        <motion.img
+                          src={service.image}
+                          alt={service.alt}
+                          className="w-full h-full object-cover"
+                          initial={{ scale: 1 }}
+                          whileHover={{ scale: 1.05 }}
+                          transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300" />
+                      )}
                       
                       {/* Professional hover overlay */}
                       <motion.div
